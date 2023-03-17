@@ -161,7 +161,13 @@ const htmlCode = '''
 			color: #fff;
 			text-align: center;
 			outline: none;
+      user-select: none;
+      transition: filter 0.2s;
 		}
+
+    button:hover{
+      filter: brightness(1.20);
+    }
 
 		@keyframes show-dialog {
 			from {
@@ -169,8 +175,8 @@ const htmlCode = '''
 				top: 60%
 			}
 			to {
-				opacity:1
-				top: 50%
+				opacity:1;
+				top: 50%;
 			}
 		}
 

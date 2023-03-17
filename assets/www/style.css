@@ -11,12 +11,92 @@
 }
 
 * {
-  margin: 0%;
-  padding: 0%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+  color: #000;
   font-family: "Calibri";
   font-weight: normal;
+  font-size: 18px;
+}
+
+*,
+*:before,
+*:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  user-select: none;
+}
+:focus,
+:active {
+  outline: none;
+}
+a:focus,
+a:active,
+input:focus,
+input:active {
+  outline: none;
+}
+
+nav,
+footer,
+header,
+aside {
+  display: block;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  font-size: 100%;
+  line-height: 1;
+  font-size: 14px;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+input,
+button,
+textarea {
+  font-family: inherit;
+}
+
+input::-ms-clear {
+  display: none;
+}
+button {
+  cursor: pointer;
+}
+button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+a,
+a:visited {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: none;
+}
+ul li,
+nav li {
+  list-style: none;
+}
+img {
+  vertical-align: top;
+  width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
 }
 
 html,
@@ -138,6 +218,7 @@ body {
 }
 
 .btn-delete {
+  min-width: 17px;
   width: 25px;
   height: 25px;
   background-color: red;
@@ -197,7 +278,7 @@ body {
 
 .iconbutton {
   border-radius: 100%;
-  background: #3db05a;
+  background: #4caf50;
   box-shadow: 3px 3px 4px #888;
 }
 
@@ -289,7 +370,7 @@ body {
 }
 
 #btn-label5 .iconbutton {
-  background-color: #3db05a;
+  background-color: #4caf50;
 }
 
 #main-btn-label.active ~ .options {
@@ -352,12 +433,11 @@ body {
   grid-template-columns: repeat(4, 1fr);
   justify-items: center;
   gap: 5px;
-  height: fit-content;
   height: 60vh;
 }
 
 .mainBtn > button {
-  min-width: 50px;
+  min-width: 48px;
   height: 100%;
   max-width: 100%;
   padding: 4px 7px;
@@ -527,6 +607,7 @@ body {
 
 .mainLi.LiAfterTap > #dataList > li,
 .mainLi.LiAfterTap > #functList > li {
+  overflow-y: scroll;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -540,9 +621,137 @@ body {
   font-size: 14px;
 }
 
-@media (max-width: 500px) {
+/* Modal dialog */
+
+.input-text-container {
+  margin-top: 10px;
+  position: relative;
+  background: white;
+  width: 95%;
+}
+
+.input-text-container label {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  display: block;
+  font-size: 16px;
+  color: gray;
+  pointer-events: none;
+  cursor: text;
+  padding: 8px 0 5px 4px;
+  transition: all 0.2s ease-in-out;
+}
+
+.input-text-container input {
+  border: 0;
+  border-bottom: 1px solid black;
+  background: transparent;
+  width: 100%;
+  padding: 8px 0 5px 4px;
+  font-size: 16px;
+  color: black;
+}
+
+.input-text-container input:invalid {
+  border-bottom: 2px solid #eb4464;
+}
+
+.input-text-container input:focus {
+  border: none;
+  outline: none;
+  border-bottom: 2px solid black;
+}
+
+.input-text-container input:focus ~ label,
+.input-text-container input:valid ~ label {
+  top: -50%;
+  font-size: 12px;
+}
+
+dialog {
+  border-radius: 17px;
+  border: none;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  position: fixed;
+  z-index: 100;
+  width: 60vw;
+  max-height: 70vh;
+  overflow: hidden;
+  padding: 8px 7px 10px;
+}
+
+.show-modal {
+  animation-name: show-dialog;
+  animation-duration: 500ms;
+  animation-iteration-count: 1;
+}
+
+#inner-modal-window {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  gap: 10px;
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+dialog > form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+dialog h1 {
+  display: none;
+  font-size: 22px;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+dialog button {
+  width: 50%;
+  padding: 4px 7px;
+  font-size: 16px;
+  border-radius: 7px;
+  border: none;
+  background-color: #191919;
+  color: #fff;
+  text-align: center;
+  outline: none;
+  user-select: none;
+  transition: filter 0.2s;
+}
+
+dialog button:hover {
+  filter: brightness(1.2);
+}
+
+@keyframes show-dialog {
+  from {
+    opacity: 0;
+    top: 60%;
+  }
+  to {
+    opacity: 1;
+    top: 50%;
+  }
+}
+
+@media (max-width: 500px) or (max-height: 470px) {
+  #inner-where {
+    padding: 9px 15px;
+  }
+
   .mainBtn {
     height: fit-content;
+    gap: 2px;
   }
 
   .mainBtn > button {
@@ -553,6 +762,35 @@ body {
   .mainBtn > button.big-text {
     font-size: 13px;
     padding: 2px;
+  }
+
+  #result {
+    height: 17vh;
+  }
+
+  #btns {
+    height: 64vh;
+  }
+}
+
+@media (max-height: 470px) {
+  .mainBtn > button {
+    width: 100%;
+    min-width: 40px;
+    border-radius: 13px;
+  }
+}
+
+@media (max-height: 360px) {
+  #result {
+    height: auto;
+  }
+  .mainBtn > button {
+    aspect-ratio: auto;
+  }
+
+  #btns {
+    overflow-y: scroll;
   }
 }
 

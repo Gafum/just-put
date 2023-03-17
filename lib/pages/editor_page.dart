@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:just_put/const/list_of_elements.dart';
+import 'package:just_put/pages/setting_project.dart';
 import 'package:just_put/pages/view_result.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -47,9 +48,9 @@ class _EditorPageState extends State<EditorPage> {
       ..addJavaScriptChannel(
         'PageIsReady',
         onMessageReceived: (JavaScriptMessage message) {
-          _getData().then((value) => controller.runJavaScript(
-              '''ListOfElements = $stringListOfElements;
-\n renderList($value);'''));
+          _getData().then((value) => controller
+              .runJavaScript('''ListOfElements = $stringListOfElements;
+\n renderList($value, '${widget.nameOfProject}');'''));
         },
       )
       ..addJavaScriptChannel(
@@ -84,6 +85,26 @@ class _EditorPageState extends State<EditorPage> {
             widget.nameOfProject,
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
           ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  CustomPageRoute(
+                    child: ProjectSettings(
+                      idOfProject: widget.idOfProject,
+                      nameOfProject: widget.nameOfProject,
+                    ),
+                  ),
+                );
+              },
+              icon: Image.asset(
+                'assets/images/settings-btn.png',
+                width: 35.0,
+                color: const Color.fromARGB(230, 255, 255, 255),
+              ),
+            ),
+          ],
         ),
         body: WebViewWidget(
           controller: controller,

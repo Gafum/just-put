@@ -443,6 +443,26 @@
 		</div>
 	</div>
 
+
+	<dialog id="modal-window">
+		<form method="dialog">
+			<h1></h1>
+			<div class="input-text-container" style="margin-bottom: 10px;">
+				<input required="" id="modal-input" name="modal-input" autocomplete="off">
+				<label for="modal-input"></label>
+			</div>
+			<div id="inner-modal-window">
+				<button type="button" onclick="modalInput.close()">
+					CANCEL
+				</button>
+				<button id='ok-btn'>
+					OK
+				</button>
+			</div>
+
+		</form>
+	</dialog>
+
 	<script>
 		/* ====== Data */
 		const objectColor = "#913e5f"
@@ -451,7 +471,7 @@
 		const dataColor = "#eb4464"
 
 		let ListOfElements = [{
-			id: 2, // PROPERTIES
+			id: 0, // PROPERTIES
 			code: "//Coment",
 			text: "Coment",
 			color: propertiesColor,
@@ -509,14 +529,14 @@
 		/* Start Project       =========================== */
 		window.onload = () => PageIsReady.postMessage('hi')
 
-		function renderList(data, ElementsList) {
+		function renderList(data, nameOfProject) {
 			let result = data
 			if (!result) return
 			if (result[0]) {
 				listOfData = [...result[0].data]
 				listOfFunct = [...result[0].functions]
-				projectName = result[0].name
 			}
+			projectName = nameOfProject
 			result.shift()
 			result.forEach((i, index) => {
 				if (i.id.startsWith('AMain') || i.id.startsWith('CONTI')) {
@@ -856,6 +876,7 @@
 		const result = editparams.querySelector('#result')			 /* show the formula */
 		const dataList = editparams.querySelector('#dataList') 	 /* data List in formuls*/
 		const functList = editparams.querySelector('#functList') /* function List in formuls*/
+		const modalInput = document.querySelector("#modal-window")/* Modal Window to show alerts */
 
 
 		document.querySelector('#tree').onclick = (event) => {
@@ -944,6 +965,24 @@
 		}
 
 		// Different Function ===================>
+		function showMessege({ text = 'Enter Text', defaultValue = '' }) {
+			if (modalInput.open) return
+			modalInput.showModal()
+			if (text.startsWith('Delete')) {
+				modalInput.querySelector("h1").style.display = 'block'
+				modalInput.querySelector(".input-text-container").style.display = 'none'
+				modalInput.querySelector("h1").innerHTML = text
+			} else {
+				modalInput.querySelector("h1").style.display = 'none'
+				modalInput.querySelector(".input-text-container").style.display = 'block'
+				modalInput.querySelector("label").innerHTML = text
+			}
+
+			modalInput.querySelector("input").value = defaultValue
+
+			modalInput.classList.add("show-modal");
+		}
+
 		function addColor() {
 			tapofbtn('"' + editparams.querySelector('#color-picker').value + '"')
 		}
@@ -967,21 +1006,43 @@
 
 		function createVarieble(isData) {
 			event.stopPropagation()
-			let resultat = prompt(isData ? '⠀⠀Create Data' : '⠀⠀Create Function')
-			if (!resultat) return
-			resultat = resultat.replace(/\s/g, '')
-			if (!resultat) return
-			if (listOfData.includes(resultat)) return
-			(isData ? listOfData : listOfFunct).push(String(resultat).slice(0, 9))
-			chengeDataList(isData)
+			let resultat = showMessege(
+				{ text: isData ? 'Create Data' : 'Create Function', defaultValue: '' }
+			)
+			modalInput.querySelector("#ok-btn").onclick = () => {
+				let userAnswer = modalInput.querySelector("input").value.slice(0, 10)
+				userAnswer = userAnswer.replace(/\s/g, '')
+				if (!userAnswer) return false
+
+				let inputPlaceholder = false
+				if (listOfData.includes(userAnswer)) {
+					inputPlaceholder = 'ALREADY EXISTS'
+				}
+				if (/[0-9]/gm.test(userAnswer[0])) {
+					inputPlaceholder = 'Starts with a number'
+				}
+				if (userAnswer.match(/[^A-Za-z0-9]/gm)) {
+					inputPlaceholder = 'Latin letters and numbers'
+				}
+				if (inputPlaceholder) {
+					modalInput.querySelector("label").innerHTML = inputPlaceholder;
+					return false
+				}
+
+				(isData ? listOfData : listOfFunct).push(String(userAnswer))
+				chengeDataList(isData)
+			}
+			modalInput.querySelector("input").maxLength = 10
 		}
 
 		function daleteVarOrFunc(isData, element) {
-			if (!confirm(`Delete ${element}`)) return
-			let listh = isData ? listOfData : listOfFunct
-			listh.splice(listh.indexOf(element), 1)
-			chengeDataList(isData)
-			saveData()
+			showMessege({ text: `Delete ${element}?`, defaultValue: 'empty' })
+			modalInput.querySelector("#ok-btn").onclick = () => {
+				let listh = isData ? listOfData : listOfFunct
+				listh.splice(listh.indexOf(element), 1)
+				chengeDataList(isData)
+				saveData()
+			}
 		}
 
 		function chengeDataList(isData) {
@@ -1061,16 +1122,26 @@
 						defaultParameter = listOfParams[position].substring(1)
 					}
 			}
-			let userAnswer = prompt(isText ? '⠀⠀Enter Text' : '⠀⠀Write Code', defaultParameter)
-			if (userAnswer) {
+			modalInput.querySelector("input").maxLength = 221244
+			modalInput.querySelector("#ok-btn").onclick = () => {
+				let userAnswer = modalInput.querySelector("input").value
+				if (!userAnswer) {
+					return false;
+				}
 				let numberOfDelate = 0
 				if (defaultParameter.length > 0) {
 					numberOfDelate = 1
 				}
 				listOfParams.splice(position, numberOfDelate, isText ? '"' + userAnswer + '"' : " " + userAnswer)
 				position++
+				changeText()
 			}
-			userAnswer = ''
+			showMessege(
+				{
+					text: isText ? 'Enter Text' : 'Write Code',
+					defaultValue: defaultParameter
+				}
+			)
 		}
 
 		function tapOfFunctionBtn() {

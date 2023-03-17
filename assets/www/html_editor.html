@@ -174,7 +174,7 @@
 			<line class="crt3" x1="436.5" y1="525.5" x2="499.6" y2="402.9" />
 			<line class="crt3" x1="436.5" y1="525.5" x2="373.2" y2="459.8" />
 		</symbol>
-		<svg viewBox="0 0 512 512" id="icon-data">
+		<symbol viewBox="0 0 512 512" id="icon-data">
 			<style>
 				.dat0 {
 					fill: #ffffff;
@@ -185,21 +185,51 @@
 			c111.02,0,204.8-46.9,204.8-102.4v-76.8C460.8,388.3,367.02,435.2,256,435.2z" />
 			<path class="dat0" d="M460.8,204.8c0,55.5-93.77,102.4-204.8,102.4c-111.05,0-204.8-46.9-204.8-102.4v76.8C51.2,337.1,144.95,384,256,384
 			c111.02,0,204.8-46.9,204.8-102.4V204.8z" />
-		</svg>
+		</symbol>
+		<symbol viewBox="0 0 230 206" id="icon-settings">
+			<path style="fill: #ffffff;" d="M226,89.3l-43.6-75.5C177.5,5.2,168.4,0,158.6,0H71.4c-9.8,0-18.9,5.2-23.8,13.7L4,89.3c-4.9,8.5-4.9,19,0,27.5l43.6,75.5
+			c4.9,8.5,14,13.7,23.8,13.7h87.2c9.8,0,18.9-5.2,23.8-13.7l43.6-75.5C230.9,108.2,230.9,97.8,226,89.3z M115,145
+			c-23.2,0-42-18.8-42-42c0-23.2,18.8-42,42-42s42,18.8,42,42C157,126.2,138.2,145,115,145z" />
+		</symbol>
+		<symbol viewBox="0 0 24 24" id="icon-goback">
+			<path style="fill: #ffffff;" fill="currentColor"
+				d="M15.125 21.1L6.7 12.7q-.15-.15-.212-.325q-.063-.175-.063-.375t.063-.375q.062-.175.212-.325l8.425-8.425q.35-.35.875-.35t.9.375q.375.375.375.875t-.375.875L9.55 12l7.35 7.35q.35.35.35.862q0 .513-.375.888t-.875.375q-.5 0-.875-.375Z" />
 	</svg>
+	</svg>
+
+	<header>
+		<div class="fix where-addblock color-green" style="z-index: 2;">
+			<button title="Go back" onclick="GoToAnotherHome.postMessage('goBack');"
+				style="left: 0; width: 40px; padding: 0 0 0 18px;">
+				<svg width="30" height="30">
+					<use xlink:href="#icon-goback"></use>
+				</svg>
+			</button>
+			<span style="color: #fff; margin-left: 50px;" id="header-text"> loading... </span>
+			<button onclick="GoToAnotherHome.postMessage('goToSettings')">
+				<svg width="27" height="27">
+					<use xlink:href="#icon-settings"></use>
+				</svg>
+			</button>
+		</div>
+		<div class="where-addblock">
+			<nobr><span>Mage by Gafum </span></nobr>
+		</div>
+	</header>
+
 
 	<ul id="listEditor">
 		<!-- content -->
 	</ul>
 
 	<div class="fab-container">
-		<div class="iconbutton" id="main-btn-label">
+		<div class="iconbutton color-green" id="main-btn-label">
 			<span>+</span>
 		</div>
 		<ul class="options">
 			<li class="btn-label" id="btn-label1" data-mycolor="#96b38e">
 				<span>Propertie</span>
-				<div class="iconbutton">
+				<div class="iconbutton color-grey-green">
 					<span class="icon-fab">
 						<svg>
 							<use xlink:href="#icon-properties"></use>
@@ -209,7 +239,7 @@
 			</li>
 			<li class="btn-label" id="btn-label2" data-mycolor="#f59073">
 				<span>Control</span>
-				<div class="iconbutton">
+				<div class="iconbutton color-orange">
 					<span class="icon-fab">
 						<svg>
 							<use xlink:href="#icon-control"></use>
@@ -219,7 +249,7 @@
 			</li>
 			<li class="btn-label" id="btn-label3" data-mycolor="#913e5f">
 				<span>Object</span>
-				<div class="iconbutton">
+				<div class="iconbutton color-purple">
 					<span class="icon-fab">
 						<svg>
 							<use xlink:href="#icon-object"></use>
@@ -229,7 +259,7 @@
 			</li>
 			<li class="btn-label" id="btn-label4" data-mycolor="#eb4464">
 				<span>Data</span>
-				<div class="iconbutton">
+				<div class="iconbutton color-red">
 					<span class="icon-fab">
 						<svg>
 							<use xlink:href="#icon-data"></use>
@@ -239,7 +269,7 @@
 			</li>
 			<li class="btn-label" id="btn-label5" onclick="codeCreator();">
 				<span>Start</span>
-				<div class="iconbutton">
+				<div class="iconbutton color-green">
 					<span class="icon-fab">
 						<svg style="max-height: 100%">
 							<use xlink:href="#icon-start"></use>
@@ -257,7 +287,7 @@
 			<button onclick="closeAddBlockParams();">x</button>
 		</div>
 		<div class="where-addblock">
-			<span>Add block </span>
+			<nobr><span>Cats are afraid of water</span></nobr>
 		</div>
 		<ul id="listAddBlock">
 			<!-- content -->
@@ -527,7 +557,7 @@
 		})
 
 		/* Start Project       =========================== */
-		window.onload = () => PageIsReady.postMessage('hi')
+		window.onload = () => PageIsReady.postMessage('Hi. Page is Ready')
 
 		function renderList(data, nameOfProject) {
 			let result = data
@@ -536,7 +566,7 @@
 				listOfData = [...result[0].data]
 				listOfFunct = [...result[0].functions]
 			}
-			projectName = nameOfProject
+			projectName = nameOfProject;
 			result.shift()
 			result.forEach((i, index) => {
 				if (i.id.startsWith('AMain') || i.id.startsWith('CONTI')) {
@@ -591,6 +621,7 @@
 							</span>
 								</li>`
 			})
+			document.querySelector('#header-text').innerHTML = nameOfProject;
 		}
 
 		function addBlock(element) {

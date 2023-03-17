@@ -1,13 +1,9 @@
 @font-face {
-  font-family: "Calibri";
-  src: url("./fonts/Calibri-Regular.ttf") format("ttf");
-  font-weight: normal;
-}
-
-@font-face {
-  font-family: "Calibri";
-  src: url("./fonts/Calibri-Bold.ttf") format("ttf");
+  font-family: "Cuprum";
+  font-style: normal;
   font-weight: 700;
+  font-display: swap;
+  src: url(./fonts/Cuprum-Bold.woff2) format("woff2");
 }
 
 * {
@@ -16,7 +12,7 @@
   border: 0;
   box-sizing: border-box;
   color: #000;
-  font-family: "Calibri";
+  font-family: "Cuprum", sans-serif;
   font-weight: normal;
   font-size: 18px;
 }
@@ -69,6 +65,12 @@ input::-ms-clear {
 }
 button {
   cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  -webkit-tap-highlight-color: transparent;
+}
+button:hover {
+  outline: none;
 }
 button::-moz-focus-inner {
   padding: 0;
@@ -107,6 +109,13 @@ body {
 }
 
 /* ===============================================   Editor */
+#header-text {
+  width: calc(67vw - 55px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 #listEditor {
   margin-top: 5px;
   max-width: 100%;
@@ -123,6 +132,10 @@ body {
   white-space: nowrap;
   overflow: hidden;
   transition: background-color 5s ease;
+}
+
+.ElementsInEditor > span {
+  cursor: pointer;
 }
 
 .EditParameterBtn {
@@ -274,11 +287,11 @@ body {
   position: fixed;
   bottom: 10px;
   right: 10px;
+  z-index: 5;
 }
 
 .iconbutton {
   border-radius: 100%;
-  background: #4caf50;
   box-shadow: 3px 3px 4px #888;
 }
 
@@ -296,6 +309,10 @@ body {
   filter: brightness(1.1);
 }
 
+.btn-label {
+  user-select: none;
+}
+
 #main-btn-label {
   width: 56px;
   height: 56px;
@@ -305,6 +322,7 @@ body {
 
 #main-btn-label > span {
   transition: transform 0.4s;
+  user-select: none;
 }
 
 #main-btn-label.active > span {
@@ -353,23 +371,23 @@ body {
   font-size: 17px;
 }
 
-#btn-label1 .iconbutton {
+.color-grey-green {
   background-color: #96b38e;
 }
 
-#btn-label2 .iconbutton {
+.color-orange {
   background-color: #f59073;
 }
 
-#btn-label3 .iconbutton {
+.color-purple {
   background-color: #913e5f;
 }
 
-#btn-label4 .iconbutton {
+.color-red {
   background-color: #eb4464;
 }
 
-#btn-label5 .iconbutton {
+.color-green {
   background-color: #4caf50;
 }
 
@@ -516,10 +534,12 @@ body {
 
 .where-addblock > span {
   font-size: 20px;
+  user-select: none;
 }
 
 #where > button,
 .where-addblock > button {
+  display: flex;
   position: absolute;
   right: 0;
   border: none;

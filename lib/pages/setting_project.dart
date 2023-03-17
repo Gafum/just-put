@@ -91,7 +91,15 @@ class _ProjectSettingsState extends State<ProjectSettings> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('${widget.nameOfProject} Settings'),
+          title: Text('Settings ${widget.nameOfProject}'),
+          leading: GestureDetector(
+            child: const Icon(
+              Icons.arrow_back_ios_rounded,
+            ),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
         ),
         body: Container(
           padding: const EdgeInsets.all(20.0),
@@ -187,7 +195,7 @@ class _ProjectSettingsState extends State<ProjectSettings> {
                 icon: const Icon(Icons.delete_rounded),
                 label: const Text(
                   'Delete Project',
-                  style: TextStyle(fontFamily: 'Calibri'),
+                  style: TextStyle(fontFamily: 'Cuprum'),
                 )),
           ]),
         ),

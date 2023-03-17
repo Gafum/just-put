@@ -91,11 +91,11 @@ flutter:
     - assets/www/html_editor.html
     - assets/www/style.css
   fonts:
-    - family: Calibri
+    - family: Cuprum
       fonts:
-        - asset: assets/www/fonts/Calibri-Bold.ttf
+        - asset: assets/www/fonts/Cuprum-Bold.woff2
           weight: 700
-        - asset: assets/www/fonts/Calibri-Regular.ttf
+        - asset: assets/www/fonts/Cuprum-Regular.ttf
           style: normal
   #
   # For details regarding fonts from package dependencies,

@@ -60,6 +60,14 @@ class _ViewResultState extends State<ViewResult> {
             'View Result',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
           ),
+          leading: GestureDetector(
+            child: const Icon(
+              Icons.arrow_back_ios_rounded,
+            ),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
         ),
         body: SafeArea(
           child: WebViewWidget(

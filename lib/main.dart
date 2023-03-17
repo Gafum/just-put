@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'Just Put',
       theme: ThemeData(
         primarySwatch: Colors.green,
-        fontFamily: 'Calibri',
+        fontFamily: 'Cuprum',
       ),
       home: const HomePage(),
     );

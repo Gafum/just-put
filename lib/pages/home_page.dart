@@ -113,7 +113,7 @@ class _HomePageState extends State<HomePage> {
                     title: Text(
                       '${projectList[index]['name']}',
                       style: const TextStyle(
-                        fontFamily: 'Calibri',
+                        fontFamily: 'Cuprum',
                         fontWeight: FontWeight.w700,
                         fontSize: 18,
                         overflow: TextOverflow.ellipsis,

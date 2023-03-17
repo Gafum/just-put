@@ -73,6 +73,24 @@ class _EditorPageState extends State<EditorPage> {
             ),
           );
         },
+      )
+      ..addJavaScriptChannel(
+        'GoToAnotherHome',
+        onMessageReceived: (JavaScriptMessage message) {
+          if (message.message == 'goBack') {
+            Navigator.pop(context);
+          } else if (message.message == 'goToSettings') {
+            Navigator.push(
+              context,
+              CustomPageRoute(
+                child: ProjectSettings(
+                  idOfProject: widget.idOfProject,
+                  nameOfProject: widget.nameOfProject,
+                ),
+              ),
+            );
+          }
+        },
       );
   }
 
@@ -80,32 +98,6 @@ class _EditorPageState extends State<EditorPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            widget.nameOfProject,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-          ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  CustomPageRoute(
-                    child: ProjectSettings(
-                      idOfProject: widget.idOfProject,
-                      nameOfProject: widget.nameOfProject,
-                    ),
-                  ),
-                );
-              },
-              icon: Image.asset(
-                'assets/images/settings-btn.png',
-                width: 35.0,
-                color: const Color.fromARGB(230, 255, 255, 255),
-              ),
-            ),
-          ],
-        ),
         body: WebViewWidget(
           controller: controller,
         ),

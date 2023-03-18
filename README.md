@@ -4,10 +4,10 @@ Just put and make a game.
 
 ## Usage
 
-If you want to open APK, just click [here](https://github.com/Gafum/JustPut/app/outputs/flutter-apk) or go to the build/app/outputs/flutter-apk
+If you want to open APK, just click [here](https://github.com/Gafum/JustPut/tree/main/build/app/outputs/flutter-apk) or go to the build/app/outputs/flutter-apk
 Here you will find the app-release.apk.
 Download it and after that you can create your own app in Android.
-The link will appear here, if the program is in the play market. 
+The link will appear here, if the program is in the play market.
 
 ## Getting Started
 

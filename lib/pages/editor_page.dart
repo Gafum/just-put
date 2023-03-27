@@ -1,10 +1,17 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:just_put/const/list_of_elements.dart';
 import 'package:just_put/pages/setting_project.dart';
 import 'package:just_put/pages/view_result.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../function/request_permision.dart';
+import '../function/show_toast.dart';
 import '../widgets/custome_page_route.dart';
 
 class EditorPage extends StatefulWidget {
@@ -23,19 +30,47 @@ class EditorPage extends StatefulWidget {
 
 class _EditorPageState extends State<EditorPage> {
   late final WebViewController controller;
+  bool isLoading = true;
 
   void _saveData(data) async {
     var prefs = await SharedPreferences.getInstance();
     prefs.setString(widget.idOfProject, data);
   }
 
+  Future<String> getImageBase64(String imagePath) async {
+    final bytes = await File(imagePath).readAsBytes();
+    final base64 = base64Encode(bytes);
+    return 'data:image/jpeg;base64,$base64';
+  }
+
   Future<String> _getData() async {
+    if (!await requestPermission(Permission.storage)) {
+      return 'BigProblem';
+    }
+
     var prefs = await SharedPreferences.getInstance();
     final counterInfo = prefs.getString(widget.idOfProject);
     if (counterInfo == null) {
       return '[{"data":[],"functions":[],"name":"${widget.nameOfProject}"}]';
     }
+
     return counterInfo;
+  }
+
+  Future<Map<String, String>> pickImageAndSave(String filename) async {
+    if (!await requestPermission(Permission.storage)) {
+      return {'text': 'Give Permission'};
+    }
+    final XFile? pickedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedImage == null) return {'text': 'No selected file'};
+
+    try {
+      var base64data = await getImageBase64(pickedImage.path);
+      return {'text': '$filename added', 'base64data': base64data};
+    } catch (e) {
+      return {'text': e.toString()};
+    }
   }
 
   @override
@@ -48,9 +83,15 @@ class _EditorPageState extends State<EditorPage> {
       ..addJavaScriptChannel(
         'PageIsReady',
         onMessageReceived: (JavaScriptMessage message) {
-          _getData().then((value) => controller
-              .runJavaScript('''ListOfElements = $stringListOfElements;
-\n renderList($value, '${widget.nameOfProject}');'''));
+          _getData().then((value) {
+            if (value == 'BigProblem') return;
+            controller.runJavaScript('''
+            ListOfElements = $stringListOfElements;
+            renderList($value, '${widget.nameOfProject}');''');
+            setState(() {
+              isLoading = false;
+            });
+          });
         },
       )
       ..addJavaScriptChannel(
@@ -72,6 +113,17 @@ class _EditorPageState extends State<EditorPage> {
               ),
             ),
           );
+        },
+      )
+      ..addJavaScriptChannel(
+        'SelectFile',
+        onMessageReceived: (JavaScriptMessage message) {
+          pickImageAndSave(message.message).then((value) {
+            showToast(context, value['text']!);
+            if (value['base64data']!.isEmpty) return;
+            controller.runJavaScript('''
+addNewImage({data: "${value['base64data']}", name: "${message.message}"});''');
+          });
         },
       )
       ..addJavaScriptChannel(
@@ -98,8 +150,18 @@ class _EditorPageState extends State<EditorPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: WebViewWidget(
-          controller: controller,
+        resizeToAvoidBottomInset: false,
+        body: Stack(
+          children: <Widget>[
+            WebViewWidget(
+              controller: controller,
+            ),
+            isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Stack(),
+          ],
         ),
       ),
     );

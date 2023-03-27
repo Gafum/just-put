@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -9,6 +7,7 @@ import 'package:just_put/pages/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../function/create_code.dart';
+import '../function/show_toast.dart';
 import '../widgets/access_phone_storage.dart';
 import '../widgets/custome_page_route.dart';
 
@@ -75,16 +74,6 @@ class _ProjectSettingsState extends State<ProjectSettings> {
     );
   }
 
-  void _showToast(BuildContext context, String message) {
-    final scaffold = ScaffoldMessenger.of(context);
-    scaffold.showSnackBar(
-      SnackBar(
-        content: Text(message),
-        action: SnackBarAction(
-            label: 'Ok', onPressed: scaffold.hideCurrentSnackBar),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -151,12 +140,12 @@ class _ProjectSettingsState extends State<ProjectSettings> {
                 ),
                 onPressed: () async {
                   await savefile(
-                      fileName:
-                          '${widget.nameOfProject}${DateTime.now().millisecondsSinceEpoch}.txt',
-                      data: projectData);
-                  if (!context.mounted) return;
-                  _showToast(
-                      context, 'Project file is saved in JustPut folder');
+                          fileName:
+                              '${widget.nameOfProject}${DateTime.now().millisecondsSinceEpoch}.txt',
+                          data: projectData)
+                      .then((value) {
+                    showToast(context, value);
+                  });
                 },
                 icon: const Icon(Icons.save_alt_rounded),
                 label: const Text('Create JustPut file')),
@@ -172,11 +161,12 @@ class _ProjectSettingsState extends State<ProjectSettings> {
                 ),
                 onPressed: () async {
                   await savefile(
-                      fileName:
-                          '${widget.nameOfProject}${DateTime.now().millisecondsSinceEpoch}.html',
-                      data: codeCreator(projectData, ''));
-                  if (!context.mounted) return;
-                  _showToast(context, 'HTML file is saved in JustPut folder');
+                          fileName:
+                              '${widget.nameOfProject}${DateTime.now().millisecondsSinceEpoch}.html',
+                          data: codeCreator(projectData, ''))
+                      .then((value) {
+                    showToast(context, value);
+                  });
                 },
                 icon: const Icon(Icons.web_asset),
                 label: const Text('Create html file')),

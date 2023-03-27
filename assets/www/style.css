@@ -6,6 +6,26 @@
   src: url(./fonts/Cuprum-Bold.woff2) format("woff2");
 }
 
+.color-grey-green {
+  background-color: #96b38e;
+}
+
+.color-orange {
+  background-color: #f59073;
+}
+
+.color-purple {
+  background-color: #913e5f;
+}
+
+.color-red {
+  background-color: #eb4464;
+}
+
+.color-green {
+  background-color: #4caf50;
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -15,6 +35,13 @@
   font-family: "Cuprum", sans-serif;
   font-weight: normal;
   font-size: 18px;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  -webkit-tap-highlight-color: transparent;
 }
 
 *,
@@ -24,6 +51,7 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
+
 :focus,
 :active {
   outline: none;
@@ -109,11 +137,102 @@ body {
 }
 
 /* ===============================================   Editor */
+header {
+  position: relative;
+}
+
 #header-text {
   width: calc(67vw - 55px);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* OPEN NAV, should be written in the sass */
+.open-nav {
+  width: 25px;
+  z-index: 7;
+  height: 40px;
+  align-self: center;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.open-nav::after,
+.open-nav::before,
+.open-nav > div {
+  transition: all 0.2s ease;
+  content: "";
+  position: absolute;
+  height: 3px;
+  right: 0%;
+  background-color: white;
+}
+.open-nav > div {
+  width: 100%;
+}
+.open-nav::after {
+  top: 10px;
+  width: 120%;
+}
+.open-nav::before {
+  bottom: 10px;
+  width: 60%;
+}
+.open-nav.open > div {
+  transform: scale(0);
+}
+
+.open-nav.open::before {
+  top: 50%;
+  width: 110%;
+  transform: rotate(45deg);
+}
+
+.open-nav.open::after {
+  top: 50%;
+  width: 110%;
+  transform: rotate(-45deg);
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 7px 25px;
+  right: 0%;
+  position: absolute;
+  gap: 7px;
+  transform-origin: top;
+  transform: scaleY(0);
+  transition: all 0.3s ease;
+  z-index: 2;
+  height: fit-content;
+  top: 98%;
+}
+
+nav.open {
+  transform: scaleY(1);
+}
+
+nav > li {
+  width: 1fr;
+  min-width: 100px;
+  font-size: 25px;
+  cursor: pointer;
+  color: white;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+nav > li:active {
+  color: #bbb;
 }
 
 #listEditor {
@@ -189,7 +308,7 @@ body {
   height: 35px;
   left: 0;
   top: 0;
-  z-index: 20;
+  z-index: 1;
   background-color: transparent;
 }
 
@@ -283,11 +402,92 @@ body {
 
 /* ====== Fab */
 
+.fab-btn {
+  cursor: pointer;
+  border-radius: 50%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  bottom: 50px;
+  right: 50px;
+  width: 56px;
+  height: 56px;
+  z-index: 1;
+  bottom: 10px;
+  right: 10px;
+  box-shadow: 2px 2px 3px #adadadaf;
+}
+
+.fab-btn > .list {
+  opacity: 0;
+  position: absolute;
+  bottom: 30px;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  right: 10px;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.fab-btn::before {
+  content: "";
+  border-radius: 50%;
+  position: absolute;
+  background-color: inherit;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+}
+
+.fab-btn:active::before {
+  filter: brightness(1.1);
+}
+
+.fab-btn > span {
+  z-index: 3;
+  transition: transform 0.2s;
+}
+
+.fab-btn.active > span {
+  transform: rotate(45deg);
+}
+
+.fab-btn.active > .list {
+  opacity: 1;
+  bottom: 65px;
+  pointer-events: all;
+}
+
+.fab-btn > .list li {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+}
+.fab-btn > .list li > span {
+  background-color: #e1e1e1;
+  border-radius: 6px;
+  padding: 2px 4px;
+  font-weight: 500;
+}
+
+.fab-btn .iconbutton {
+  aspect-ratio: 1/1;
+  width: 36px;
+  height: 36px;
+  box-shadow: 1px 1px 3px #888;
+}
+
 .fab-container {
   position: fixed;
   bottom: 10px;
   right: 10px;
-  z-index: 5;
+  z-index: 1;
 }
 
 .iconbutton {
@@ -357,7 +557,7 @@ body {
 .options li > span {
   background-color: white;
   border-radius: 6px;
-  padding: 2px;
+  padding: 2px 4px;
   font-weight: 500;
 }
 
@@ -371,27 +571,8 @@ body {
   font-size: 17px;
 }
 
-.color-grey-green {
-  background-color: #96b38e;
-}
-
-.color-orange {
-  background-color: #f59073;
-}
-
-.color-purple {
-  background-color: #913e5f;
-}
-
-.color-red {
-  background-color: #eb4464;
-}
-
-.color-green {
-  background-color: #4caf50;
-}
-
-#main-btn-label.active ~ .options {
+#main-btn-label.active ~ .options,
+.fab-btn.active .options {
   bottom: 65px;
   opacity: 1;
   z-index: 10;
@@ -408,23 +589,56 @@ body {
 
 /*  ===============================================  Add Block Edit Params*/
 #editparams,
-#addblocks {
+#addblocks,
+#files-scene {
   z-index: 100;
   position: fixed;
   background-color: white;
   top: 100%;
   width: 100vw;
-  transition: all 0.4s;
+  transition: top 0.3s linear;
   height: 100vh;
+}
+
+#files-scene {
+  padding: 65px 16px 10px;
+  z-index: 2;
+  top: -100%;
+  background-color: #4caf50;
+}
+
+.fab-btn {
+  border-radius: 50%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  bottom: 50px;
+  right: 50px;
+  width: 56px;
+  height: 56px;
+  z-index: 2;
+  bottom: 10px;
+  right: 10px;
+  box-shadow: 2px 2px 3px #adadadaf;
+}
+
+.fab-btn > span {
+  font-size: 28px;
+  color: white;
 }
 
 #addblocks {
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 #editparams.active,
-#addblocks.active {
+#addblocks.active,
+#files-scene.active {
   top: 0;
+  bottom: 0;
 }
 
 #listAddBlock {
@@ -476,6 +690,7 @@ body {
 
 #result {
   overflow-y: scroll;
+  overflow-x: hidden;
   width: 100%;
   height: 28vh;
   overflow-wrap: break-word;
@@ -503,9 +718,10 @@ body {
   width: calc(100% - 50px);
   white-space: nowrap;
   overflow-x: scroll;
+  overflow-y: hidden;
 }
 
-.where-addblock {
+.header-class {
   height: fit-content;
   padding: 15px;
   display: flex;
@@ -513,9 +729,10 @@ body {
   gap: 5px;
   align-items: center;
   width: 100%;
+  min-height: 56px;
 }
 
-.where-addblock.fix {
+.header-class.fix {
   position: fixed;
 }
 
@@ -528,17 +745,18 @@ body {
   min-width: 40px;
   background-color: #e3e3e3;
   overflow-x: scroll;
+  overflow-y: hidden;
   white-space: pre;
   height: fit-content;
 }
 
-.where-addblock > span {
+.header-class > span {
   font-size: 20px;
   user-select: none;
 }
 
 #where > button,
-.where-addblock > button {
+.header-class > button {
   display: flex;
   position: absolute;
   right: 0;
@@ -550,6 +768,12 @@ body {
   background-color: inherit;
   font-size: 30px;
   overflow: hidden;
+  transition: filter 0.4s;
+}
+
+#where > button:active,
+.header-class > button:active {
+  filter: blur(1.2px);
 }
 
 .formuls {
@@ -641,6 +865,61 @@ body {
   font-size: 14px;
 }
 
+/* File List */
+
+#files-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.one-file {
+  background-color: white;
+  padding: 5px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20vh;
+  gap: 10px;
+  border-radius: 15px;
+  min-height: 70px;
+  max-height: 120px;
+  width: 100%;
+}
+
+.img-in-file {
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
+  flex-shrink: 3;
+  background-size: cover;
+  height: calc(100% - 10px);
+  background-position: center;
+  border: 1px solid #888;
+  background-repeat: no-repeat;
+}
+
+.text-in-file {
+  width: 100%;
+  flex-shrink: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  overflow: hidden;
+  gap: 5px;
+}
+.text-in-file > h3 {
+  color: black;
+  font-size: 25px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  height: 30px;
+  font-size: 25px;
+  width: 100%;
+}
+
 /* Modal dialog */
 
 .input-text-container {
@@ -655,7 +934,7 @@ body {
   top: 0px;
   left: 0px;
   display: block;
-  font-size: 16px;
+  font-size: 19px;
   color: gray;
   pointer-events: none;
   cursor: text;
@@ -669,7 +948,7 @@ body {
   background: transparent;
   width: 100%;
   padding: 8px 0 5px 4px;
-  font-size: 16px;
+  font-size: 19px;
   color: black;
 }
 
@@ -686,14 +965,14 @@ body {
 .input-text-container input:focus ~ label,
 .input-text-container input:valid ~ label {
   top: -50%;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 dialog {
   border-radius: 17px;
   border: none;
   transform: translate(-50%, -50%);
-  top: 50%;
+  top: 30vh;
   left: 50%;
   position: fixed;
   z-index: 100;
@@ -701,6 +980,7 @@ dialog {
   max-height: 70vh;
   overflow: hidden;
   padding: 8px 7px 10px;
+  transition: top 0.3s ease 0.2s;
 }
 
 .show-modal {
@@ -735,8 +1015,8 @@ dialog h1 {
   font-weight: 700;
 }
 
-dialog button {
-  width: 50%;
+dialog button,
+.text-in-file button {
   padding: 4px 7px;
   font-size: 16px;
   border-radius: 7px;
@@ -749,18 +1029,23 @@ dialog button {
   transition: filter 0.2s;
 }
 
-dialog button:hover {
-  filter: brightness(1.2);
+dialog button {
+  width: 50%;
+}
+
+dialog button:hover,
+.text-in-file button:hover {
+  filter: brightness(1.5);
 }
 
 @keyframes show-dialog {
   from {
     opacity: 0;
-    top: 60%;
+    top: 36vh;
   }
   to {
     opacity: 1;
-    top: 50%;
+    top: 30vh;
   }
 }
 
@@ -790,6 +1075,18 @@ dialog button:hover {
 
   #btns {
     height: 64vh;
+  }
+}
+
+@media (max-width: 400px) {
+  nav {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 20px;
+  }
+  nav > li {
+    width: 100%;
+    font-size: 23px;
   }
 }
 

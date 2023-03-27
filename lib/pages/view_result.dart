@@ -19,6 +19,7 @@ class ViewResult extends StatefulWidget {
 
 class _ViewResultState extends State<ViewResult> {
   late final WebViewController controller;
+  bool isLoading = true;
 
   void _saveData(String data) async {
     var prefs = await SharedPreferences.getInstance();
@@ -44,6 +45,11 @@ class _ViewResultState extends State<ViewResult> {
           _saveData(message.message);
         },
       )
+      ..setNavigationDelegate(NavigationDelegate(onPageFinished: (String url) {
+        setState(() {
+          isLoading = false;
+        });
+      }))
       ..enableZoom(false)
       ..setJavaScriptMode(JavaScriptMode.unrestricted);
     _getData().then((value) {
@@ -55,6 +61,7 @@ class _ViewResultState extends State<ViewResult> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: const Text(
             'View Result',
@@ -70,8 +77,17 @@ class _ViewResultState extends State<ViewResult> {
           ),
         ),
         body: SafeArea(
-          child: WebViewWidget(
-            controller: controller,
+          child: Stack(
+            children: <Widget>[
+              WebViewWidget(
+                controller: controller,
+              ),
+              isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Stack(),
+            ],
           ),
         ),
       ),

@@ -45,6 +45,7 @@ class _ProjectSettingsState extends State<ProjectSettings> {
   void deleteData() async {
     var prefs = await SharedPreferences.getInstance();
     prefs.remove(widget.idOfProject);
+    prefs.remove('${widget.idOfProject}photos');
   }
 
   void _getData() async {
@@ -141,10 +142,10 @@ class _ProjectSettingsState extends State<ProjectSettings> {
                 ),
                 onPressed: () async {
                   await savefile(
-                          fileName:
-                              '${widget.nameOfProject}${DateTime.now().millisecondsSinceEpoch}.txt',
-                          data: projectData)
-                      .then((value) {
+                    fileName:
+                        '${widget.nameOfProject}${DateTime.now().millisecondsSinceEpoch}.txt',
+                    data: projectData,
+                  ).then((value) {
                     showToast(context, value);
                   });
                 },
@@ -162,10 +163,10 @@ class _ProjectSettingsState extends State<ProjectSettings> {
                 ),
                 onPressed: () async {
                   await savefile(
-                          fileName:
-                              '${widget.nameOfProject}${DateTime.now().millisecondsSinceEpoch}.html',
-                          data: codeCreator(value: projectData, inApp: ''))
-                      .then((value) {
+                    fileName:
+                        '${widget.nameOfProject}${DateTime.now().millisecondsSinceEpoch}.html',
+                    data: codeCreator(value: projectData, inApp: ''),
+                  ).then((value) {
                     showToast(context, value);
                   });
                 },
@@ -177,7 +178,7 @@ class _ProjectSettingsState extends State<ProjectSettings> {
                   minimumSize: const Size.fromHeight(40),
                   backgroundColor: const Color.fromRGBO(235, 68, 100, 1),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   deleteData();
                   projectList.removeWhere(
                       (element) => element['myId'] == widget.idOfProject);

@@ -40,9 +40,9 @@ class _AlertDialogInputState extends State<AlertDialogInput> {
     }
   }
 
-  void _saveData(String idOfProject, String jsonData) async {
+  void _saveData(String idOfProject, String data) async {
     var prefs = await SharedPreferences.getInstance();
-    prefs.setString(idOfProject, jsonData);
+    prefs.setString(idOfProject, json.encode(data));
   }
 
   void _closeDialog() {
@@ -80,15 +80,18 @@ class _AlertDialogInputState extends State<AlertDialogInput> {
         )
       ]),
       content: createOrImport
-          ? ElevatedButton(
+          ? /* IMPORT */
+          ElevatedButton(
               onPressed: () {
                 _closeDialog();
                 var idOfProject =
                     '${DateTime.now().millisecondsSinceEpoch}Imported';
-                _pickFile().then((data) async {
-                  _saveData(idOfProject, data);
+                _pickFile().then((result) async {
+                  List data = await json.decode(result);
                   await widget.changeListOfProjects(
-                      json.decode(data)[0]['name'], idOfProject);
+                      data[0][0]['name'], idOfProject);
+                  _saveData(idOfProject, data[0]);
+                  _saveData('${idOfProject}photos', data[1]);
                 });
               },
               child: const Text(
@@ -96,7 +99,8 @@ class _AlertDialogInputState extends State<AlertDialogInput> {
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
               ),
             )
-          : TextField(
+          : /* Create New */
+          TextField(
               onChanged: (String value) {
                 setState(() {
                   _newProjectName = value;

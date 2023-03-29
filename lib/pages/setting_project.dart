@@ -49,17 +49,19 @@ class _ProjectSettingsState extends State<ProjectSettings> {
 
   void _getData() async {
     var prefs = await SharedPreferences.getInstance();
-    final counterInfo = prefs.getString('projectList');
+    final jsonProjectList = prefs.getString('projectList');
     final localPrjData = prefs.getString(widget.idOfProject);
+    var photosData = prefs.getString(widget.idOfProject);
     if (localPrjData == null) {
       projectData =
           'Problems with data... ( Perhaps you have not edited this project before. )';
     } else {
-      projectData = localPrjData;
+      photosData ??= '[]';
+      projectData = '[$localPrjData, $projectData]';
     }
-    if (counterInfo == null) return;
+    if (jsonProjectList == null) return;
     setState(() {
-      projectList = json.decode(counterInfo);
+      projectList = json.decode(jsonProjectList);
     });
   }
 
@@ -73,7 +75,6 @@ class _ProjectSettingsState extends State<ProjectSettings> {
       (route) => false,
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +164,7 @@ class _ProjectSettingsState extends State<ProjectSettings> {
                   await savefile(
                           fileName:
                               '${widget.nameOfProject}${DateTime.now().millisecondsSinceEpoch}.html',
-                          data: codeCreator(projectData, ''))
+                          data: codeCreator(value: projectData, inApp: ''))
                       .then((value) {
                     showToast(context, value);
                   });

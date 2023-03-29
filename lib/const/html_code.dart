@@ -243,15 +243,14 @@ const htmlCode = '''
 				if(shape=="cub"){
 					ctx.save();
 					ctx.translate(this.x, this.y);
+          ctx.rotate(this.direction);
 
-					if(this.texture&&this.texture.a){
-						ctx.rotate(this.direction + this.texture.standartDirection);
+					if(this.texture && this.texture.a){
 						ctx.drawImage(this.texture.a, this.texture.sx, this.texture.sy, this.texture.swidth, this.texture.sheight, -this.width/2, -this.height/2, this.width, this.height);
 						ctx.restore();
 						return
 					}
 
-					ctx.rotate(this.direction);
 					ctx.roundRect( -this.width/2, -this.height/2, this.width, this.height, [this.radius] );
 					ctx.restore();
 				}else	if(shape=="circle"){

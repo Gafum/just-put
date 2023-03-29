@@ -53,7 +53,8 @@ class _ViewResultState extends State<ViewResult> {
       ..enableZoom(false)
       ..setJavaScriptMode(JavaScriptMode.unrestricted);
     _getData().then((value) {
-      return controller.loadHtmlString(codeCreator(widget.data, value));
+      return controller
+          .loadHtmlString(codeCreator(value: widget.data, inApp: value));
     });
   }
 

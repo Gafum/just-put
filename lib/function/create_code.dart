@@ -19,9 +19,10 @@ String stringB(Map<String, dynamic> element, changer) {
   return result;
 }
 
-String codeCreator(String value, [String inApp = '']) {
-  List data = json.decode(value);
-  var listOfData = data[0]['data'];
+String codeCreator({required String value, String inApp = ''}) {
+  List fillData = json.decode(value);
+  List data = fillData[0];
+  List listOfTextures = fillData[1];
 
   /* Work with data */
   var fisrtStrCodeValues = 'document.title = "${data[0]['name']}";';
@@ -37,11 +38,34 @@ let StoredData = {}
 ''';
   }
 
-  if (listOfData.length > 0) {
-    fisrtStrCodeValues += 'let ${listOfData.reduce((a, b) => a + ', ' + b)};';
+  if (data[0]['data'] != null && data[0]['data'].length > 0) {
+    fisrtStrCodeValues +=
+        '\nlet ${data[0]['data'].reduce((a, b) => a + ', ' + b)};';
+  }
+
+  /* Create Textures */
+  if (listOfTextures.isNotEmpty) {
+    fisrtStrCodeValues += listOfTextures.fold('', (a, b) {
+      return '''$a
+      let ${b['name']} = {}
+      ${b['name']}.a = new Image()
+      try {
+        ${b['name']}.a.onload = function () {
+          ${b['name']}.swidth = this.width
+          ${b['name']}.sheight = this.height
+        }
+        ${b['name']}.a.src = '${b['data']}'
+        ${b['name']}.sx = 0
+        ${b['name']}.sy = 0
+      } catch (e) {
+        alert('Image not found 0(')
+      };
+      ''';
+    });
   }
 
   data.removeAt(0);
+
   /* Create main Code */
 
   var createdCode = 'element.innerHTML=`<h1>Made by Gafum</h1>`';
@@ -49,16 +73,6 @@ let StoredData = {}
   if (data.isEmpty) {
     return 'Made by Gafum';
   }
-
-  List deletedata = [];
-  for (var item in data) {
-    if (item['id'] == '29') {
-      fisrtStrCodeValues +=
-          '\n${stringB(ListOfElements[int.parse(item['id'])], item['parameter'])}';
-      deletedata.add(item);
-    }
-  }
-  data.removeWhere((element) => deletedata.contains(element));
 
   /* Work with function(clicks) */
   String fisrtStrCode = '';
@@ -101,6 +115,7 @@ function EndOfTheTouching(event) {
 };''';
   }
 
+  /* Add other elements */
   createdCode = data.fold(fisrtStrCode, (String a, b) {
     var thisStrb = b['id'].startsWith('AMain') || b['id'].startsWith('CONTI')
         ? ListOfElements[int.parse(b['id'].substring(6))]['secondArgument']

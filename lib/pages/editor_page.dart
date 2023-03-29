@@ -32,9 +32,9 @@ class _EditorPageState extends State<EditorPage> {
   late final WebViewController controller;
   bool isLoading = true;
 
-  void _saveData(data) async {
+  void _saveData({required String data, String whatData = ''}) async {
     var prefs = await SharedPreferences.getInstance();
-    prefs.setString(widget.idOfProject, data);
+    prefs.setString(widget.idOfProject + whatData, data);
   }
 
   Future<String> getImageBase64(String imagePath) async {
@@ -49,12 +49,16 @@ class _EditorPageState extends State<EditorPage> {
     }
 
     var prefs = await SharedPreferences.getInstance();
-    final counterInfo = prefs.getString(widget.idOfProject);
-    if (counterInfo == null) {
-      return '[{"data":[],"functions":[],"name":"${widget.nameOfProject}"}]';
+    final data = prefs.getString(widget.idOfProject);
+    var photosData = prefs.getString('${widget.idOfProject}photos');
+
+    if (data == null) {
+      return '[[{"data":[],"functions":[],"name":"${widget.nameOfProject}"}],[]]';
     }
 
-    return counterInfo;
+    photosData ??= '[]';
+
+    return '[$data, $photosData]';
   }
 
   Future<Map<String, String>> pickImageAndSave(String filename) async {
@@ -97,13 +101,20 @@ class _EditorPageState extends State<EditorPage> {
       ..addJavaScriptChannel(
         'SaveDataInFlutter',
         onMessageReceived: (JavaScriptMessage message) {
-          _saveData(message.message);
+          _saveData(
+            data: message.message,
+          );
+        },
+      )
+      ..addJavaScriptChannel(
+        'SaveTextures',
+        onMessageReceived: (JavaScriptMessage message) {
+          _saveData(data: message.message, whatData: 'photos');
         },
       )
       ..addJavaScriptChannel(
         'StartView',
         onMessageReceived: (JavaScriptMessage message) {
-          _saveData(message.message);
           Navigator.push(
             context,
             CustomPageRoute(

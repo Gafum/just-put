@@ -590,7 +590,8 @@ nav > li:active {
 /*  ===============================================  Add Block Edit Params*/
 #editparams,
 #addblocks,
-#files-scene {
+#files-scene,
+#pieces-scene {
   z-index: 100;
   position: fixed;
   background-color: white;
@@ -600,7 +601,8 @@ nav > li:active {
   height: 100vh;
 }
 
-#files-scene {
+#files-scene,
+#pieces-scene {
   padding: 65px 16px 10px;
   z-index: 2;
   top: -100%;
@@ -636,7 +638,8 @@ nav > li:active {
 
 #editparams.active,
 #addblocks.active,
-#files-scene.active {
+#files-scene.active,
+#pieces-scene.active {
   top: 0;
   bottom: 0;
 }
@@ -867,7 +870,8 @@ nav > li:active {
 
 /* File List */
 
-#files-list {
+#files-list,
+#pieces-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -894,10 +898,25 @@ nav > li:active {
   border-radius: 10px;
   flex-shrink: 3;
   background-size: cover;
+  min-width: calc(18vh - 10px);
   height: calc(100% - 10px);
   background-position: center;
   border: 1px solid #888;
   background-repeat: no-repeat;
+  background-color: #4caf50;
+  background-image: radial-gradient(
+    circle,
+    rgba(121, 194, 155, 0.8547794117647058) 40%,
+    rgba(91, 203, 96, 1) 100%
+  );
+}
+
+.img-in-piece {
+  overflow: hidden;
+  padding: 4px;
+  word-break: break-all;
+  font-size: 10px;
+  color: #2e2e2e;
 }
 
 .text-in-file {

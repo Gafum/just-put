@@ -49,13 +49,11 @@ class _EditorPageState extends State<EditorPage> {
     }
 
     var prefs = await SharedPreferences.getInstance();
-    final data = prefs.getString(widget.idOfProject);
+    var data = prefs.getString(widget.idOfProject);
     var photosData = prefs.getString('${widget.idOfProject}photos');
 
-    if (data == null) {
-      return '[[{"data":[],"functions":[],"name":"${widget.nameOfProject}"}],[]]';
-    }
-
+    data ??=
+        '[{"data":[],"functions":[],"name":"${widget.nameOfProject}", "piecesName": ["Main"],  "codePiece": 0}, [[]]]';
     photosData ??= '[]';
 
     return '[$data, $photosData]';
@@ -91,7 +89,7 @@ class _EditorPageState extends State<EditorPage> {
             if (value == 'BigProblem') return;
             controller.runJavaScript('''
             ListOfElements = $stringListOfElements;
-            renderList($value, '${widget.nameOfProject}');''');
+            readData($value, '${widget.nameOfProject}');''');
             setState(() {
               isLoading = false;
             });

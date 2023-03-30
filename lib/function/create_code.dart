@@ -64,7 +64,7 @@ let StoredData = {}
     });
   }
 
-  data.removeAt(0);
+  data = data[1];
 
   /* Create main Code */
 
@@ -81,16 +81,19 @@ let StoredData = {}
   List listOfMoveTaps = [];
   List listOfEndOfTaps = [];
 
-  for (var element in data) {
-    if (element['id'] == '13' || element['id'] == '15') {
-      // Click =>
-      listOfTaps.add(element);
-    } else if (element['id'] == '24') {
-      // MouseMove =>
-      listOfMoveTaps.add(element);
-    } else if (element['id'] == '25') {
-      // EndOfTheTouching (Mouse up) =>
-      listOfEndOfTaps.add(element);
+  /* Check for the functions in every piece */
+  for (var items in data) {
+    for (var element in items) {
+      if (element['id'] == '13' || element['id'] == '15') {
+        // Click =>
+        listOfTaps.add(element);
+      } else if (element['id'] == '24') {
+        // MouseMove =>
+        listOfMoveTaps.add(element);
+      } else if (element['id'] == '25') {
+        // EndOfTheTouching (Mouse up) =>
+        listOfEndOfTaps.add(element);
+      }
     }
   }
 
@@ -117,11 +120,15 @@ function EndOfTheTouching(event) {
 
   /* Add other elements */
   createdCode = data.fold(fisrtStrCode, (String a, b) {
-    var thisStrb = b['id'].startsWith('AMain') || b['id'].startsWith('CONTI')
-        ? ListOfElements[int.parse(b['id'].substring(6))]['secondArgument']
-            [int.parse(b['id'][5])]['code']
-        : stringB(ListOfElements[int.parse(b['id'])], b['parameter']);
-    return '$a\n$thisStrb';
+    String onePiece = b.fold('', (prev, c) {
+      String thisStrb =
+          c['id'].startsWith('AMain') || c['id'].startsWith('CONTI')
+              ? ListOfElements[int.parse(c['id'].substring(6))]
+                  ['secondArgument'][int.parse(c['id'][5])]['code']
+              : stringB(ListOfElements[int.parse(c['id'])], c['parameter']);
+      return '$prev\n$thisStrb';
+    });
+    return '$a\n$onePiece';
   });
 
   return htmlCode

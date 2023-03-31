@@ -34,13 +34,13 @@ class _AlertDialogInputState extends State<AlertDialogInput> {
       File file0 = File(file.path.toString());
       final contents = await file0.readAsString();
 
-      return contents;
+      return json.decode(contents);
     } else {
       return null;
     }
   }
 
-  void _saveData(String idOfProject, String data) async {
+  void _saveData(String idOfProject, List data) async {
     var prefs = await SharedPreferences.getInstance();
     prefs.setString(idOfProject, json.encode(data));
   }
@@ -87,11 +87,10 @@ class _AlertDialogInputState extends State<AlertDialogInput> {
                 var idOfProject =
                     '${DateTime.now().millisecondsSinceEpoch}Imported';
                 _pickFile().then((result) async {
-                  List data = await json.decode(result);
                   await widget.changeListOfProjects(
-                      data[0][0]['name'], idOfProject);
-                  _saveData(idOfProject, data[0]);
-                  _saveData('${idOfProject}photos', data[1]);
+                      result[0][0]['name'], idOfProject);
+                  _saveData(idOfProject, result[0]);
+                  _saveData('${idOfProject}photos', result[1]);
                 });
               },
               child: const Text(

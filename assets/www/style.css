@@ -338,7 +338,7 @@ nav > li:active {
 .btn-in-element {
   transform-origin: left;
   transform: scaleX(0);
-  transition: transform 0.2s;
+  transition: all 0.2s;
   display: flex;
   width: 30px;
   gap: 3px;
@@ -347,6 +347,7 @@ nav > li:active {
 .btn-in-element.active {
   transform: scaleX(1);
   width: max-content;
+  margin-left: 8px;
 }
 
 .btn-delete {
@@ -386,7 +387,6 @@ nav > li:active {
 .elementText {
   position: relative;
   left: -25px;
-  transition: all 0.2s;
   white-space: nowrap;
   overflow: hidden;
   transition: color 5s ease;
@@ -917,6 +917,7 @@ nav > li:active {
   word-break: break-all;
   font-size: 10px;
   color: #2e2e2e;
+  text-align: justify;
 }
 
 .text-in-file {

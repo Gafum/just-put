@@ -197,7 +197,7 @@
 		</symbol>
 	</svg>
 
-	<header>
+	<header style="box-shadow: 0px 1px 8px #888;">
 		<div class="fix header-class color-green" style="z-index: 3;">
 			<button title="Go back" onclick="GoToAnotherHome.postMessage('goBack');"
 				style="left: 0; width: 43px; padding: 0 0 0 16px;">
@@ -500,6 +500,8 @@
 						<li onclick="tapOfFunctionBtn(1,'showMessege(',')');">showMessege</li>
 						<li onclick="tapOfFunctionBtn(1,'prompt(',')');">prompt</li>
 						<li onclick="tapOfFunctionBtn(1,'confirm(',')');">confirm</li>
+						<li onclick="tapOfFunctionBtn(1,'JSON.stringify(',')');">JSON.stringify</li>
+						<li onclick="tapOfFunctionBtn(1,'JSON.parse(',')');">JSON.parse</li>
 						<li onclick="tapOfFunctionBtn(2,'joinStrings(',',',')');">joinStrings</li>
 						<li onclick="tapOfFunctionBtn(1,'degToRadian(',')');">degToRadian</li>
 						<li onclick="tapOfFunctionBtn(2,'randomInteger(',',',')');">randomInteger</li>
@@ -1123,12 +1125,12 @@
 				settings.classList.add('open')
 			}
 			closeFileCodes()
+			openBtn.classList.toggle('open')
 		}
 
 		function closeFileCodes() {
 			files.classList.remove("active")
 			codePieces.classList.remove("active")
-			openBtn.classList.toggle('open')
 		}
 
 		function closeNav() {
@@ -1224,7 +1226,7 @@
 		function changeCodePiecesList() {
 			codepiecesList.innerHTML = listOfCodePieces.reduce((prev, item, index) => {
 				let a = []
-				for (let c = 0; c < 30; c++) {
+				for (let c = 0; c < 70; c++) {
 					let b = []
 					for (let i = 0; i < 8; i++) {
 						b.push(Math.round(Math.random()))
@@ -1248,6 +1250,7 @@
 			codePiece = newPiece;
 			renderList(MainList[1][codePiece]);
 			closeFileCodes()
+			document.querySelector('.open-nav').classList.remove('open')
 		}
 
 		function CreateNewPiece() {
@@ -1262,6 +1265,7 @@
 				renderList([]);
 				saveData();
 				closeFileCodes()
+				document.querySelector('.open-nav').classList.remove('open');
 			}
 			modalInput.querySelector("input").maxLength = 20
 		}

@@ -79,6 +79,7 @@ class _EditorPageState extends State<EditorPage> {
   void initState() {
     super.initState();
     controller = WebViewController()
+      ..setBackgroundColor(Colors.white)
       ..loadFlutterAsset('assets/www/html_editor.html')
       ..enableZoom(false)
       ..setJavaScriptMode(JavaScriptMode.unrestricted)

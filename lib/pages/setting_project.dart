@@ -52,13 +52,13 @@ class _ProjectSettingsState extends State<ProjectSettings> {
     var prefs = await SharedPreferences.getInstance();
     final jsonProjectList = prefs.getString('projectList');
     final localPrjData = prefs.getString(widget.idOfProject);
-    var photosData = prefs.getString(widget.idOfProject);
+    var photosData = prefs.getString('${widget.idOfProject}photos');
+    photosData ??= '[]';
     if (localPrjData == null) {
       projectData =
           'Problems with data... ( Perhaps you have not edited this project before. )';
     } else {
-      photosData ??= '[]';
-      projectData = '[$localPrjData, $projectData]';
+      projectData = '[$localPrjData, $photosData]';
     }
     if (jsonProjectList == null) return;
     setState(() {

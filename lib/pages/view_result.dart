@@ -39,6 +39,7 @@ class _ViewResultState extends State<ViewResult> {
   void initState() {
     super.initState();
     controller = WebViewController()
+      ..setBackgroundColor(Colors.white)
       ..addJavaScriptChannel(
         'StoreDataInDevice',
         onMessageReceived: (JavaScriptMessage message) {

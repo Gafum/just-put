@@ -6,6 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+const alertTextStyle = TextStyle(
+  color: Colors.black,
+  fontSize: 18,
+  fontWeight: FontWeight.w500,
+);
+
 class AlertDialogInput extends StatefulWidget {
   final Function changeListOfProjects;
 
@@ -59,6 +65,7 @@ class _AlertDialogInputState extends State<AlertDialogInput> {
           child: Text(
             createOrImport ? 'Import' : 'Add project',
             textAlign: TextAlign.center,
+            style: alertTextStyle,
           ),
         ),
         Flexible(
@@ -73,9 +80,17 @@ class _AlertDialogInputState extends State<AlertDialogInput> {
         ),
         Expanded(
           flex: 2,
-          child: Text(
-            createOrImport ? 'Add project' : 'Import',
-            textAlign: TextAlign.center,
+          child: TextButton(
+            onPressed: () {
+              setState(() {
+                createOrImport = !createOrImport;
+              });
+            },
+            child: Text(
+              createOrImport ? 'Add project' : 'Import',
+              textAlign: TextAlign.center,
+              style: alertTextStyle,
+            ),
           ),
         )
       ]),

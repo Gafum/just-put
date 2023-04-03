@@ -1191,6 +1191,19 @@
 			body.classList.remove("no-scroll")
 		}
 
+		function checkForIncludesVatieblse(userAnswer) {
+			if (listOfData.includes(userAnswer) || listOfTexture.findIndex(({ name }) => name == userAnswer) + 1) {
+				return 'ALREADY EXISTS'
+			}
+			if (/[0-9]/gm.test(userAnswer[0])) {
+				return 'Starts with a number'
+			}
+			if (userAnswer.match(/[^A-Za-z0-9]/gm)) {
+				return 'Only Latin characters'
+			}
+			return false
+		}
+
 		function createVarieble(isData) {
 			event.stopPropagation()
 			showMessege(
@@ -1201,16 +1214,8 @@
 				userAnswer = userAnswer.replace(/\s/g, '')
 				if (!userAnswer) return false
 
-				let inputPlaceholder = false
-				if (listOfData.includes(userAnswer)) {
-					inputPlaceholder = 'ALREADY EXISTS'
-				}
-				if (/[0-9]/gm.test(userAnswer[0])) {
-					inputPlaceholder = 'Starts with a number'
-				}
-				if (userAnswer.match(/[^A-Za-z0-9]/gm)) {
-					inputPlaceholder = 'Latin letters and numbers'
-				}
+				let inputPlaceholder = checkForIncludesVatieblse(userAnswer);
+
 				if (inputPlaceholder) {
 					modalInput.querySelector("label").innerHTML = inputPlaceholder;
 					return false
@@ -1299,15 +1304,36 @@
 		function createTextureFile() {
 			event.stopPropagation()
 			showMessege(
-				{ text: 'Write texture name', defaultValue: '' }
+				{
+					text: `<span style="color: red; text-align: center; font-size: 19px;">
+					Not recommended.
+					<br/> Use the URL instead.
+					</span>
+					<br/><span style="color: #888; text-align: center; font-size: 12px;">
+						Large images will take a long time to process.
+					</span>`, defaultValue: 'empty'
+				}
 			)
 			modalInput.querySelector("#ok-btn").onclick = () => {
-				let userAnswer = modalInput.querySelector("input").value.slice(0, 20)
-				userAnswer = userAnswer.replace(/\s/g, '')
-				if (!userAnswer) return false
-				SelectFile.postMessage(userAnswer)
+				setTimeout(() => {
+					showMessege(
+						{ text: 'Write texture name', defaultValue: '' }
+					)
+					modalInput.querySelector("#ok-btn").onclick = () => {
+						let userAnswer = modalInput.querySelector("input").value.slice(0, 20)
+						userAnswer = userAnswer.replace(/\s/g, '')
+						if (!userAnswer) return false
+						let inputPlaceholder = checkForIncludesVatieblse(userAnswer);
+
+						if (inputPlaceholder) {
+							modalInput.querySelector("label").innerHTML = inputPlaceholder;
+							return false
+						}
+						SelectFile.postMessage(userAnswer)
+					}
+					modalInput.querySelector("input").maxLength = 20
+				}, 400);
 			}
-			modalInput.querySelector("input").maxLength = 20
 		}
 
 		function createTextureURL() {
@@ -1319,7 +1345,13 @@
 			modalInput.querySelector("#ok-btn").onclick = () => {
 				let userAnswer = modalInput.querySelector("input").value.slice(0, 20)
 				userAnswer = userAnswer.replace(/\s/g, '')
-				if (!userAnswer) return false
+				if (!userAnswer) return false;
+
+				let inputPlaceholder = checkForIncludesVatieblse(userAnswer);
+				if (inputPlaceholder) {
+					modalInput.querySelector("label").innerHTML = inputPlaceholder;
+					return false
+				}
 				setTimeout(() => {
 					modalInput.querySelector("input").maxLength = 1000
 					showMessege(
@@ -1335,7 +1367,7 @@
 		}
 
 		function createTextureDraw(isData, element) {
-			showMessege({ text: `Not available now`, defaultValue: 'empty' })
+			showMessege({ text: `<span style='color = red;'>Not available now 0(</span>`, defaultValue: 'empty' })
 			modalInput.querySelector("#ok-btn").onclick = () => {
 				return true;
 			}

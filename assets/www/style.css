@@ -936,7 +936,7 @@ nav > li:active {
   overflow-x: scroll;
   overflow-y: hidden;
   height: 30px;
-  font-size: 25px;
+  font-size: 22px;
   width: 100%;
 }
 
@@ -1033,6 +1033,7 @@ dialog h1 {
   font-size: 22px;
   margin-bottom: 10px;
   font-weight: 700;
+  text-align: center;
 }
 
 dialog button,

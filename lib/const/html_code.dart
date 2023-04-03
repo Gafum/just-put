@@ -364,18 +364,28 @@ const htmlCode = '''
 		array.sort(() => Math.random() - 0.5);
 	}
 
-	const SmothMove = async ({ movedObject = { x: 0, y: 0 }, X = 0, Y = 0, MyTime = 0 }) => {
-		let cycleTimes = Math.floor(MyTime / 40);
-		let distX = (X - movedObject.x) / cycleTimes;
-		let distY = (Y - movedObject.y) / cycleTimes;
-		for (let index = 0; index < cycleTimes; index++) {
-			await delay(40);
-			movedObject.x += distX;
-			movedObject.y += distY;
-		}
-		movedObject.x = X;
-		movedObject.y = Y;
-	}
+  function SmoothMove(object, startTime, currentTime, distanceX, distanceY, endX, endY, duration) {
+    let elapsedTime = (currentTime - startTime) % duration;
+    let progress = elapsedTime / duration;
+    if (duration<=(currentTime - startTime)) {
+      object.x = endX;
+      object.y = endY;
+      return;
+    };
+    object.x = (endX - distanceX) + distanceX * progress;
+    object.y = (endY - distanceY) + distanceY * progress;
+    requestAnimationFrame((currentTime) => {
+      SmoothMove(object, startTime, currentTime, distanceX, distanceY, endX, endY, duration);
+    });
+  }
+
+  function moveObject(object, endX, endY, duration) {
+    let distanceX = endX - object.x;
+    let distanceY = endY - object.y;
+    requestAnimationFrame((currentTime) => {
+      SmoothMove(object, currentTime, currentTime, distanceX, distanceY, endX, endY, duration);
+    });
+  }
 
 	function addElementByHtml(code, myid){
 		let newElement = document.querySelector("#"+myid+"conteiner")

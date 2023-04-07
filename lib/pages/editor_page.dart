@@ -44,10 +44,6 @@ class _EditorPageState extends State<EditorPage> {
   }
 
   Future<String> _getData() async {
-    if (!await requestPermission(Permission.storage)) {
-      return 'BigProblem';
-    }
-
     var prefs = await SharedPreferences.getInstance();
     var data = prefs.getString(widget.idOfProject);
     var photosData = prefs.getString('${widget.idOfProject}photos');
@@ -87,7 +83,6 @@ class _EditorPageState extends State<EditorPage> {
         'PageIsReady',
         onMessageReceived: (JavaScriptMessage message) {
           _getData().then((value) {
-            if (value == 'BigProblem') return;
             controller.runJavaScript('''
             ListOfElements = $stringListOfElements;
             readData($value, '${widget.nameOfProject}');''');

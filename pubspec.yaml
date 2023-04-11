@@ -41,6 +41,7 @@ dependencies:
   permission_handler: ^10.2.0
   file_picker: ^5.2.6
   image_picker: ^0.8.7
+  google_mobile_ads: ^2.4.0
 
 flutter_native_splash:
   color: "#ffffff"

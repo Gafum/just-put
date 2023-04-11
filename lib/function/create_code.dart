@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import '../const/html_code.dart';
 import '../const/list_of_elements.dart';
@@ -130,7 +131,9 @@ function EndOfTheTouching(event) {
     });
     return '$a\n$onePiece';
   });
-
+  log(htmlCode
+      .replaceFirst('HereMustBeCodeWithVariables====>', fisrtStrCodeValues)
+      .replaceFirst('HereMustBeMainCode====>', createdCode));
   return htmlCode
       .replaceFirst('HereMustBeCodeWithVariables====>', fisrtStrCodeValues)
       .replaceFirst('HereMustBeMainCode====>', createdCode);

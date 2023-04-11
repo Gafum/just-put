@@ -236,7 +236,8 @@ const htmlCode = '''
 				this.y -= Math.cos(this.direction)* steps
 			}
 
-			this.draw = (isfill=true)=>{
+			this.draw = (myStrokeWidth) => {
+        ctx.lineWidth = myStrokeWidth? myStrokeWidth : 0;
 				ctx.fillStyle = this.color
 				ctx.strokeStyle = this.color
 				ctx.beginPath()
@@ -257,10 +258,10 @@ const htmlCode = '''
 					ctx.arc( this.x, this.y, this.radius, this.startAngle, this.endAngle, this.counterclockwise);
 				}
 
-				if(isfill){
-					ctx.fill()
+				if(myStrokeWidth){
+          ctx.stroke()
 				}else{
-					ctx.stroke()
+					ctx.fill()
 				}
 			}
 		}
@@ -299,26 +300,36 @@ const htmlCode = '''
 		return undefined
 	}
 
+  function oppositeColision(first, second){
+    return colisionBetween(first, second, true)
+  }
 
-	function colisionBetween(first, second) {
+
+	function colisionBetween(first, second, opposite = false) {
 		if(first.shape == second.shape){
 			if(first.shape == "cub"){
 				firstX = first.x-first.width/2
 				firstY = first.y-first.height/2
 				secondX = second.x-second.width/2
 				secondY = second.y-second.height/2
-				if (
-					firstX + first.width >= secondX &&
+				return opposite?
+          /* Opposite */
+					firstX <= secondX &&
+					firstY <= secondY &&
+          firstX + first.width >= secondX + second.width &&
+					firstY + first.height >= secondY + first.height
+				: /* Usual */
+          firstX + first.width >= secondX &&
 					secondX + second.width >= firstX &&
 					firstY + first.height >= secondY &&
-					secondY + second.height >= firstY
-				) {
-					return true
-				}
+					secondY + second.height >= firstY;
+
 			}else if(first.shape == "circle"){
-				if (distanceBetween(first, second) <= first.radius+second.radius) {
-					return true;
-				}
+				if (opposite) {
+					return distanceBetween(first, second) <= Math.abs(first.radius-second.radius);
+				} else{
+          return distanceBetween(first, second) <= first.radius+second.radius;
+        }
 			}
 		}
 		else {
@@ -326,13 +337,23 @@ const htmlCode = '''
 			if(whatcolision == "cubCir"){
 				let testX = cx, testY = cy
 
-				if (cx < rx)         testX = rx      // test left edge
+				if (cx < rx)         testX = rx      // left edge
 				else if (cx > rx+rw) testX = rx+rw   // right edge
 				if (cy < ry)         testY = ry    	 // top edge
 				else if (cy > ry+rh) testY = ry+rh   // bottom edge
 
-				if (Math.floor(Math.sqrt(Math.pow(cx-testX,2)+Math.pow(cy-testY,2))) <= radius) {
-					return true
+				if (opposite) {
+          if (
+            testX == cx &&
+            testY == cy &&
+            rx <= cx - radius &&
+            ry <= cy - radius &&
+            rx + rw >= cx + radius &&
+            ry + rh >= cy + radius) {
+							return true;
+            }
+        } else {
+					return Math.floor(Math.sqrt(Math.pow(cx-testX,2)+Math.pow(cy-testY,2))) <= radius;
 				}
 			}
 		}

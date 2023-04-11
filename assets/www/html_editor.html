@@ -479,7 +479,6 @@
 				<li class="mainLi">
 					Logic
 					<ul>
-						<li onclick="tapofbtn('=');">SET</li>
 						<li onclick="tapofbtn('==');">==</li>
 						<li onclick="tapofbtn('!==');">!==</li>
 						<li onclick="tapofbtn('===');">===</li>
@@ -506,6 +505,7 @@
 						<li onclick="tapOfFunctionBtn(1,'degToRadian(',')');">degToRadian</li>
 						<li onclick="tapOfFunctionBtn(2,'randomInteger(',',',')');">randomInteger</li>
 						<li onclick="tapOfFunctionBtn(2,'colisionBetween(',',',')');">colisionBetween</li>
+						<li onclick="tapOfFunctionBtn(2,'oppositeColision(',',',')');">oppositeColision</li>
 						<li onclick="tapOfFunctionBtn(2,'distanceBetween(',',',')');">distanceBetween</li>
 						<li onclick="tapofbtn('.length');">length</li>
 						<li onclick="tapOfFunctionBtn(1,'.indexOf(',')');">indexOf</li>
@@ -530,6 +530,7 @@
 						<li onclick="tapofbtn(']');">]</li>
 						<li onclick="tapofbtn('{');">{</li>
 						<li onclick="tapofbtn('}');">}</li>
+						<li onclick="tapOfFunctionBtn(0,'(', ')','=>');">()=&#62;</li>
 						<li onclick="tapOfFunctionBtn(1,' ? ',' : ');">ternary</li>
 						<li style="display: flex; justify-content: center; align-items:center; gap: 5px">
 							<button onclick="addColor();"
@@ -1072,7 +1073,7 @@
 			}
 
 			/* Does Element work with texure? */
-			if (listOfTexture.length > 0 && ["9", "29"].includes(editingElement.dataset.id)) {
+			if (listOfTexture.length > 0 && ["9", "29", "80"].includes(editingElement.dataset.id)) {
 				let li = document.createElement("li")
 				li.classList.add("mainLi")
 				li.id = "texturesListEditor"

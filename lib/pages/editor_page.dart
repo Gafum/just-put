@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:just_put/const/list_of_elements.dart';
 import 'package:just_put/pages/setting_project.dart';
@@ -10,9 +11,10 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../function/request_permision.dart';
-import '../function/show_toast.dart';
-import '../widgets/custome_page_route.dart';
+import '../const/hiden_const.dart'; /* addMod const */
+import '../function/request_permision.dart'; /* Permissions */
+import '../function/show_toast.dart'; /* Toast */
+import '../widgets/custome_page_route.dart'; /* Animation page navigation */
 
 class EditorPage extends StatefulWidget {
   final String idOfProject;
@@ -31,6 +33,7 @@ class EditorPage extends StatefulWidget {
 class _EditorPageState extends State<EditorPage> {
   late final WebViewController controller;
   bool isLoading = true;
+  BannerAd? _bannerAd;
 
   void _saveData({required String data, String whatData = ''}) async {
     var prefs = await SharedPreferences.getInstance();
@@ -74,6 +77,7 @@ class _EditorPageState extends State<EditorPage> {
   @override
   void initState() {
     super.initState();
+    _loadAd();
     controller = WebViewController()
       ..setBackgroundColor(Colors.white)
       ..loadFlutterAsset('assets/www/html_editor.html')
@@ -158,8 +162,20 @@ addNewImage({data: "${value['base64data']}", name: "${message.message}"});''');
         resizeToAvoidBottomInset: false,
         body: Stack(
           children: <Widget>[
-            WebViewWidget(
-              controller: controller,
+            Column(
+              children: <Widget>[
+                Expanded(
+                  child: WebViewWidget(
+                    controller: controller,
+                  ),
+                ),
+                if (_bannerAd != null)
+                  SizedBox(
+                    height: 50,
+                    width: _bannerAd!.size.width.toDouble(),
+                    child: AdWidget(ad: _bannerAd!),
+                  ),
+              ],
             ),
             isLoading
                 ? const Center(
@@ -170,5 +186,37 @@ addNewImage({data: "${value['base64data']}", name: "${message.message}"});''');
         ),
       ),
     );
+  }
+
+  void _loadAd() async {
+    BannerAd(
+      adUnitId: adUnitId,
+      request: const AdRequest(),
+      size: AdSize.fullBanner,
+      listener: BannerAdListener(
+        // Called when an ad is successfully received.
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+          });
+        },
+        // Called when an ad request failed.
+        onAdFailedToLoad: (ad, err) {
+          ad.dispose();
+        },
+        // Called when an ad opens an overlay that covers the screen.
+        onAdOpened: (Ad ad) {},
+        // Called when an ad removes an overlay that covers the screen.
+        onAdClosed: (Ad ad) {},
+        // Called when an impression occurs on the ad.
+        onAdImpression: (Ad ad) {},
+      ),
+    ).load();
+  }
+
+  @override
+  void dispose() {
+    _bannerAd?.dispose();
+    super.dispose();
   }
 }

@@ -312,12 +312,20 @@ const htmlCode = '''
 				firstY = first.y-first.height/2
 				secondX = second.x-second.width/2
 				secondY = second.y-second.height/2
+        
 				return opposite?
           /* Opposite */
-					firstX <= secondX &&
-					firstY <= secondY &&
-          firstX + first.width >= secondX + second.width &&
-					firstY + first.height >= secondY + first.height
+          first.width * first.height >= second.width * second.height ?
+            /* First object is bigger than second  */
+            firstX <= secondX &&
+            firstY <= secondY &&
+            firstX + first.width >= secondX + second.width &&
+            firstY + first.height >= secondY + second.height 
+          :
+            secondX <= firstX &&
+            secondY <= firstY &&
+            secondX + second.width >= firstX + first.width &&
+            secondY + second.height >= firstY + first.height
 				: /* Usual */
           firstX + first.width >= secondX &&
 					secondX + second.width >= firstX &&

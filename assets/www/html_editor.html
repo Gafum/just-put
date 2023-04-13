@@ -583,7 +583,8 @@
 			standartParameter: [["Coment"]]
 		}]
 
-		const tapElements = ["13", "15", "24", "25"]
+		const tapElements = ["12", "14", "25", "26"]
+		const texturesElements = ["9", "30", "81"]
 		let listOfCodePieces = []
 		let MainList = []
 		let listOfData = []
@@ -1073,7 +1074,7 @@
 			}
 
 			/* Does Element work with texure? */
-			if (listOfTexture.length > 0 && ["9", "29", "80"].includes(editingElement.dataset.id)) {
+			if (listOfTexture.length > 0 && texturesElements.includes(editingElement.dataset.id)) {
 				let li = document.createElement("li")
 				li.classList.add("mainLi")
 				li.id = "texturesListEditor"

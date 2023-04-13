@@ -85,13 +85,13 @@ let StoredData = {}
   /* Check for the functions in every piece */
   for (var items in data) {
     for (var element in items) {
-      if (element['id'] == '13' || element['id'] == '15') {
+      if (element['id'] == '12' || element['id'] == '14') {
         // Click =>
         listOfTaps.add(element);
-      } else if (element['id'] == '24') {
+      } else if (element['id'] == '25') {
         // MouseMove =>
         listOfMoveTaps.add(element);
-      } else if (element['id'] == '25') {
+      } else if (element['id'] == '26') {
         // EndOfTheTouching (Mouse up) =>
         listOfEndOfTaps.add(element);
       }
@@ -131,9 +131,8 @@ function EndOfTheTouching(event) {
     });
     return '$a\n$onePiece';
   });
-  log(htmlCode
-      .replaceFirst('HereMustBeCodeWithVariables====>', fisrtStrCodeValues)
-      .replaceFirst('HereMustBeMainCode====>', createdCode));
+  log(createdCode);
+
   return htmlCode
       .replaceFirst('HereMustBeCodeWithVariables====>', fisrtStrCodeValues)
       .replaceFirst('HereMustBeMainCode====>', createdCode);

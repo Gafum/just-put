@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import '../const/html_code.dart';
 import '../const/list_of_elements.dart';
@@ -131,7 +130,6 @@ function EndOfTheTouching(event) {
     });
     return '$a\n$onePiece';
   });
-  log(createdCode);
 
   return htmlCode
       .replaceFirst('HereMustBeCodeWithVariables====>', fisrtStrCodeValues)

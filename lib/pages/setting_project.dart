@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:just_put/pages/home_page.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../const/hiden_const.dart';
 import '../function/create_code.dart';
 import '../function/show_toast.dart';
 import '../widgets/access_phone_storage.dart';
@@ -29,11 +31,16 @@ class _ProjectSettingsState extends State<ProjectSettings> {
   String _newProjectName = '';
   var projectList = [];
   String projectData = '';
+  bool addIsLoaded = false;
+
+  RewardedAd? _rewardedAd;
 
   @override
   void initState() {
     super.initState();
     _getData();
+    _loadAd();
+    addIsLoaded = false;
     _newProjectName = widget.nameOfProject;
   }
 
@@ -75,6 +82,52 @@ class _ProjectSettingsState extends State<ProjectSettings> {
       ),
       (route) => false,
     );
+  }
+
+  void _loadAd() {
+    RewardedAd.load(
+      adUnitId: adRewardedId,
+      request: const AdRequest(),
+      rewardedAdLoadCallback: RewardedAdLoadCallback(
+        // Called when an ad is successfully received.
+        onAdLoaded: (ad) {
+          setState(() {
+            addIsLoaded = true;
+          });
+          ad.fullScreenContentCallback = FullScreenContentCallback(
+              // Called when the ad showed the full screen content.
+              onAdShowedFullScreenContent: (ad) {},
+              // Called when an impression occurs on the ad.
+              onAdImpression: (ad) {},
+              // Called when the ad failed to show full screen content.
+              onAdFailedToShowFullScreenContent: (ad, err) {
+                // Dispose the ad here to free resources.
+                ad.dispose();
+              },
+              // Called when the ad dismissed full screen content.
+              onAdDismissedFullScreenContent: (ad) {
+                // Dispose the ad here to free resources.
+                ad.dispose();
+              },
+              // Called when a click is recorded for an ad.
+              onAdClicked: (ad) {});
+
+          debugPrint('$ad loaded.');
+          // Keep a reference to the ad so you can show it later.
+          _rewardedAd = ad;
+        },
+        // Called when an ad request failed.
+        onAdFailedToLoad: (LoadAdError error) {
+          showToast(context, "Problem to load Adds");
+        },
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _rewardedAd?.dispose();
+    super.dispose();
   }
 
   @override
@@ -138,19 +191,29 @@ class _ProjectSettingsState extends State<ProjectSettings> {
             ElevatedButton.icon(
                 /*  ============================================= Create JustPut file */
                 style: ElevatedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(40),
-                ),
+                    minimumSize: const Size.fromHeight(40),
+                    backgroundColor: addIsLoaded ? Colors.green : Colors.grey),
                 onPressed: () async {
-                  await savefile(
-                    fileName:
-                        '${widget.nameOfProject}${DateTime.now().millisecondsSinceEpoch}.txt',
-                    data: projectData,
-                  ).then((value) {
-                    showToast(context, value);
+                  if (!addIsLoaded) return;
+                  await _rewardedAd?.show(onUserEarnedReward:
+                      (AdWithoutView ad, RewardItem rewardItem) async {
+                    await savefile(
+                      fileName:
+                          '${widget.nameOfProject}${DateTime.now().millisecondsSinceEpoch}.txt',
+                      data: projectData,
+                    ).then((value) {
+                      showToast(context, value);
+                      _loadAd();
+                      setState(() {
+                        addIsLoaded = false;
+                      });
+                    });
                   });
                 },
                 icon: const Icon(Icons.save_alt_rounded),
-                label: const Text('Create JustPut file')),
+                label: addIsLoaded
+                    ? const Text('Create JustPut file')
+                    : const Text("Conecting to the Internet")),
             const SizedBox(
               width: double.infinity,
               height: 5.0,
@@ -159,19 +222,31 @@ class _ProjectSettingsState extends State<ProjectSettings> {
                 /*  ============================================= Create HTML*/
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size.fromHeight(40),
-                  backgroundColor: const Color.fromRGBO(245, 144, 115, 1),
+                  backgroundColor: addIsLoaded
+                      ? const Color.fromRGBO(245, 144, 115, 1)
+                      : Colors.grey,
                 ),
                 onPressed: () async {
-                  await savefile(
-                    fileName:
-                        '${widget.nameOfProject}${DateTime.now().millisecondsSinceEpoch}.html',
-                    data: codeCreator(value: projectData, inApp: ''),
-                  ).then((value) {
-                    showToast(context, value);
+                  if (!addIsLoaded) return;
+                  await _rewardedAd?.show(onUserEarnedReward:
+                      (AdWithoutView ad, RewardItem rewardItem) async {
+                    await savefile(
+                      fileName:
+                          '${widget.nameOfProject}${DateTime.now().millisecondsSinceEpoch}.html',
+                      data: codeCreator(value: projectData, inApp: ''),
+                    ).then((value) {
+                      showToast(context, value);
+                      _loadAd();
+                      setState(() {
+                        addIsLoaded = false;
+                      });
+                    });
                   });
                 },
                 icon: const Icon(Icons.web_asset),
-                label: const Text('Create html file')),
+                label: addIsLoaded
+                    ? const Text('Create html file')
+                    : const Text("Conecting to the Internet")),
             ElevatedButton.icon(
                 /*  ============================================= Delete Project */
                 style: ElevatedButton.styleFrom(

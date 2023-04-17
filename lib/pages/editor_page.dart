@@ -88,7 +88,7 @@ class _EditorPageState extends State<EditorPage> {
         onMessageReceived: (JavaScriptMessage message) {
           _getData().then((value) {
             controller.runJavaScript('''
-            ListOfElements = $stringListOfElements;
+            ListOfElements = ${json.encode(ListOfElements)};
             readData($value, '${widget.nameOfProject}');''');
             setState(() {
               isLoading = false;

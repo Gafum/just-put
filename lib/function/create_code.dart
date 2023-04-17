@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import '../const/html_code.dart';
 import '../const/list_of_elements.dart';
@@ -121,16 +122,20 @@ function EndOfTheTouching(event) {
   /* Add other elements */
   createdCode = data.fold(fisrtStrCode, (String a, b) {
     String onePiece = b.fold('', (prev, c) {
-      String thisStrb =
-          c['id'].startsWith('AMain') || c['id'].startsWith('CONTI')
-              ? ListOfElements[int.parse(c['id'].substring(6))]
-                  ['secondArgument'][int.parse(c['id'][5])]['code']
-              : stringB(ListOfElements[int.parse(c['id'])], c['parameter']);
+      String thisStrb;
+      if (c['id'].startsWith('AMain') || c['id'].startsWith('CONTI')) {
+        dynamic element =
+            ListOfElements[int.parse(c['id'].substring(6))]['secondArgument'];
+        if (element == null) return '';
+        thisStrb = element[int.parse(c['id'][5])]['code'];
+      } else {
+        thisStrb = stringB(ListOfElements[int.parse(c['id'])], c['parameter']);
+      }
       return '$prev\n$thisStrb';
     });
     return '$a\n$onePiece';
   });
-
+  log(createdCode);
   return htmlCode
       .replaceFirst('HereMustBeCodeWithVariables====>', fisrtStrCodeValues)
       .replaceFirst('HereMustBeMainCode====>', createdCode);

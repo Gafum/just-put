@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:just_put/function/show_toast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const alertTextStyle = TextStyle(
@@ -71,12 +72,13 @@ class _AlertDialogInputState extends State<AlertDialogInput> {
         Flexible(
           flex: 1,
           child: IconButton(
-              onPressed: () {
-                setState(() {
-                  createOrImport = !createOrImport;
-                });
-              },
-              icon: const Icon(Icons.import_export_rounded)),
+            onPressed: () {
+              setState(() {
+                createOrImport = !createOrImport;
+              });
+            },
+            icon: const Icon(Icons.import_export_rounded),
+          ),
         ),
         Expanded(
           flex: 2,
@@ -124,8 +126,9 @@ class _AlertDialogInputState extends State<AlertDialogInput> {
               maxLengthEnforcement: MaxLengthEnforcement.enforced,
               autofocus: false,
               decoration: const InputDecoration(
-                  hintText: 'Enter name',
-                  labelStyle: TextStyle(fontFamily: 'Cuprum')),
+                hintText: 'Enter name',
+                labelStyle: TextStyle(fontFamily: 'Cuprum'),
+              ),
             ),
       actions: <Widget>[
         TextButton(
@@ -142,6 +145,11 @@ class _AlertDialogInputState extends State<AlertDialogInput> {
               )
             : TextButton(
                 onPressed: () {
+                  if (RegExp(r'[^A-Za-z0-9]').hasMatch(_newProjectName)) {
+                    showToast(context,
+                        "Name can only contain Latin letters and numbers");
+                    return;
+                  }
                   if (_newProjectName.isNotEmpty) {
                     widget.changeListOfProjects(_newProjectName);
                     _closeDialog();
@@ -160,6 +168,4 @@ class _AlertDialogInputState extends State<AlertDialogInput> {
       ],
     );
   }
-
-  void changeListOfProjects(String newProjectName) {}
 }

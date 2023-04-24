@@ -186,7 +186,7 @@ const htmlCode = '''
 	<!-- MADE BY GAFUM -->
 	<div id="main" style="position: relative;"></div>
 
-	<canvas style="display: block;" width="640" height="1440">Error</canvas>
+	<canvas style="display: block;" width="640" height="1440">Error. Your browser does not support canvas. 0(</canvas>
 
 	<div class="loadTips">
 		<h1>Loading...</h1>
@@ -451,9 +451,13 @@ const htmlCode = '''
 	}
 
 	function showMessege(myText){
-		document.querySelector("#modal-window").showModal();
-		document.querySelector("#inner-modal-window").innerHTML = myText;
-		document.querySelector("#modal-window").classList.add("show-modal");
+    let dialog = document.querySelector("#modal-window");
+    dialog.querySelector("#inner-modal-window").innerHTML = myText;
+    if(dialog.open){
+      return;
+    }
+		dialog.showModal();
+		dialog.classList.add("show-modal");
 	}
 
 

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:just_put/const/list_of_elements.dart';
-import 'package:just_put/pages/setting_project.dart';
+import 'package:just_put/pages/project_settings.dart';
 import 'package:just_put/pages/view_result.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -13,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../const/hiden_const.dart'; /* addMod const */
 import '../function/request_permision.dart'; /* Permissions */
+import '../function/save_data.dart';
 import '../function/show_toast.dart'; /* Toast */
 import '../widgets/custome_page_route.dart'; /* Animation page navigation */
 
@@ -34,11 +35,6 @@ class _EditorPageState extends State<EditorPage> {
   late final WebViewController controller;
   bool isLoading = true;
   BannerAd? _bannerAd;
-
-  void _saveData({required String data, String whatData = ''}) async {
-    var prefs = await SharedPreferences.getInstance();
-    prefs.setString(widget.idOfProject + whatData, data);
-  }
 
   Future<String> getImageBase64(String imagePath) async {
     final bytes = await File(imagePath).readAsBytes();
@@ -99,15 +95,14 @@ class _EditorPageState extends State<EditorPage> {
       ..addJavaScriptChannel(
         'SaveDataInFlutter',
         onMessageReceived: (JavaScriptMessage message) {
-          _saveData(
-            data: message.message,
-          );
+          saveData(data: message.message, myName: widget.idOfProject);
         },
       )
       ..addJavaScriptChannel(
         'SaveTextures',
         onMessageReceived: (JavaScriptMessage message) {
-          _saveData(data: message.message, whatData: 'photos');
+          saveData(
+              data: message.message, myName: '${widget.idOfProject}photos');
         },
       )
       ..addJavaScriptChannel(
@@ -204,12 +199,6 @@ addNewImage({data: "${value['base64data']}", name: "${message.message}"});''');
         onAdFailedToLoad: (ad, err) {
           ad.dispose();
         },
-        // Called when an ad opens an overlay that covers the screen.
-        onAdOpened: (Ad ad) {},
-        // Called when an ad removes an overlay that covers the screen.
-        onAdClosed: (Ad ad) {},
-        // Called when an impression occurs on the ad.
-        onAdImpression: (Ad ad) {},
       ),
     ).load();
   }

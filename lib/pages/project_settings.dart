@@ -8,9 +8,10 @@ import 'package:just_put/pages/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../const/hiden_const.dart';
-import '../function/create_code.dart';
+import '../function/code_creator.dart';
+import '../function/save_data.dart';
 import '../function/show_toast.dart';
-import '../widgets/access_phone_storage.dart';
+import '../function/save_file.dart';
 import '../widgets/custome_page_route.dart';
 
 class ProjectSettings extends StatefulWidget {
@@ -31,6 +32,8 @@ class _ProjectSettingsState extends State<ProjectSettings> {
   String _newProjectName = '';
   var projectList = [];
   String projectData = '';
+  bool createJustPutFileText = false;
+  bool createHTMLFileText = false;
 
   InterstitialAd? _interstitialAd;
 
@@ -40,11 +43,6 @@ class _ProjectSettingsState extends State<ProjectSettings> {
     _getData();
     _loadAd();
     _newProjectName = widget.nameOfProject;
-  }
-
-  void _setData() async {
-    var prefs = await SharedPreferences.getInstance();
-    prefs.setString('projectList', json.encode(projectList));
   }
 
   void deleteData() async {
@@ -72,7 +70,10 @@ class _ProjectSettingsState extends State<ProjectSettings> {
   }
 
   void closeSettings() {
-    _setData();
+    saveData(
+      myName: 'projectList',
+      data: json.encode(projectList),
+    );
     Navigator.pushAndRemoveUntil(
       context,
       CustomPageRoute(
@@ -87,13 +88,10 @@ class _ProjectSettingsState extends State<ProjectSettings> {
       adUnitId: adInterstitialId,
       request: const AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
-        // Called when an ad is successfully received.
         onAdLoaded: (ad) {
           debugPrint('$ad loaded.');
-          // Keep a reference to the ad so you can show it later.
           _interstitialAd = ad;
         },
-        // Called when an ad request failed.
         onAdFailedToLoad: (LoadAdError error) {
           debugPrint('InterstitialAd failed to load: $error');
         },
@@ -148,10 +146,18 @@ class _ProjectSettingsState extends State<ProjectSettings> {
                   ),
                   child: ElevatedButton(
                       onPressed: () {
+                        if (RegExp(r'[^A-Za-z0-9]').hasMatch(_newProjectName)) {
+                          showToast(context,
+                              "Name can only contain Latin letters and numbers");
+                          return;
+                        }
                         if (_newProjectName.isNotEmpty) {
-                          projectList[projectList.indexWhere((element) =>
-                                  element['myId'] == widget.idOfProject)]
-                              ['name'] = _newProjectName;
+                          /* Change the name of project */
+                          projectList[projectList.indexWhere((element) {
+                            return element['myId'] == widget.idOfProject;
+                          })]['name'] = _newProjectName;
+
+                          /* go to the main scene and save all data */
                           closeSettings();
                         }
                       },
@@ -164,47 +170,58 @@ class _ProjectSettingsState extends State<ProjectSettings> {
             ],
           ),
           ElevatedButton.icon(
-              /*  ============================================= Create JustPut file */
-              style: ElevatedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(40),
-                  backgroundColor: Colors.green),
-              onPressed: () async {
-                await _interstitialAd?.show();
-                await savefile(
-                  fileName:
-                      '${widget.nameOfProject}${DateTime.now().millisecondsSinceEpoch}.txt',
-                  data: projectData,
-                ).then((value) {
-                  showToast(context, value);
-                  _loadAd();
+            /*  ============================================= Create JustPut file */
+            style: ElevatedButton.styleFrom(
+                minimumSize: const Size.fromHeight(40),
+                backgroundColor: Colors.green),
+            onPressed: () async {
+              await _interstitialAd?.show();
+              await saveFile(
+                fileName:
+                    '${widget.nameOfProject}${DateTime.now().millisecondsSinceEpoch}.txt',
+                data: projectData,
+              ).then((value) {
+                setState(() {
+                  createJustPutFileText = true;
                 });
-              },
-              icon: const Icon(Icons.save_alt_rounded),
-              label: const Text('Create JustPut file')),
+                showToast(context, value);
+                _loadAd();
+              });
+            },
+            icon: const Icon(Icons.save_alt_rounded),
+            label: Text(createJustPutFileText
+                ? "Saved in Folder"
+                : "Create Just Put file"),
+          ),
           const SizedBox(
             width: double.infinity,
             height: 5.0,
           ),
           ElevatedButton.icon(
-              /*  ============================================= Create HTML*/
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size.fromHeight(40),
-                backgroundColor: const Color.fromRGBO(245, 144, 115, 1),
-              ),
-              onPressed: () async {
-                await _interstitialAd?.show();
+            /*  ============================================= Create HTML*/
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size.fromHeight(40),
+              backgroundColor: const Color.fromRGBO(245, 144, 115, 1),
+            ),
+            onPressed: () async {
+              await _interstitialAd?.show();
 
-                await savefile(
-                  fileName:
-                      '${widget.nameOfProject}${DateTime.now().millisecondsSinceEpoch}.html',
-                  data: codeCreator(value: projectData, inApp: ''),
-                ).then((value) {
-                  showToast(context, value);
-                  _loadAd();
+              await saveFile(
+                fileName:
+                    '${widget.nameOfProject}${DateTime.now().millisecondsSinceEpoch}.html',
+                data: codeCreator(value: projectData, inApp: ''),
+              ).then((value) {
+                setState(() {
+                  createHTMLFileText = true;
                 });
-              },
-              icon: const Icon(Icons.web_asset),
-              label: const Text('Create html file')),
+                showToast(context, value);
+                _loadAd();
+              });
+            },
+            icon: const Icon(Icons.web_asset),
+            label: Text(
+                createHTMLFileText ? "Saved in Folder" : "Create HTML file"),
+          ),
           ElevatedButton.icon(
               /*  ============================================= Delete Project */
               style: ElevatedButton.styleFrom(

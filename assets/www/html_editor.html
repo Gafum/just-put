@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, user-scalable=no" />
 	<title>Just Put</title>
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body>
@@ -223,7 +223,7 @@
 	</header>
 
 	<!-- FILE SCENE -->
-	<div id="files-scene" class="color-green">
+	<div id="files-scene" class="color-green scene">
 		<div style="height: 100%; width: 100%; overflow-y: scroll; padding-bottom: 70px;">
 			<ul id="files-list">
 				<!-- Files -->
@@ -233,7 +233,7 @@
 		<div class="fab-btn color-orange" onclick="this.classList.toggle('active');">
 			<span>+</span>
 			<ul class="list">
-				<li onclick="createTextureDraw()">
+				<li onclick="createTextureDraw() ">
 					<span>Draw</span>
 					<div class="iconbutton color-grey-green">
 						<span class="icon-fab">
@@ -268,13 +268,13 @@
 	</div>
 
 	<!-- CODE PIECES SCENE -->
-	<div id="pieces-scene" class="color-green">
+	<div id="pieces-scene" class="color-green scene">
 		<div style="height: 100%; width: 100%; overflow-y: scroll; padding-bottom: 70px;">
 			<ul id="pieces-list">
 				<!-- PIECES -->
 				<li class="one-file">
 					<div class="img-in-file img-in-piece">
-						01001000 01101001
+						<span>01001000 01101001</span>
 					</div>
 					<div class="text-in-file">
 						<h3>Main</h3>
@@ -292,12 +292,10 @@
 		<!-- content -->
 	</ul>
 
-	<div class="fab-container">
-		<div class="iconbutton color-green" id="main-btn-label">
-			<span>+</span>
-		</div>
-		<ul class="options">
-			<li class="btn-label" id="btn-label1" data-mycolor="#96b38e">
+	<div class="fab-btn color-green" onclick="this.classList.toggle('active');">
+		<span>+</span>
+		<ul class="list options">
+			<li onclick="openAddBlock('#96b38e');">
 				<span>Propertie</span>
 				<div class="iconbutton color-grey-green">
 					<span class="icon-fab">
@@ -307,7 +305,7 @@
 					</span>
 				</div>
 			</li>
-			<li class="btn-label" id="btn-label2" data-mycolor="#f59073">
+			<li onclick="openAddBlock('#f59073');">
 				<span>Control</span>
 				<div class="iconbutton color-orange">
 					<span class="icon-fab">
@@ -316,8 +314,7 @@
 						</svg>
 					</span>
 				</div>
-			</li>
-			<li class="btn-label" id="btn-label3" data-mycolor="#913e5f">
+			<li onclick="openAddBlock('#913e5f');">
 				<span>Object</span>
 				<div class="iconbutton color-purple">
 					<span class="icon-fab">
@@ -327,7 +324,7 @@
 					</span>
 				</div>
 			</li>
-			<li class="btn-label" id="btn-label4" data-mycolor="#eb4464">
+			<li onclick="openAddBlock('#eb4464');">
 				<span>Data</span>
 				<div class="iconbutton color-red">
 					<span class="icon-fab">
@@ -337,7 +334,7 @@
 					</span>
 				</div>
 			</li>
-			<li class="btn-label" id="btn-label5" onclick="codeCreator();">
+			<li onclick="codeCreator();">
 				<span>Start</span>
 				<div class="iconbutton color-green">
 					<span class="icon-fab">
@@ -351,7 +348,7 @@
 	</div>
 
 	<!-- ADD BLOCK -->
-	<div id="addblocks">
+	<div id="addblocks" class="scene">
 		<div class="fix header-class">
 			<span>Add block </span>
 			<button onclick="closeAddBlockParams();">x</button>
@@ -365,7 +362,7 @@
 	</div>
 
 	<!-- EDIT PARAMS -->
-	<div id="editparams">
+	<div id="editparams" class="scene">
 		<div id="where">
 			<div id="inner-where"></div>
 			<button onclick="closeEditParams();">x</button>
@@ -602,38 +599,28 @@
 		/* ============================================ Code for Editor and addblocks */
 		const ListInEditor = document.querySelector("#listEditor")
 		const addblocks = document.querySelector("#addblocks")
-		const mainBtnLabel = document.querySelector("#main-btn-label")
 		const ListAddBlock = document.querySelector("#listAddBlock")
-		const btnStart = document.querySelector("#btn-label5")
 		const body = document.querySelector("body")
 
-		mainBtnLabel.onclick = () => {
-			mainBtnLabel.classList.toggle("active")
-		}
 
-		document.querySelectorAll('.btn-label').forEach((i, index) => {
-			if (index === document.querySelectorAll('.btn-label').length - 1) {
-				return
-			}
+		function openAddBlock(elementColor) {
 			addblocks.scrollTo(0, 0)
-			i.onclick = () => {
-				let resultList = ListOfElements.filter((element) => element.color == i.dataset.mycolor)
-				ListAddBlock.innerHTML = ""
-				resultList.forEach((j) => {
-					ListAddBlock.innerHTML += `
+			let resultList = ListOfElements.filter((element) => element.color == elementColor)
+			ListAddBlock.innerHTML = ""
+			resultList.forEach((j) => {
+				ListAddBlock.innerHTML += `
 							<li class="ElementsInEditor" onclick="addBlock(${j.id});">
 								<span style="color: ${ListOfElements[j.id].color};">
 								${j.text}
 								</span>
 							</li>`
-
-				})
-				addblocks.classList.add("active")
-				body.classList.add("no-scroll")
-				addblocks.querySelector(".header-class").style.backgroundColor = i.dataset.mycolor
-				mainBtnLabel.classList.remove("active")
 			}
-		})
+			)
+			addblocks.classList.add("active");
+			body.classList.add("no-scroll");
+			addblocks.querySelector(".header-class").style.backgroundColor = elementColor;
+		}
+
 
 		/* Start Project       =========================== */
 		window.onload = () => PageIsReady.postMessage('Hi. Page is Ready')
@@ -682,8 +669,8 @@
 									</svg>
 								</div>
 							</div>
-							<span style="color:${ListOfElements[i.id].color};" class="elementText">
-							${innerTextOfElement.replaceAll("<", "&#60;").replaceAll(">", "&#62;")}
+							<span class="elementText" style="color:${ListOfElements[i.id].color};">
+								${innerTextOfElement.replaceAll("<", "&#60;").replaceAll(">", "&#62;")}
 							</span>
 						</div>
 						<span class="EditParameterBtn" onclick="changeParams(event);">
@@ -1233,17 +1220,15 @@
 		function changeCodePiecesList() {
 			codepiecesList.innerHTML = listOfCodePieces.reduce((prev, item, index) => {
 				let a = []
-				for (let c = 0; c < 70; c++) {
-					let b = []
-					for (let i = 0; i < 8; i++) {
-						b.push(Math.round(Math.random()))
-					}
-					a.push(b.join(''))
+				for (let c = 0; c < 550; c++) {
+					a.push(Math.round(Math.random()))
 				}
 				return prev + `
 				<li class="one-file" onclick='otherPiece(${index})'>
 					<div class="img-in-file img-in-piece">
-						${a.join(' ')}
+						<span>
+							${a.join('')}
+						</span>
 					</div>
 					<div class="text-in-file">
 						<h3>${item}</h3>

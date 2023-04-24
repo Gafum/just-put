@@ -2,11 +2,12 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:just_put/pages/editor_page.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../widgets/alert_dialog_input.dart';
-import '../widgets/custome_page_route.dart';
+import '../function/save_data.dart';
+import '../widgets/HomePageWidgets/alert_dialog_input.dart';
+import '../widgets/HomePageWidgets/slidable_list_element.dart';
 
 const List<Color> mainColors = [
   Color.fromRGBO(255, 191, 217, 1),
@@ -31,11 +32,6 @@ class _HomePageState extends State<HomePage> {
     _getData();
   }
 
-  void _setData() async {
-    var prefs = await SharedPreferences.getInstance();
-    prefs.setString('projectList', json.encode(projectList));
-  }
-
   void changeListOfProjects(nameOfProject, [String idOfProject = '']) {
     setState(() {
       projectList = [
@@ -48,7 +44,10 @@ class _HomePageState extends State<HomePage> {
         },
         ...projectList
       ];
-      _setData();
+      saveData(
+        data: json.encode(projectList),
+        myName: 'projectList',
+      );
     });
   }
 
@@ -85,55 +84,36 @@ class _HomePageState extends State<HomePage> {
               final items = projectList.removeAt(oldindex);
               projectList.insert(newindex, items);
             });
-            _setData();
+            saveData(
+              data: json.encode(projectList),
+              myName: 'projectList',
+            );
           },
           children: <Widget>[
             for (final item in projectList)
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(0),
-                ),
-                margin: const EdgeInsets.only(bottom: 8.0),
-                shadowColor: const Color.fromARGB(0, 0, 0, 0),
-                elevation: 0.0,
-                color: mainColors[item['color']],
+              Container(
                 key: ValueKey(item),
-                child: ListTile(
-                  splashColor: const Color.fromARGB(166, 255, 184, 184),
-                  trailing: const Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    color: Colors.black,
-                  ),
-                  onTap: () => {
-                    Navigator.push(
-                      context,
-                      CustomPageRoute(
-                        child: EditorPage(
-                          idOfProject: item['myId'],
-                          nameOfProject: item['name'],
-                        ),
-                      ),
-                    )
-                  },
-                  horizontalTitleGap: 0,
-                  title: Text(
-                    '${item['name']}',
-                    style: const TextStyle(
-                      fontFamily: 'Cuprum',
-                      fontWeight: FontWeight.w700,
-                      fontSize: 18,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
+                margin: const EdgeInsets.only(bottom: 8.0),
+                child: SlidableListElement(
+                  item: item,
                 ),
-              ),
+              )
           ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () => showDialog<String>(
-              context: context,
-              builder: (BuildContext context) =>
-                  AlertDialogInput(changeListOfProjects: changeListOfProjects)),
+            context: context,
+            builder: (BuildContext alertContext) => ScaffoldMessenger(
+              child: Builder(
+                builder: (context) => Scaffold(
+                  backgroundColor: Colors.transparent,
+                  body: AlertDialogInput(
+                    changeListOfProjects: changeListOfProjects,
+                  ),
+                ),
+              ),
+            ),
+          ),
           child: const Icon(Icons.add),
         ),
       ),

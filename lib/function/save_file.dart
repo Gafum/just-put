@@ -2,10 +2,12 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../function/request_permision.dart';
+import 'request_permision.dart';
 
-Future<String> savefile(
-    {required String fileName, required String data}) async {
+Future<String> saveFile({
+  required String fileName,
+  required String data,
+}) async {
   Directory? directory;
   try {
     if (Platform.isAndroid) {

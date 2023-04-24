@@ -1,0 +1,933 @@
+@use "base";
+
+$green-gray-color: #96b38e;
+$orange-color: #f59073;
+$purple-color: #913e5f;
+$green-color: #4caf50;
+$red-color: #eb4464;
+
+.color-grey-green {
+  background-color: $green-gray-color;
+}
+
+.color-orange {
+  background-color: $orange-color;
+}
+
+.color-purple {
+  background-color: $purple-color;
+}
+
+.color-green {
+  background-color: $green-color;
+}
+
+.color-red {
+  background-color: $red-color;
+}
+
+.no-scroll {
+  overflow: hidden;
+}
+
+//Mixins ==============================>
+@mixin buttonSample {
+  padding: 4px 7px;
+  font-size: 16px;
+  border-radius: 7px;
+  border: none;
+  background-color: #191919;
+  color: #fff;
+  text-align: center;
+  outline: none;
+  user-select: none;
+  transition: filter 0.2s;
+
+  &:hover {
+    filter: brightness(1.5);
+  }
+}
+
+@mixin display($size) {
+  @if $size == phone {
+    @media (max-width: 500px) or (max-height: 470px) {
+      @content;
+    }
+  } @else if $size == smallPhone {
+    @media (max-width: 400px) {
+      @content;
+    }
+  } @else if $size == smallHeight {
+    @media (max-height: 360px) {
+      @content;
+    }
+  } @else if $size == bigDisplay {
+    @media (min-width: 850px) {
+      @content;
+    }
+  }
+}
+
+//Headers, where ======================>
+header {
+  background-color: $green-color;
+  position: relative;
+
+  #header-text {
+    width: calc(67vw - 55px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.header-class {
+  height: fit-content;
+  padding: 15px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 5px;
+  align-items: center;
+  width: 100%;
+  min-height: 56px;
+
+  &.fix {
+    position: fixed;
+  }
+
+  > span {
+    font-size: 20px;
+    user-select: none;
+  }
+}
+
+#where > button,
+.header-class > button {
+  display: flex;
+  position: absolute;
+  right: 0;
+  border: none;
+  outline: none;
+  height: fit-content;
+  min-width: 40px;
+  padding: 3px 20px;
+  background-color: inherit;
+  font-size: 30px;
+  overflow: hidden;
+  transition: filter 0.4s;
+
+  &:active {
+    filter: blur(1.2px);
+  }
+}
+
+// Nav(Settings, Texture) ============>
+.open-nav {
+  width: 25px;
+  z-index: 7;
+  height: 40px;
+  align-self: center;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  margin: 5px;
+  cursor: pointer;
+
+  &::after,
+  &::before,
+  & > div {
+    transition: all 0.2s ease;
+    content: "";
+    position: absolute;
+    height: 3px;
+    right: 0%;
+    background-color: white;
+  }
+
+  > div {
+    width: 100%;
+  }
+
+  &::after {
+    top: 10px;
+    width: 120%;
+  }
+  &::before {
+    bottom: 10px;
+    width: 60%;
+  }
+
+  &.open {
+    div {
+      transform: scale(0);
+    }
+    &::before {
+      top: 50%;
+      width: 110%;
+      transform: rotate(45deg);
+    }
+    &::after {
+      top: 50%;
+      width: 110%;
+      transform: rotate(-45deg);
+    }
+  }
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 7px 25px;
+  right: 0%;
+  position: absolute;
+  gap: 7px;
+  transform-origin: top;
+  transform: scaleY(0);
+  transition: all 0.3s ease;
+  z-index: 2;
+  height: fit-content;
+  top: 98%;
+  &.open {
+    transform: scaleY(1);
+  }
+
+  @include display(smallPhone) {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 20px;
+  }
+
+  > li {
+    width: 1fr;
+    min-width: 100px;
+    font-size: 25px;
+    cursor: pointer;
+    color: white;
+    text-align: center;
+    transition: all 0.2s ease;
+    &:active {
+      color: #bbb;
+    }
+    @include display(smallPhone) {
+      width: 100%;
+      font-size: 23px;
+    }
+  }
+}
+
+// List Of Elements ===================>
+#listEditor {
+  margin-top: 5px;
+  max-width: 100%;
+  padding-bottom: 70px;
+  .ElementsInEditor {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+    padding: 10px 10px 13px 5px;
+    max-width: 100vw;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: background-color 5s ease;
+
+    > span {
+      cursor: pointer;
+    }
+
+    > .innerOfElement {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 3px;
+      max-width: 89%;
+
+      > .my-handle {
+        width: 30px;
+        min-width: 30px;
+        max-width: 32px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+
+        > span {
+          margin: auto;
+          position: relative;
+          height: 8px;
+          width: 8px;
+          border-radius: 100%;
+          background-color: black;
+          display: inline-block;
+        }
+        > span::before,
+        > span::after {
+          content: "";
+          position: absolute;
+          height: 100%;
+          width: 100%;
+          border-radius: 100%;
+          display: inline-block;
+          background-color: black;
+        }
+        > span::before {
+          top: -10px;
+        }
+        > span::after {
+          bottom: -10px;
+        }
+
+        > .my-handle-inner {
+          position: absolute;
+          width: 80px;
+          height: 35px;
+          left: 0;
+          top: 0;
+          z-index: 1;
+          background-color: transparent;
+          &.active {
+            width: 30px;
+          }
+        }
+      }
+
+      > .btn-in-element {
+        transform-origin: left;
+        transform: scaleX(0);
+        transition: all 0.2s;
+        display: flex;
+        width: 30px;
+        gap: 3px;
+        &.active {
+          transform: scaleX(1);
+          width: max-content;
+          margin-left: 8px;
+          & ~ .elementText {
+            left: 0;
+          }
+        }
+      }
+      > .elementText {
+        position: relative;
+        left: -25px;
+        white-space: nowrap;
+        overflow: hidden;
+        transition: color 5s ease;
+      }
+    }
+
+    .EditParameterBtn {
+      height: 25px;
+      min-width: 24px;
+      width: 25px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .sortable-fallback {
+    /* where to put */
+    background-color: #5c5c5cc7;
+    border-radius: 8px;
+  }
+}
+
+// FAB Button =========================>
+.fab-btn {
+  cursor: pointer;
+  border-radius: 50%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  bottom: 50px;
+  right: 50px;
+  width: 56px;
+  height: 56px;
+  z-index: 1;
+  bottom: 10px;
+  right: 10px;
+  box-shadow: 2px 2px 3px #adadadaf;
+
+  &::before {
+    content: "";
+    border-radius: 50%;
+    position: absolute;
+    background-color: inherit;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+  }
+
+  > span {
+    font-size: 28px;
+    color: white;
+    z-index: 3;
+    transition: transform 0.2s;
+  }
+
+  > .list {
+    opacity: 0;
+    position: absolute;
+    bottom: 30px;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    right: 10px;
+    gap: 6px;
+    pointer-events: none;
+    li {
+      display: flex;
+      gap: 5px;
+      justify-content: center;
+      align-items: center;
+      > span {
+        background-color: #e1e1e1;
+        border-radius: 6px;
+        padding: 2px 4px;
+        font-weight: 500;
+      }
+
+      .iconbutton {
+        aspect-ratio: 1/1;
+        width: 36px;
+        height: 36px;
+        box-shadow: 1px 1px 3px #888;
+        border-radius: 100%;
+        span {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+          color: white;
+          font-size: 24px;
+          transition: all 0.4s;
+        }
+        &:active {
+          filter: brightness(1.1);
+        }
+      }
+    }
+    &.options {
+      li {
+        > span {
+          background-color: #ffffff;
+        }
+      }
+    }
+  }
+
+  .icon-fab {
+    padding: 8px;
+    > svg {
+      height: 100%;
+    }
+  }
+
+  &.active {
+    > span {
+      transform: rotate(45deg);
+    }
+    > .list {
+      opacity: 1;
+      bottom: 65px;
+      pointer-events: all;
+    }
+  }
+}
+
+body > .fab-btn {
+  position: fixed;
+}
+
+//Main scenes =======================>
+.scene {
+  z-index: 100;
+  position: fixed;
+  background-color: white;
+  top: 100%;
+  width: 100vw;
+  transition: top 0.2s linear;
+  height: 100vh;
+
+  &#files-scene,
+  &#pieces-scene {
+    padding: 65px 16px 10px;
+    z-index: 2;
+    top: -100%;
+    background-color: #4caf50;
+  }
+
+  &#addblocks {
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  &.active,
+  &.active#files-scene,
+  &.active#pieces-scene {
+    top: 0;
+    bottom: 0;
+  }
+}
+
+// Add Blocks =========================>
+#listAddBlock {
+  padding: 10px 15px;
+
+  > li {
+    height: 40px;
+    span {
+      font-size: 20px;
+      white-space: nowrap;
+      overflow: hidden;
+      @include display(phone) {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+// Edit Params ========================>
+#where {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  #inner-where {
+    height: fit-content;
+    padding: 15px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 5px;
+    align-items: center;
+    width: calc(100% - 50px);
+    white-space: nowrap;
+    overflow-x: scroll;
+    overflow-y: hidden;
+
+    @include display(phone) {
+      padding: 9px 15px;
+    }
+
+    .whereBtn {
+      padding: 3px;
+      border: none;
+      outline: none;
+      border-radius: 5px;
+      max-width: 60px;
+      min-width: 40px;
+      background-color: #e3e3e3;
+      overflow-x: scroll;
+      overflow-y: hidden;
+      white-space: pre;
+      height: fit-content;
+    }
+  }
+}
+
+#result {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: 100%;
+  height: 28vh;
+  overflow-wrap: break-word;
+  background-color: #191919;
+  padding: 15px 10px;
+  color: white;
+  font-size: 18px;
+
+  @include display(smallHeight) {
+    height: auto;
+  }
+
+  @include display(phone) {
+    height: 17vh;
+  }
+}
+
+#btns {
+  padding: 0 10px;
+  display: flex;
+  gap: 5px;
+  width: 100vw;
+  height: 60vh;
+
+  @include display(smallHeight) {
+    overflow-y: scroll;
+  }
+  @include display(phone) {
+    height: 64vh;
+  }
+
+  .mainBtn {
+    padding: 5px 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-items: center;
+    gap: 5px;
+    height: 60vh;
+
+    @include display(phone) {
+      height: fit-content;
+      gap: 2px;
+    }
+    @include display(bigDisplay) {
+      width: 70%;
+    }
+
+    > button {
+      min-width: 48px;
+      height: 100%;
+      max-width: 100%;
+      padding: 4px 7px;
+      font-size: 16px;
+      border-radius: 17px;
+      border: none;
+      background-color: #191919;
+      color: white;
+      text-align: center;
+      overflow: hidden;
+      aspect-ratio: 1 / 1;
+      transition: all 0.3s;
+      &:active {
+        background-color: #888;
+      }
+
+      @include display(phone) {
+        height: auto;
+        width: 100%;
+        min-width: 40px;
+        border-radius: 13px;
+        &.big-text {
+          font-size: 13px;
+          padding: 2px;
+        }
+      }
+
+      @include display(smallHeight) {
+        aspect-ratio: auto;
+      }
+    }
+  }
+
+  .formuls {
+    padding: 5px 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 60%;
+    gap: 5px;
+    max-height: 69vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+
+    .mainLi {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: column;
+      width: 100%;
+      font-size: 16px;
+      border-radius: 17px;
+      border: none;
+      background-color: #191919;
+      color: white;
+      height: 100%;
+      list-style: none;
+      text-align: center;
+      padding: 7px 0 3px;
+      &.LiAfterTap {
+        height: fit-content;
+        > ul {
+          pointer-events: auto;
+          padding: 6px;
+          opacity: 1;
+          height: 100%;
+          transition: all 0.4s;
+          > li {
+            min-height: 17px;
+            margin-bottom: 4px;
+            width: 100%;
+            list-style: none;
+            color: black;
+            font-size: 15px;
+            text-align: center;
+          }
+        }
+
+        & > #dataList > li,
+        & > #functList > li {
+          overflow-y: scroll;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 4px;
+        }
+
+        .btn-delete {
+          display: flex;
+        }
+      }
+
+      > ul {
+        pointer-events: none;
+        background-color: #e0e5ec;
+        border-bottom-left-radius: 17px;
+        border-bottom-right-radius: 17px;
+        margin-top: 15px;
+        padding: 0;
+        transition: all 0.4s;
+        width: 100%;
+        opacity: 0;
+        height: 0;
+        > li {
+          font-size: 0px;
+        }
+      }
+
+      > #dataList > li,
+      > #functList > li {
+        display: block;
+
+        .nameOfvarieble {
+          padding-left: 4px;
+          text-align: start;
+          width: 100%;
+          font-size: 14px;
+        }
+      }
+
+      .btn-delete {
+        display: none;
+      }
+    }
+  }
+}
+
+//Files scene =========================>
+#files-list,
+#pieces-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+
+  .one-file {
+    background-color: white;
+    padding: 5px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20vh;
+    gap: 10px;
+    border-radius: 15px;
+    min-height: 70px;
+    max-height: 120px;
+    width: 100%;
+
+    .img-in-file {
+      aspect-ratio: 1 / 1;
+      border-radius: 10px;
+      flex-shrink: 3;
+      background-size: cover;
+      min-width: calc(18vh - 10px);
+      height: calc(100% - 10px);
+      background-position: center;
+      border: 1px solid #888;
+      background-repeat: no-repeat;
+      background-color: #4caf50;
+      background-image: radial-gradient(
+        circle,
+        rgba(121, 194, 155, 0.8547794117647058) 40%,
+        rgba(91, 203, 96, 1) 100%
+      );
+    }
+
+    .img-in-piece {
+      overflow: hidden;
+      word-break: break-all;
+      text-align: justify;
+      > span {
+        word-break: break-all;
+        color: #2e2e2e;
+        text-align: justify;
+        font-size: 10px;
+        transform: translate(-5%, -10%);
+        width: 120%;
+        display: block;
+      }
+    }
+
+    .text-in-file {
+      width: 100%;
+      flex-shrink: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      overflow: hidden;
+      gap: 5px;
+      > h3 {
+        color: black;
+        font-size: 25px;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        height: 30px;
+        font-size: 22px;
+        width: 100%;
+      }
+      button {
+        @include buttonSample();
+      }
+    }
+  }
+}
+
+//Delete Button =======================>
+.btn-delete {
+  min-width: 17px;
+  width: 25px;
+  height: 25px;
+  background-color: $red-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  transition: filter 0.4s;
+
+  .icon-delete-editor {
+    max-width: 87%;
+    max-height: 87%;
+  }
+
+  &:hover {
+    filter: brightness(175%);
+  }
+
+  &:active {
+    filter: brightness(175%);
+    box-shadow: 2px 2px 5px #888;
+  }
+}
+
+// Beatiful innput ====================>
+.input-text-container {
+  margin-top: 10px;
+  position: relative;
+  background: white;
+  width: 95%;
+
+  input {
+    border: 0;
+    border-bottom: 1px solid black;
+    background: transparent;
+    width: 100%;
+    padding: 8px 0 5px 4px;
+    font-size: 19px;
+    color: black;
+    &:invalid {
+      border-bottom: 2px solid #eb4464;
+    }
+    &:focus {
+      border: none;
+      outline: none;
+      border-bottom: 2px solid black;
+    }
+    &:focus ~ label,
+    &:valid ~ label {
+      top: -50%;
+      font-size: 14px;
+    }
+  }
+
+  label {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: block;
+    font-size: 19px;
+    color: gray;
+    pointer-events: none;
+    cursor: text;
+    padding: 8px 0 5px 4px;
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+// Custom dialog ======================>
+dialog {
+  border-radius: 17px;
+  border: none;
+  transform: translate(-50%, -50%);
+  top: 30vh;
+  left: 50%;
+  position: fixed;
+  z-index: 100;
+  width: 60vw;
+  max-height: 70vh;
+  overflow: hidden;
+  padding: 8px 7px 10px;
+  transition: top 0.3s ease 0.2s;
+
+  &::backdrop {
+    background: rgba(0, 0, 0, 0.2);
+  }
+  &.show-modal {
+    animation-name: show-dialog;
+    animation-duration: 500ms;
+    animation-iteration-count: 1;
+  }
+
+  > form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  h1 {
+    display: none;
+    font-size: 22px;
+    margin-bottom: 10px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  button {
+    @include buttonSample();
+    width: 50%;
+  }
+
+  #inner-modal-window {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    gap: 10px;
+  }
+}
+
+//animation for dialog ================>
+@keyframes show-dialog {
+  from {
+    opacity: 0;
+    top: 36vh;
+  }
+  to {
+    opacity: 1;
+    top: 30vh;
+  }
+}

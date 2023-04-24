@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import '../function/create_code.dart';
+import '../function/code_creator.dart';
+import '../function/save_data.dart';
 
 class ViewResult extends StatefulWidget {
   final String data;
@@ -21,11 +22,6 @@ class _ViewResultState extends State<ViewResult> {
   late final WebViewController controller;
   bool isLoading = true;
 
-  void _saveData(String data) async {
-    var prefs = await SharedPreferences.getInstance();
-    prefs.setString('${widget.idOfProject}storedData', data);
-  }
-
   Future<String> _getData() async {
     var prefs = await SharedPreferences.getInstance();
     final counterInfo = prefs.getString('${widget.idOfProject}storedData');
@@ -43,7 +39,10 @@ class _ViewResultState extends State<ViewResult> {
       ..addJavaScriptChannel(
         'StoreDataInDevice',
         onMessageReceived: (JavaScriptMessage message) {
-          _saveData(message.message);
+          saveData(
+            myName: '${widget.idOfProject}storedData',
+            data: message.message,
+          );
         },
       )
       ..setNavigationDelegate(NavigationDelegate(onPageFinished: (String url) {

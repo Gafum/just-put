@@ -329,6 +329,9 @@ nav {
       display: flex;
       justify-content: center;
       align-items: center;
+      > svg {
+        max-width: 20px;
+      }
     }
   }
 

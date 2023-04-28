@@ -87,7 +87,7 @@ var ListOfElements = [
   {
     "id": 7,
     "code": "showMessege(Text)",
-    "text": "messege(Text)",
+    "text": "showMessege(Text)",
     "color": "#913e5f",
     "listChengers": ["Text"],
     "standartParameter": [
@@ -1175,7 +1175,7 @@ var ListOfElements = [
   {
     "id": 80,
     "code":
-        "addElementByHtml(`<button style=\"position: absolute; transform: translate(-50%, -50%); left: \${(myX)/2}px; top: \${(myY)/2}px; \${myStyle}\" type=\"button\" onclick='myCode'>\${myText}</button>`, myId);",
+        "addElementByHtml(`<button style=\"position: absolute; transform: translate(-50%, -50%); left: \${(myX)/2}px; top: \${(myY)/2}px; \${myStyle}\" type=\"button\">\${myText}</button>`, myId); \ndocument.getElementById(myId+\"conteiner\").onclick = (event) => myCode",
     "text": "Button(myId)",
     "color": "#913e5f",
     "listChengers": ["myId", "myText", "myCode", "myX", "myY", "myStyle"],

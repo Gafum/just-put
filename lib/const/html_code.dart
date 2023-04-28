@@ -196,7 +196,7 @@ const htmlCode = '''
 	<dialog id="modal-window">
 		<div id="inner-modal-window"> Is it me? </div>
 		<form method="dialog">
-			<button onclick='document.querySelector("#modal-window").classlist.remove("show-modal")'>
+			<button>
 				OK
 			</button>
 		</form>

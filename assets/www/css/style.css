@@ -473,6 +473,9 @@ nav > li:active {
       -ms-flex-align: center;
           align-items: center;
 }
+#listEditor .ElementsInEditor .EditParameterBtn > svg {
+  max-width: 20px;
+}
 #listEditor .sortable-fallback {
   /* where to put */
   background-color: rgba(92, 92, 92, 0.7803921569);

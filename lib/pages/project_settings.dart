@@ -146,16 +146,20 @@ class _ProjectSettingsState extends State<ProjectSettings> {
                   ),
                   child: ElevatedButton(
                       onPressed: () {
-                        if (RegExp(r'[^A-Za-z0-9]').hasMatch(_newProjectName)) {
+                        if (RegExp(r'[^A-Za-z0-9]').hasMatch(
+                            _newProjectName.trim().replaceAll(' ', ''))) {
                           showToast(context,
                               "Name can only contain Latin letters and numbers");
                           return;
                         }
-                        if (_newProjectName.isNotEmpty) {
+                        if (_newProjectName
+                            .trim()
+                            .replaceAll(' ', '')
+                            .isNotEmpty) {
                           /* Change the name of project */
                           projectList[projectList.indexWhere((element) {
                             return element['myId'] == widget.idOfProject;
-                          })]['name'] = _newProjectName;
+                          })]['name'] = _newProjectName.trim();
 
                           /* go to the main scene and save all data */
                           closeSettings();

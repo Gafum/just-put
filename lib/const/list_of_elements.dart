@@ -1175,14 +1175,14 @@ var ListOfElements = [
   {
     "id": 80,
     "code":
-        "addElementByHtml(`<button style=\"position: absolute; transform: translate(-50%, -50%); left: \${(myX)/2}px; top: \${(myY)/2}px; \${myStyle}\" type=\"button\">\${myText}</button>`, myId); \ndocument.getElementById(myId+\"conteiner\").onclick = (event) => myCode",
+        "addElementByHtml(`<button style=\"position: absolute; transform: translate(-50%, -50%); left: \${(myX)/2}px; top: \${(myY)/2}px; \${myStyle}\" type=\"button\">\${myText}</button>`, myId); \ndocument.getElementById(myId+\"conteiner\").onclick = (event) =>{\n  myCode\n};",
     "text": "Button(myId)",
     "color": "#913e5f",
     "listChengers": ["myId", "myText", "myCode", "myX", "myY", "myStyle"],
     "standartParameter": [
       ["\"btnId\""],
       ["\"press me\""],
-      ["showMessege(\"hi\")"],
+      ["showMessege(\"hi\");"],
       ["8", "0"],
       ["1", "6", "0"],
       ["\"width: 100px;\""]

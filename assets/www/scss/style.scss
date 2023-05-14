@@ -603,14 +603,13 @@ body > .fab-btn {
       text-align: center;
       overflow: hidden;
       aspect-ratio: 1 / 1;
-      transition: all 0.3s;
+      transition: background-color 0.3s;
       &:active {
         background-color: #888;
       }
 
       @include display(phone) {
         height: auto;
-        width: 100%;
         min-width: 40px;
         border-radius: 13px;
         &.big-text {
@@ -642,15 +641,21 @@ body > .fab-btn {
       align-items: center;
       flex-direction: column;
       width: 100%;
-      font-size: 16px;
       border-radius: 17px;
       border: none;
       background-color: #191919;
-      color: white;
-      height: 100%;
-      list-style: none;
-      text-align: center;
       padding: 7px 0 3px;
+      > span {
+        width: 100%;
+        color: white;
+        height: 100%;
+        list-style: none;
+        text-align: center;
+        font-size: 16px;
+      }
+      .btn-delete {
+        display: hidden;
+      }
       &.LiAfterTap {
         height: fit-content;
         > ul {
@@ -658,7 +663,6 @@ body > .fab-btn {
           padding: 6px;
           opacity: 1;
           height: 100%;
-          transition: all 0.4s;
           > li {
             min-height: 17px;
             margin-bottom: 4px;
@@ -691,7 +695,6 @@ body > .fab-btn {
         border-bottom-right-radius: 17px;
         margin-top: 15px;
         padding: 0;
-        transition: all 0.4s;
         width: 100%;
         opacity: 0;
         height: 0;

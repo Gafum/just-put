@@ -7,11 +7,13 @@ import '../function/save_data.dart';
 class ViewResult extends StatefulWidget {
   final String data;
   final String idOfProject;
+  final String appLanguage;
 
   const ViewResult({
     Key? key,
     required this.idOfProject,
     required this.data,
+    required this.appLanguage,
   }) : super(key: key);
 
   @override

@@ -232,8 +232,8 @@
 
 		<div class="fab-btn color-orange" onclick="this.classList.toggle('active');">
 			<span>+</span>
-			<ul class="list">
-				<li onclick="createTextureDraw() ">
+			<ul class="list" id="files-fab">
+				<li onclick="createTextureDraw()">
 					<span>Draw</span>
 					<div class="iconbutton color-grey-green">
 						<span class="icon-fab">
@@ -334,7 +334,7 @@
 					</span>
 				</div>
 			</li>
-			<li onclick="codeCreator();">
+			<li onclick="saveData(true);">
 				<span>Start</span>
 				<div class="iconbutton color-green">
 					<span class="icon-fab">
@@ -350,8 +350,8 @@
 	<!-- ADD BLOCK -->
 	<div id="addblocks" class="scene">
 		<div class="fix header-class">
-			<span>Add block </span>
-			<button onclick="closeAddBlockParams();">x</button>
+			<span id="name-add-block">Add block</span>
+			<button onclick='addblocks.classList.remove("active"); body.classList.remove("no-scroll")'>x</button>
 		</div>
 		<div class="header-class">
 			<nobr><span>Cats are afraid of water</span></nobr>
@@ -393,19 +393,40 @@
 				<button onclick="tapofbtn('@0Text**');" class="big-text">Text</button>
 				<button onclick="tapofbtn('@0left**');">&#60;- </button>
 				<button onclick="tapofbtn('@0right**');">-&#62;</button>
-				<button onclick="tapofbtn('@0Ok**');">Ok</button>
+				<button onclick="tapofbtn('@0Ok**');" class="big-text">Ok</button>
 			</div>
 			<ul class="formuls" id="tree">
-				<li class="mainLi">
-					Data
-					<ul id="dataList">
+				<li class="mainLi" onclick="">
+					<span>Data</span>
+					<ul id="dataList" onclick="event.stopPropagation();">
 						<li style="color: #777" onclick="createVarieble(true)">
 							+Create
 						</li>
 					</ul>
 				</li>
+				<li class="mainLi" id="eventList" style="display:none;">
+					<span>MouseEvent</span>
+					<ul>
+						<li onclick="tapOfFunctionBtn(0,'MousePosition.x');">mouse X</li>
+						<li onclick="tapOfFunctionBtn(0, 'MousePosition.y');">mouse Y</li>
+						<li onclick="tapOfFunctionBtn(1, 'colisionWithTouch({ MousePosition, object: ', '})');">
+							colisionWithTouch
+						</li>
+						<li onclick="tapofbtn('event.type');">TypeOfClick</li>
+						<li onclick="tapofbtn('event.target');">Target</li>
+						<li onclick="tapofbtn('tappedElement');">tappedElement</li>
+					</ul>
+				</li>
+
+				<li class="mainLi" id="texturesListEditor" style="display:none;">
+					<span>Textures</span>
+					<ul>
+						<li>hi</li>
+					</ul>
+				</li>
+
 				<li class="mainLi">
-					Math
+					<span>Math</span>
 					<ul>
 						<li onclick="tapOfFunctionBtn(2, 'Math.pow', '(', ',', ')');">
 							pow
@@ -458,7 +479,7 @@
 					</ul>
 				</li>
 				<li style="font-size: 14px" class="mainLi">
-					Properties
+					<span>Properties</span>
 					<ul>
 						<li onclick="tapofbtn('.x');">x</li>
 						<li onclick="tapofbtn('.y');">y</li>
@@ -474,11 +495,10 @@
 					</ul>
 				</li>
 				<li class="mainLi">
-					Logic
+					<span>Logic</span>
 					<ul>
-						<li onclick="tapofbtn('==');">==</li>
-						<li onclick="tapofbtn('!==');">!==</li>
-						<li onclick="tapofbtn('===');">===</li>
+						<li onclick="tapofbtn('==');">=</li>
+						<li onclick="tapofbtn('!==');">!=</li>
 						<li onclick="tapofbtn('>');">&#62;</li>
 						<li onclick="tapofbtn('<');">&#60;</li>
 						<li onclick="tapofbtn('>=');">&#62;=</li>
@@ -491,29 +511,30 @@
 						<li onclick="tapofbtn('undefined');">undefined</li>
 					</ul>
 				</li>
-				<li class="mainLi">Function
+				<li class="mainLi">
+					<span>Function</span>
 					<ul>
-						<li onclick="tapOfFunctionBtn(1,'showMessege(',')');">showMessege</li>
-						<li onclick="tapOfFunctionBtn(1,'prompt(',')');">prompt</li>
-						<li onclick="tapOfFunctionBtn(1,'confirm(',')');">confirm</li>
-						<li onclick="tapOfFunctionBtn(1,'JSON.stringify(',')');">JSON.stringify</li>
-						<li onclick="tapOfFunctionBtn(1,'JSON.parse(',')');">JSON.parse</li>
-						<li onclick="tapOfFunctionBtn(2,'joinStrings(',',',')');">joinStrings</li>
-						<li onclick="tapOfFunctionBtn(1,'degToRadian(',')');">degToRadian</li>
-						<li onclick="tapOfFunctionBtn(2,'randomInteger(',',',')');">randomInteger</li>
-						<li onclick="tapOfFunctionBtn(2,'colisionBetween(',',',')');">colisionBetween</li>
-						<li onclick="tapOfFunctionBtn(2,'oppositeColision(',',',')');">oppositeColision</li>
-						<li onclick="tapOfFunctionBtn(2,'distanceBetween(',',',')');">distanceBetween</li>
+						<li onclick="tapOfFunctionBtn(1,'showMessege','(',')');">showMessege</li>
+						<li onclick="tapOfFunctionBtn(1,'prompt','(',')');">prompt</li>
+						<li onclick="tapOfFunctionBtn(1,'confirm','(',')');">confirm</li>
+						<li onclick="tapOfFunctionBtn(1,'JSON.stringify','(',')');">JSON.stringify</li>
+						<li onclick="tapOfFunctionBtn(1,'JSON.parse','(',')');">JSON.parse</li>
+						<li onclick="tapOfFunctionBtn(2,'joinStrings','(',',',')');">joinStrings</li>
+						<li onclick="tapOfFunctionBtn(1,'degToRadian','(',')');">degToRadian</li>
+						<li onclick="tapOfFunctionBtn(2,'randomInteger','(',',',')');">randomInteger</li>
+						<li onclick="tapOfFunctionBtn(2,'colisionBetween','(',',',')');">colisionBetween</li>
+						<li onclick="tapOfFunctionBtn(2,'oppositeColision','(',',',')');">oppositeColision</li>
+						<li onclick="tapOfFunctionBtn(2,'distanceBetween','(',',',')');">distanceBetween</li>
 						<li onclick="tapofbtn('.length');">length</li>
-						<li onclick="tapOfFunctionBtn(1,'.indexOf(',')');">indexOf</li>
-						<li onclick="tapOfFunctionBtn(1,'.lastIndexOf(',')');">lastIndexOf</li>
-						<li onclick="tapOfFunctionBtn(1,'.includes(',')');">includes</li>
-						<li onclick="tapOfFunctionBtn(1,'.isArray(',')');">isArray</li>
-						<li onclick="tapOfFunctionBtn(1,'Object.keys(',')');">Object.keys</li>
+						<li onclick="tapOfFunctionBtn(1,'.indexOf','(',')');">indexOf</li>
+						<li onclick="tapOfFunctionBtn(1,'.lastIndexOf','(',')');">lastIndexOf</li>
+						<li onclick="tapOfFunctionBtn(1,'.includes','(',')');">includes</li>
+						<li onclick="tapOfFunctionBtn(1,'.isArray','(',')');">isArray</li>
+						<li onclick="tapOfFunctionBtn(1,'Object.keys','(',')');">Object.keys</li>
 					</ul>
 				</li>
 				<li class="mainLi">
-					My func
+					<span>My func</span>
 					<ul id="functList">
 						<li style="color: #777" onclick="createVarieble(false)">
 							+Create
@@ -521,7 +542,7 @@
 					</ul>
 				</li>
 				<li class="mainLi">
-					...
+					<span>Else</span>
 					<ul>
 						<li onclick="tapofbtn('[');">[</li>
 						<li onclick="tapofbtn(']');">]</li>
@@ -529,7 +550,7 @@
 						<li onclick="tapofbtn('}');">}</li>
 						<li onclick="tapOfFunctionBtn(0,'(', ')','=>');">()=&#62;</li>
 						<li onclick="tapOfFunctionBtn(1,' ? ',' : ');">ternary</li>
-						<li style="display: flex; justify-content: center; align-items:center; gap: 5px">
+						<li style="display: flex; justify-content: center; align-items:center; gap: 5px" id="btn-add">
 							<button onclick="addColor();"
 								style="padding: 4px 7px; font-size: 16px; border-radius: 7px;border: none; background-color: #191919; color: #fff; text-align: center; outline: none;">
 								Add
@@ -564,45 +585,20 @@
 		</form>
 	</dialog>
 
-	<script>
-		/* ====== Data */
-		const objectColor = "#913e5f"
-		const controlColor = "#f59073"
-		const propertiesColor = "#96b38e"
-		const dataColor = "#eb4464"
-
-		let ListOfElements = [{
-			id: 0, // PROPERTIES
-			code: "//Coment",
-			text: "Coment",
-			color: propertiesColor,
-			listChengers: ["Coment"],
-			standartParameter: [["Coment"]]
-		}]
-
-		const tapElements = ["12", "14", "25", "26"]
-		const texturesElements = ["8", "30", "81"]
-		let listOfCodePieces = []
-		let MainList = []
-		let listOfData = []
-		let listOfTexture = []
-		let listOfFunct = []
-		let copyList = []
-		let projectName = ''
-		let codePiece = 0
-	</script>
-
-	<script src="sortable.js"></script>
+	<script src="./js/sortable.js"></script> <!--               Sortable -->
+	<script src="./js/html_spawner.js"></script> <!--    Spawn translate -->
+	<script src="./js/start_scene.js"></script> <!--   Init project data -->
+	<script src="./js/save_data.js"></script> <!--            saveData() -->
+	<script src="./js/render_list.js"></script><!--Render elements(main) -->
+	<script src="./js/btn_element.js"></script><!--  Copy, Paste, Delete -->
+	<script src="./js/file_pieces_scene.js"></script><!--  Nav, Settings -->
+	<script src="./js/texture_code.js"></script><!--    working with img -->
+	<script src="./js/pieces_code.js"></script><!--work with code pieces -->
+	<script src="./js/data_creator.js"></script><!-- create, delete data -->
+	<script src="./js/edit_params.js"></script><!--    Edit Params scene -->
 
 	<script>
-
-		/* ============================================ Code for Editor and addblocks */
-		const ListInEditor = document.querySelector("#listEditor")
-		const addblocks = document.querySelector("#addblocks")
-		const ListAddBlock = document.querySelector("#listAddBlock")
-		const body = document.querySelector("body")
-
-
+		/* Else function==============> */
 		function openAddBlock(elementColor) {
 			addblocks.scrollTo(0, 0)
 			let resultList = ListOfElements.filter((element) => element.color == elementColor)
@@ -621,285 +617,6 @@
 			addblocks.querySelector(".header-class").style.backgroundColor = elementColor;
 		}
 
-
-		/* Start Project       =========================== */
-		window.onload = () => PageIsReady.postMessage('Hi. Page is Ready')
-
-		function renderList(data) {
-			ListInEditor.innerHTML = ''
-			data.forEach((i, index) => {
-				if (i.id.startsWith('AMain') || i.id.startsWith('CONTI')) {
-					ListInEditor.innerHTML += `
-									<li class="ElementsInEditor ${i.id.startsWith('AMain') ? 'finish' : ''}" style="padding-left: ${i.padding}px;" data-id="${i.id}" data-parameter='"${i.parameter}"'>
-										<div class="innerOfElement">
-											<span style="margin-left: 38px; color: ${ListOfElements[i.id.slice(6)].color};" class="elementText">
-												${ListOfElements[i.id.slice(6)].secondArgument[i.id[5]].text}
-											</span>
-										</div >
-									</li>`
-					return
-				}
-
-				/* MAIN Element ====================================================> */
-				let innerTextOfElement = CreateInnerTextOfElement(i.id, i.parameter);
-				ListInEditor.innerHTML += `
-					<li class="ElementsInEditor ${ListOfElements[i.id].secondArgument ? "start" : ""}" style="padding-left: ${i.padding}px; ${ListOfElements[i.id].isfunction && index != 0
-						? "margin-top: 15px;"
-						: ""
-					}" data-id="${i.id}" data-parameter='${JSON.stringify(i.parameter)}'>
-						<div class="innerOfElement">
-							<div class="my-handle" onclick="showBtnElement(event);">
-								<span></span>
-								<div class="my-handle-inner"></div>
-							</div>
-							<div class="btn-in-element">
-								<div class="btn-delete" onclick="deleteElement(event);">
-									<svg class="icon-delete-editor">
-										<use xlink:href="#icon-delete"></use>
-									</svg>
-								</div>
-								<div class="btn-delete" onclick="copyElement(event);">
-									<svg class="icon-delete-editor">
-										<use xlink:href="#icon-copy"></use>
-									</svg>
-								</div>
-								<div class="btn-delete" onclick="pasteElement(event);">
-									<svg class="icon-delete-editor">
-										<use xlink:href="#icon-paste"></use>
-									</svg>
-								</div>
-							</div>
-							<span class="elementText" style="color:${ListOfElements[i.id].color};">
-								${innerTextOfElement.replaceAll("<", "&#60;").replaceAll(">", "&#62;")}
-							</span>
-						</div>
-						<span class="EditParameterBtn" onclick="changeParams(event);">
-							<svg>
-								<use xlink:href="#icon-edit"></use>
-							</svg>
-						</span>
-					</li>`});
-		}
-
-		function readData(data, nameOfProject) {
-			let result = data[0];
-			listOfTexture = data[1];
-			if (!result) return;
-
-			MainList = data[0];
-			listOfData = result[0].data ? [...result[0].data] : [];
-			listOfFunct = result[0].functions ? [...result[0].functions] : [];
-			codePiece = result[0].codePiece;
-			projectName = nameOfProject;
-			listOfCodePieces = result[0].piecesName;
-
-			renderList(result[1][codePiece])
-			changeCodePiecesList();
-			changeTextureList();
-			document.querySelector('#header-text').innerHTML = nameOfProject;
-		}
-
-		function addBlock(element) {
-			if (tapElements.includes(String(element))) {
-				ListOfElements[element].standartParameter[1] = ["A" + Date.now() + Math.random().toString(32).slice(4)]
-			}
-			let adderElement = Math.floor((document.documentElement.scrollTop + window.innerHeight / 2) / (40 + listOfFunct.length * 2)) - 2
-			if (ListInEditor.children.length * 40 < window.innerHeight * 0.7) {
-				adderElement = ListInEditor.children.length - 1
-			}
-			let li = ""
-			if (ListInEditor.children.length) {
-				li = document.createElement("li")
-				ListInEditor.children[adderElement].after(li)
-			} else {
-				ListInEditor.innerHTML = "<li class='newElement'></li>"
-				li = document.querySelector(".newElement")
-				adderElement = -1
-			}
-			li.classList.add("ElementsInEditor")
-			li.style.marginTop = ListOfElements[element].isfunction ? "15px" : "0px"
-			li.style.backgroundColor = ListOfElements[element].color
-			li.dataset.id = element
-			li.dataset.parameter = JSON.stringify(ListOfElements[element].standartParameter)
-			li.innerHTML = `<div class="innerOfElement">
-							<div class="my-handle" onclick="showBtnElement(event);">
-								<span></span>
-								<div class="my-handle-inner"></div>
-							</div>
-							<div class="btn-in-element">
-								<div class="btn-delete" onclick="deleteElement(event);">
-									<svg class="icon-delete-editor">
-										<use xlink:href="#icon-delete"></use>
-									</svg>
-								</div>
-								<div class="btn-delete" onclick="copyElement(event);">
-									<svg class="icon-delete-editor">
-										<use xlink:href="#icon-copy"></use>
-									</svg>
-								</div>
-								<div class="btn-delete" onclick="pasteElement(event);">
-									<svg class="icon-delete-editor">
-										<use xlink:href="#icon-paste"></use>
-									</svg>
-								</div>
-							</div>
-						<span style="color: black;" class="elementText">
-							${ListOfElements[element].text}
-						</span>
-					</div>
-						<span class="EditParameterBtn" onclick="changeParams(event);">
-							<svg>
-								<use xlink:href="#icon-edit"></use>
-							</svg>
-						</span>`
-
-			/* Second Arguments ==========================> */
-			if (ListOfElements[element].secondArgument) {
-				li.classList.add("start")
-				ListOfElements[element].secondArgument.forEach((i, index) => {
-					adderElement++
-					let addLi = document.createElement("li")
-					addLi.classList.add("ElementsInEditor")
-
-					index == ListOfElements[element].secondArgument.length - 1 && addLi.classList.add("finish")
-					ListInEditor.children[adderElement].after(addLi)
-
-					addLi.dataset.id = (index == ListOfElements[element].secondArgument.length - 1 ? "AMain" : "CONTI") + String(index) + String(element)
-					addLi.dataset.parameter = '"' + String(i.code) + '"'
-
-					addLi.innerHTML = `
-									<div class="innerOfElement">
-										<span style="margin-left: 38px; color: ${ListOfElements[element].color};" class="elementText">
-											${i.text}
-										</span>
-									</div>`
-				})
-			}
-			saveData()
-			setTimeout(() => {
-				li.querySelector(".elementText").style.color = ListOfElements[element].color
-				li.style.backgroundColor = "transparent"
-			}, 10)
-			addblocks.classList.remove("active")
-			body.classList.remove("no-scroll")
-		}
-
-		function closeAddBlockParams() {
-			ListAddBlock.innerHTML = ""
-			addblocks.classList.remove("active")
-			body.classList.remove("no-scroll")
-		}
-
-		function deleteElement(event) {
-			if (event.target.closest('li').classList.contains("start")) {
-				let firstElement = Array.from(ListInEditor.children).findIndex((i) => i == event.target.closest('li'))
-				let listDelete = []
-				for (let i = firstElement + 1; i < getTheListOfChangeElem(firstElement, 0) + 1; i++) {
-					listDelete.push(ListInEditor.children[i])
-				}
-				listDelete.forEach((i) => i.remove())
-			}
-			event.target.closest('li').remove()
-			saveData()
-		}
-
-		function copyElement(event) {
-			let element = event.target.closest('li')
-			copyList = []
-			if (element.classList.contains("start")) {
-				let firstElement = Array.from(ListInEditor.children).findIndex((i) => i == element)
-				for (let i = firstElement + 1; i < getTheListOfChangeElem(firstElement, 0) + 1; i++) {
-					copyList.push(ListInEditor.children[i].cloneNode(true))
-				}
-			}
-			copyList.unshift(element.cloneNode(true))
-		}
-
-		function pasteElement(event) {
-			if (copyList.length > 0) {
-				copyList.forEach((i, index) => {
-					const cloneOfElement = i.cloneNode(true)
-
-					if (index === 0) {
-						cloneOfElement.style.backgroundColor = ListOfElements[cloneOfElement.dataset.id].color
-						cloneOfElement.querySelector('.elementText').style.color = "black"
-						setTimeout(() => {
-							cloneOfElement.querySelector('.elementText').style.color = ListOfElements[cloneOfElement.dataset.id].color
-							cloneOfElement.style.backgroundColor = "transparent"
-						}, 0)
-					}
-
-					if (cloneOfElement.querySelector(".active")) {
-						cloneOfElement.querySelectorAll(".active").forEach((i) => i.classList.remove("active"))
-					}
-
-					event.target.closest('li').before(cloneOfElement)
-
-					if (tapElements.includes(String(cloneOfElement.dataset.id))) {
-						let parameter = cloneOfElement.dataset.parameter
-						let newParameter = JSON.parse(parameter)
-						newParameter[1] = ["A" + Date.now() + Math.random().toString(32).slice(4)]
-						cloneOfElement.dataset.parameter = JSON.stringify(newParameter)
-					}
-				})
-				saveData()
-			}
-		}
-
-		function showBtnElement(event) {
-			let element = event.target.closest('li')
-			if (element) {
-				element.querySelector(".btn-in-element").classList.toggle("active")
-				element.querySelector(".my-handle-inner").classList.toggle("active")
-			}
-		}
-
-		function saveData(createCode = false) {
-			let a = []
-			MainList[0] = {
-				data: [...listOfData],
-				functions: [...listOfFunct],
-				name: projectName,
-				codePiece: codePiece,
-				piecesName: listOfCodePieces
-			};
-			let attachment = 0
-			Array.from(ListInEditor.children).forEach((i, index) => {
-				if (i.classList.contains("finish")) {
-					attachment--
-				}
-
-				a.push({
-					id: i.dataset.id,
-					parameter: JSON.parse(i.dataset.parameter),
-					padding: attachment < 6 ? attachment * 20 : 120
-				})
-
-				i.style.paddingLeft = a[index].padding + "px"
-				if (i.classList.contains("start")) {
-					attachment++
-				}
-			})
-			if (ListInEditor.children[0] > 0 && ListOfElements[ListInEditor.children[0].dataset.id].isfunction) {
-				ListInEditor.children[0].style.marginTop = "0px"
-			}
-			try {
-				MainList[1][codePiece] = a;
-				if (createCode) {
-					StartView.postMessage('[' + JSON.stringify(MainList) + ',' + JSON.stringify(listOfTexture) + ']')
-				} else {
-					SaveDataInFlutter.postMessage(JSON.stringify(MainList))
-				}
-			} catch (e) {
-				console.log("save error: " + e)
-			}
-		}
-
-
-		function codeCreator() {
-			saveData(true)
-		}
-
 		function getTheListOfChangeElem(index, attachment) {
 			if (ListInEditor.children[index].classList.contains("finish")) {
 				attachment--
@@ -912,232 +629,6 @@
 			}
 			index++
 			return getTheListOfChangeElem(index, attachment)
-		}
-
-		function CreateInnerTextOfElement(idOfElement, DataOfElement) {
-
-			let textInEditor = ListOfElements[idOfElement].text
-			if (ListOfElements[idOfElement].listChengers) {
-				let maxTextWidth = Math.floor((window.screen.availWidth - ListOfElements[idOfElement].text.length * 10) / 17)
-				if (!maxTextWidth || maxTextWidth < 2) {
-					maxTextWidth = 2
-				}
-				for (let i = 0; i < ListOfElements[idOfElement].listChengers.length; i++) {
-					if (!DataOfElement[i] || DataOfElement[i].length == 0) {
-						/* Create if undefined */
-						DataOfElement[i] = ListOfElements[idOfElement].standartParameter[i]
-					}
-					let realChenge = DataOfElement[i].reduce((a, b) => a + b).slice(0, maxTextWidth)
-					textInEditor = textInEditor.replace(ListOfElements[idOfElement].listChengers[i], realChenge)
-				}
-			}
-			return textInEditor
-		}
-
-		let listOfchangeElemnents = []
-		let sortable = Sortable.create(ListInEditor, {
-			handle: '.my-handle-inner',
-			animation: 150,
-			filter: '.filtered',
-			fallbackTolerance: 5,
-			touchStartThreshold: 4,
-			onStart: (evt) => {
-				if (evt.item.classList.contains("start")) {
-					listOfchangeElemnents = []
-					for (let i = evt.oldIndex + 1; i < getTheListOfChangeElem(evt.oldIndex, 0) + 1; i++) {
-						listOfchangeElemnents.push(ListInEditor.children[i])
-						ListInEditor.children[i].style.display = "none"
-					}
-				}
-			},
-			onEnd: (evt) => {
-				if (evt.newIndex == 0 && ListInEditor.children[0]) {
-					ListOfElements[ListInEditor.children[0].dataset.id].isfunction ? ListInEditor.children[1].style.marginTop = "15px" : ""
-				}
-				if (evt.item.classList.contains("start")) {
-					if (ListOfElements[evt.item.dataset.id].isfunction) {
-						evt.item.style.marginTop = "15px"
-					}
-					listOfchangeElemnents.reverse()
-					listOfchangeElemnents.forEach((i) => {
-						evt.item.after(i)
-						i.style.display = "flex"
-					})
-					listOfchangeElemnents = []
-				}
-			},
-			store: {
-				set: function (sortable) {
-					/* Save Data */
-					saveData()
-				}
-			}
-		})
-	</script>
-
-
-
-
-
-	<script>
-
-		/* ============================================ Code for Edit Params */
-		const editparams = document.querySelector('#editparams')
-		const where = editparams.querySelector('#inner-where')   /* place, where button of params are showing */
-		const result = editparams.querySelector('#result')			 /* show the formula */
-		const dataList = editparams.querySelector('#dataList') 	 /* data List in formuls*/
-		const functList = editparams.querySelector('#functList') /* function List in formuls*/
-		const modalInput = document.querySelector("#modal-window")/* Modal Window to show alerts */
-		const settings = document.querySelector("nav")						/* NAV bar with buttons */
-		const files = document.querySelector("#files-scene") 			/* Files scene */
-		const filesList = files.querySelector("#files-list") 			/* List Of files (Main) */
-		const codePieces = document.querySelector("#pieces-scene")/* Pieces scene */
-		const codepiecesList = document.querySelector("#pieces-list")/* List Of code pieces*/
-
-
-		document.querySelector('#tree').onclick = (event) => {
-			if (event.target.classList.contains("mainLi")) {
-				event.target.classList.toggle("LiAfterTap")
-			}
-		}
-
-		// Create variable =============================>
-
-		let TextInWhereOnStart = "" /* where inner text */
-		let listOfChageParams = [] 	/* list of the chengers */
-
-		let List = [] 							/* Array of paramaters */
-		let listOfParams = [] 			/* Array of data in one pramater */
-		let position = 0 						/* Where the mouse now */
-		let whichPosition = 0 			/* Number of element in List, which is editing*/
-		let editingElement = 0		  /* Element that editing now in html*/
-		let idOfElement = 0 				/* Id of editing element*/
-
-
-		function changeParams(event) {
-			whichPosition = 0
-			editingElement = event.target.closest(".ElementsInEditor")
-			idOfElement = editingElement.dataset.id
-
-
-			if (!ListOfElements[idOfElement].listChengers) {
-				/*===== Element is not have parameter (return, continue) */
-				return
-			}
-
-
-			TextInWhereOnStart = ListOfElements[idOfElement].text
-			if (ListOfElements[idOfElement].textInWhere) {
-				/*===== Sometime the text of Element is more longer than right version */
-				TextInWhereOnStart = ListOfElements[idOfElement].textInWhere
-			}
-
-
-			listOfChageParams = ListOfElements[idOfElement].listChengers
-			List = JSON.parse(editingElement.dataset.parameter)
-			if (listOfChageParams.length > List.length) {
-				/*===== New version can have more element in listOfChageParams */
-				if (!List) {
-					List = []
-				}
-				for (let i = 0; i < listOfChageParams.length - List.length; i++) {
-					List.push(ListOfElements[idOfElement].standartParameter[List.length + i])
-				}
-			}
-
-			where.scrollTo(0, 0)
-			document.querySelector('#tree').scrollTo(0, 0)
-
-			onStart()
-
-			/* close all element in formulas */
-			document.querySelectorAll(".LiAfterTap").forEach((i) => i.classList.remove("LiAfterTap"))
-
-			/* Add style to where */
-			editparams.querySelector('#where').style.backgroundColor = ListOfElements[idOfElement].color
-			if (editparams.querySelector('#eventList')) { editparams.querySelector('#eventList').remove() }
-			if (editparams.querySelector('#texturesListEditor')) {
-				editparams.querySelector('#texturesListEditor').remove()
-			}
-
-			/* Does Element work with texure? */
-			if (listOfTexture.length > 0 && texturesElements.includes(editingElement.dataset.id)) {
-				let li = document.createElement("li")
-				li.classList.add("mainLi")
-				li.id = "texturesListEditor"
-				li.innerHTML = `Textures
-						<ul>
-					${listOfTexture.reduce((a, b) => {
-					return a + `
-								<li onclick="tapofbtn('${b.name}');">${b.name}</li>`
-				}, '')}
-						</ul>`
-				editparams.querySelector('#tree').children[0].after(li)
-			}
-
-			/* Is element inside the mouse or touch function? */
-			if (event.target.closest(".ElementsInEditor").style.paddingLeft !== "0px") {
-				if (tapElements.includes(getFirstElement(Array.from(ListInEditor.children).indexOf(event.target.closest(".ElementsInEditor")) - 1))) {
-					let li = document.createElement("li")
-					li.classList.add("mainLi")
-					li.id = "eventList"
-					li.innerHTML = `MouseEvent
-						<ul>
-							<li onclick="tapOfFunctionBtn(0,'MousePosition','.x');">mouse X</li>
-							<li onclick="tapOfFunctionBtn(0, 'MousePosition','.y');">mouse Y</li>
-							<li onclick="tapOfFunctionBtn(1, 'colisionWithTouch({ MousePosition, object: ', '})');">
-							colisionWithTouch</li>
-							<li onclick="tapofbtn('event.type');">TypeOfClick</li>
-							<li onclick="tapofbtn('event.target');">Target</li>
-							<li onclick="tapofbtn('tappedElement');">tappedElement</li>
-						</ul>`
-					editparams.querySelector('#tree').children[0].after(li)
-				}
-			}
-			editparams.classList.add("active")
-			body.classList.add("no-scroll")
-		}
-
-		// Different Function ===================>
-		function openSettings(e) {
-			e.stopPropagation();
-			const openBtn = document.querySelector('.open-nav')
-			if (openBtn.classList.contains('open')) {
-				closeNav()
-			} else {
-				document.onclick = (event) => {
-					if (!settings.contains(event.target) && settings.classList.contains('open')) {
-						closeNav()
-						openBtn.classList.remove('open')
-					}
-				}
-				settings.classList.add('open')
-			}
-			closeFileCodes()
-			openBtn.classList.toggle('open')
-		}
-
-		function closeFileCodes() {
-			files.classList.remove("active")
-			codePieces.classList.remove("active")
-		}
-
-		function closeNav() {
-			body.classList.remove("no-scroll")
-			settings.classList.remove('open')
-			document.onclick = undefined
-		}
-
-		function openFiles() {
-			closeNav()
-			body.classList.add("no-scroll")
-			files.classList.add("active")
-		}
-
-		function openPieces() {
-			closeNav()
-			body.classList.add("no-scroll")
-			codePieces.classList.add("active")
 		}
 
 		function showMessege({ text = 'Enter Text', defaultValue = '' }) {
@@ -1160,392 +651,8 @@
 			modalInput.querySelector("input").value = defaultValue
 		}
 
-		function addColor() {
-			tapofbtn('"' + editparams.querySelector('#color-picker').value + '"')
-		}
-
-		function getFirstElement(index) {
-			if (index < 0) {
-				return false
-			}
-			if (ListInEditor.children[index].style.paddingLeft == "0px") {
-				return String(ListInEditor.children[index].dataset.id);
-			} else {
-				return getFirstElement(index - 1)
-			}
-		}
-
-		function closeEditParams() {
-			editparams.classList.remove("active")
-			body.classList.remove("no-scroll")
-		}
-
-		function checkForIncludesVatieblse(userAnswer) {
-			if (listOfData.includes(userAnswer) || listOfTexture.findIndex(({ name }) => name == userAnswer) + 1) {
-				return 'ALREADY EXISTS'
-			}
-			if (/[0-9]/gm.test(userAnswer[0])) {
-				return 'Starts with a number'
-			}
-			if (userAnswer.match(/[^A-Za-z0-9]/gm)) {
-				return 'Only Latin characters'
-			}
-			return false
-		}
-
-		function createVarieble(isData) {
-			event.stopPropagation()
-			showMessege(
-				{ text: isData ? 'Create Data' : 'Create Function', defaultValue: '' }
-			)
-			modalInput.querySelector("#ok-btn").onclick = () => {
-				let userAnswer = modalInput.querySelector("input").value.slice(0, 10)
-				userAnswer = userAnswer.replace(/\s/g, '')
-				if (!userAnswer) return false
-
-				let inputPlaceholder = checkForIncludesVatieblse(userAnswer);
-
-				if (inputPlaceholder) {
-					modalInput.querySelector("label").innerHTML = inputPlaceholder;
-					return false
-				}
-
-				(isData ? listOfData : listOfFunct).push(String(userAnswer))
-				changeDataList(isData)
-			}
-			modalInput.querySelector("input").maxLength = 10
-		}
-
-		/* Works Code Pieces */
-		function changeCodePiecesList() {
-			codepiecesList.innerHTML = listOfCodePieces.reduce((prev, item, index) => {
-				let a = []
-				for (let c = 0; c < 550; c++) {
-					a.push(Math.round(Math.random()))
-				}
-				return prev + `
-				<li class="one-file" onclick='otherPiece(${index})'>
-					<div class="img-in-file img-in-piece">
-						<span>
-							${a.join('')}
-						</span>
-					</div>
-					<div class="text-in-file">
-						<h3>${item}</h3>
-					</div>
-				</li>`;
-			}, '');
-		}
-
-		function otherPiece(newPiece) {
-			if (newPiece == codePiece) return;
-			codePiece = newPiece;
-			renderList(MainList[1][codePiece]);
-			closeFileCodes()
-			document.querySelector('.open-nav').classList.remove('open')
-		}
-
-		function CreateNewPiece() {
-			showMessege({ text: 'Create new piece', defaultValue: '' })
-			modalInput.querySelector("#ok-btn").onclick = () => {
-				let userAnswer = modalInput.querySelector("input").value.slice(0, 20)
-				if (!userAnswer) return false;
-				MainList[1].push([])
-				listOfCodePieces.push(userAnswer)
-				codePiece = listOfCodePieces.length - 1
-				changeCodePiecesList()
-				renderList([]);
-				saveData();
-				closeFileCodes()
-				document.querySelector('.open-nav').classList.remove('open');
-			}
-			modalInput.querySelector("input").maxLength = 20
-		}
-
-		/* Works Textures */
-		function changeTextureList() {
-			try {
-				filesList.innerHTML = listOfTexture.reduce((a, b, index) => {
-					return a + `
-					<li class="one-file">
-					<div class="img-in-file" style="background-image: url('${b.data}');"></div>
-					<div class="text-in-file">
-						<h3>${b.name}</h3>
-						<button onclick="deleteTexture(${index}, '${b.name}')">Delete</button>
-					</div>
-				</li>`
-				}, "");
-			} catch (e) {
-				return "ListChanger" + e;
-			}
-			return "Status: ok";
-		}
-
-		function addNewImage({ name = 'myName', data = false, }) {
-			if (!data) return;
-			listOfTexture.push({ name, data });
-			SaveTextures.postMessage(JSON.stringify(listOfTexture))
-			return changeTextureList();
-		}
-
-		function createTextureFile() {
-			event.stopPropagation()
-			showMessege(
-				{
-					text: `<span style="color: red; text-align: center; font-size: 19px;">
-					Not recommended.
-					<br/> Use the URL instead.
-					</span>
-					<br/><span style="color: #888; text-align: center; font-size: 12px;">
-						Large images will take a long time to process.
-					</span>`, defaultValue: 'empty'
-				}
-			)
-			modalInput.querySelector("#ok-btn").onclick = () => {
-				setTimeout(() => {
-					showMessege(
-						{ text: 'Write texture name', defaultValue: '' }
-					)
-					modalInput.querySelector("#ok-btn").onclick = () => {
-						let userAnswer = modalInput.querySelector("input").value.slice(0, 20)
-						userAnswer = userAnswer.replace(/\s/g, '')
-						if (!userAnswer) return false
-						let inputPlaceholder = checkForIncludesVatieblse(userAnswer);
-
-						if (inputPlaceholder) {
-							modalInput.querySelector("label").innerHTML = inputPlaceholder;
-							return false
-						}
-						SelectFile.postMessage(userAnswer)
-					}
-					modalInput.querySelector("input").maxLength = 20
-				}, 400);
-			}
-		}
-
-		function createTextureURL() {
-			event.stopPropagation()
-			showMessege(
-				{ text: 'Write texture name', defaultValue: '' }
-			)
-			modalInput.querySelector("input").maxLength = 20
-			modalInput.querySelector("#ok-btn").onclick = () => {
-				let userAnswer = modalInput.querySelector("input").value.slice(0, 20)
-				userAnswer = userAnswer.replace(/\s/g, '')
-				if (!userAnswer) return false;
-
-				let inputPlaceholder = checkForIncludesVatieblse(userAnswer);
-				if (inputPlaceholder) {
-					modalInput.querySelector("label").innerHTML = inputPlaceholder;
-					return false
-				}
-				setTimeout(() => {
-					modalInput.querySelector("input").maxLength = 1000
-					showMessege(
-						{ text: 'Write URL', defaultValue: '' }
-					)
-					modalInput.querySelector("#ok-btn").onclick = () => {
-						let userAnswerURL = modalInput.querySelector("input").value
-						if (!userAnswerURL) return false;
-						addNewImage({ data: userAnswerURL, name: userAnswer })
-					}
-				}, 400)
-			}
-		}
-
-		function createTextureDraw(isData, element) {
-			showMessege({ text: `<span style='color = red;'>Not available now 0(</span>`, defaultValue: 'empty' })
-			modalInput.querySelector("#ok-btn").onclick = () => {
-				return true;
-			}
-		}
-
-		function deleteTexture(id, name) {
-			showMessege({ text: `Delete ${name}?`, defaultValue: 'empty' })
-			modalInput.querySelector("#ok-btn").onclick = () => {
-				listOfTexture.splice(id, 1)
-				SaveTextures.postMessage(JSON.stringify(listOfTexture))
-				return changeTextureList();
-			}
-		}
-
-		function daleteVarOrFunc(isData, element) {
-			showMessege({ text: `Delete ${element}?`, defaultValue: 'empty' })
-			modalInput.querySelector("#ok-btn").onclick = () => {
-				let listh = isData ? listOfData : listOfFunct
-				listh.splice(listh.indexOf(element), 1)
-				changeDataList(isData)
-				saveData()
-			}
-		}
-
-		function changeDataList(isData) {
-			let resultat = (isData ? listOfData : listOfFunct).reduce((a, b) => {
-				return a + `
-				<li>
-						<span class="nameOfvarieble" onclick="tapofbtn('${b}'); event.stopPropagation();">${b}</span>
-						<span class="btn-delete" onclick="daleteVarOrFunc(${isData}, '${b}'); event.stopPropagation();">
-								<svg class="icon-delete-editor">
-									<use xlink:href="#icon-delete"></use>
-								</svg>
-						</span>
-						</li>
-						`
-			}, '')
-			if (isData) {
-				resultat += '<li style="color: #777; display: block;" onclick="createVarieble(true)">+Create</li>'
-				dataList.innerHTML = resultat
-			} else {
-				resultat += '<li style="color: #777; display: block;" onclick="createVarieble(false)">+Create</li>'
-				functList.innerHTML = resultat
-			}
-		}
-
-		function setTextInWhere() {
-			let resultat = TextInWhereOnStart
-			let realChenge = []
-			for (let i = 0; i < listOfChageParams.length; i++) {
-				resultat = resultat.replace(listOfChageParams[i], `<button class="whereBtn" onClick = "newParameter(${i});" ${i == whichPosition && 'style="background-color: #c5c5c580;"'}> </button>`)
-				if (List[i].length > 0) {
-					realChenge.push(List[i].reduce((a, b) => a + b))
-				} else {
-					realChenge.push(' ')
-				}
-			}
-			where.innerHTML = resultat
-			let whereBtns = document.querySelectorAll('.whereBtn')
-			whereBtns.forEach((i, index) => i.textContent = realChenge[index])
-		}
-
-		function changeText() {
-			let textFromList = ""
-			if (listOfParams.length > 0) {
-				let textFromList = listOfParams.reduce((a, b, i) => {
-					let c = ""
-					if (i == 0 && position == 0) {
-						return c = "|" + String(b)
-					}
-					c = String(a) + String(b)
-					if (i + 1 == position) {
-						c += "|"
-					}
-					return c
-				}, '')
-				result.textContent = textFromList
-			} else {
-				result.textContent = '|'
-			}
-
-			List[whichPosition] = listOfParams
-			setTextInWhere()
-			return textFromList
-		}
-
-		function newParameter(parameter) {
-			if (parameter !== whichPosition) {
-				whichPosition = parameter
-				onStart()
-			}
-		}
-
-		function addTextOrCode(isText) {
-			let defaultParameter = ''
-			if (position < listOfParams.length) {
-				if (isText && listOfParams[position].startsWith('"')) {
-					defaultParameter = listOfParams[position].slice(1, -1)
-				} else
-					if (!isText && listOfParams[position].startsWith(" ")) {
-						defaultParameter = listOfParams[position].substring(1)
-					}
-			}
-			modalInput.querySelector("input").maxLength = 221244
-			modalInput.querySelector("#ok-btn").onclick = () => {
-				let userAnswer = modalInput.querySelector("input").value
-				if (!userAnswer) {
-					return false;
-				}
-				let numberOfDelate = 0
-				if (defaultParameter.length > 0) {
-					numberOfDelate = 1
-				}
-				listOfParams.splice(position, numberOfDelate, isText ? '"' + userAnswer + '"' : " " + userAnswer)
-				position++
-				changeText()
-			}
-			showMessege(
-				{
-					text: isText ? 'Enter Text' : 'Write Code',
-					defaultValue: defaultParameter
-				}
-			)
-		}
-
-		function tapOfFunctionBtn() {
-			event.stopPropagation()
-			for (let index = 1; index < arguments.length; index++) {
-				listOfParams.splice(position, 0, arguments[index])
-				position++
-			}
-			position -= arguments[0]
-			changeText()
-		}
-
-		function tapofbtn(text) {
-			event.stopPropagation()
-			switch (text) {
-				case "@0left**":
-					if (position > 0) {
-						position--
-					} else {
-						position = 0
-					}
-					break
-				case "@0right**":
-					if (position < listOfParams.length) {
-						position++
-					} else {
-						position = listOfParams.length
-					}
-					break
-				case "@0Text**":
-					addTextOrCode(true)
-					break
-				case "@0Code**":
-					addTextOrCode(false)
-					break
-				case "@0delete**":
-					if (listOfParams.length > 0) {
-						if (position > 0) {
-							listOfParams.splice(position - 1, 1)
-							position--
-						}
-					} else {
-						listOfParams = []
-						position = 0
-					}
-					break
-				case "@0Ok**":
-					editingElement.dataset.parameter = JSON.stringify(List)
-					editingElement.querySelector(".elementText").textContent = CreateInnerTextOfElement(idOfElement, List)
-					saveData()
-					closeEditParams()
-					break
-				default:
-					listOfParams.splice(position, 0, text)
-					position++
-					break
-			}
-			changeText()
-		}
-
-		function onStart() {
-			listOfParams = List[whichPosition]
-			position = listOfParams.length
-			changeDataList(true)
-			changeDataList(false)
-			changeText()
-		}
 	</script>
+
 </body>
 
 </html>

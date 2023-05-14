@@ -39,6 +39,7 @@ let StoredData = {}
 ''';
   }
 
+  /* Create all varible */
   if (data[0]['data'] != null && data[0]['data'].length > 0) {
     fisrtStrCodeValues +=
         '\nlet ${data[0]['data'].reduce((a, b) => a + ', ' + b)};';

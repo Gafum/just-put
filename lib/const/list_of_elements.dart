@@ -28,7 +28,7 @@ var ListOfElements = [
   {
     "id": 2,
     "code": "//a = 2;",
-    "text": "Set //a to 2 ",
+    "text": "Set //a to 2",
     "color": "#eb4464",
     "listChengers": ["//a", "2"],
     "standartParameter": [

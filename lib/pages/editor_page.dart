@@ -12,6 +12,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../const/hiden_const.dart'; /* addMod const */
+import '../const/translate/translate.dart';
 import '../function/request_permision.dart'; /* Permissions */
 import '../function/save_data.dart';
 import '../function/show_toast.dart'; /* Toast */
@@ -20,11 +21,13 @@ import '../widgets/custome_page_route.dart'; /* Animation page navigation */
 class EditorPage extends StatefulWidget {
   final String idOfProject;
   final String nameOfProject;
+  final String appLanguage;
 
   const EditorPage({
     Key? key,
     required this.idOfProject,
     required this.nameOfProject,
+    required this.appLanguage,
   }) : super(key: key);
 
   @override
@@ -85,6 +88,7 @@ class _EditorPageState extends State<EditorPage> {
           _getData().then((value) {
             controller.runJavaScript('''
             ListOfElements = ${json.encode(ListOfElements)};
+            appLanguage = ${json.encode(translation[widget.appLanguage]!["html"])};
             readData($value, '${widget.nameOfProject}');''');
             setState(() {
               isLoading = false;
@@ -114,6 +118,7 @@ class _EditorPageState extends State<EditorPage> {
               child: ViewResult(
                 data: message.message,
                 idOfProject: widget.idOfProject,
+                appLanguage: widget.appLanguage,
               ),
             ),
           );

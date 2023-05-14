@@ -430,20 +430,20 @@ const htmlCode = '''
 	/* Blocks in EditParams ===================== */
 
 	function joinStrings(a,b){
-		return String(a)+String(b)
+		return String(a)+String(b);
 	}
 
 	function degToRadian(deg) {
-		return (Math.PI / 180) * deg
+		return (Math.PI / 180) * deg;
 	}
 
 	function randomInteger(min, max) {
 		let rand = min + Math.random() * (max + 1 - min)
-		return Math.floor(rand)
+		return Math.floor(rand);
 	}
 
 	function distanceBetween(first, second){
-		return Math.floor(Math.sqrt(Math.pow(first.x - second.x, 2) + Math.pow(first.y - second.y, 2)))
+		return Math.floor(Math.sqrt(Math.pow(first.x - second.x, 2) + Math.pow(first.y - second.y, 2)));
 	}
 
 	function getModule(first, second) {

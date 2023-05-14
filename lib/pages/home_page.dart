@@ -2,12 +2,14 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:just_put/pages/settings_page.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../function/save_data.dart';
 import '../widgets/HomePageWidgets/alert_dialog_input.dart';
 import '../widgets/HomePageWidgets/slidable_list_element.dart';
+import '../widgets/custome_page_route.dart';
 
 const List<Color> mainColors = [
   Color.fromRGBO(255, 191, 217, 1),
@@ -25,6 +27,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var projectList = [];
+  String appLanguage = "en";
 
   @override
   void initState() {
@@ -53,11 +56,28 @@ class _HomePageState extends State<HomePage> {
 
   void _getData() async {
     var prefs = await SharedPreferences.getInstance();
-    final counterInfo = prefs.getString('projectList');
-    if (counterInfo == null) return;
+    final listInfo = prefs.getString('projectList');
+    final languageInfo = prefs.getString('appLanguage');
+    if (languageInfo != null) {
+      setState(() {
+        appLanguage = languageInfo;
+      });
+    }
+
+    if (listInfo == null) return;
     setState(() {
-      projectList = json.decode(counterInfo);
+      projectList = json.decode(listInfo);
     });
+  }
+
+  void changeLanguage(language) {
+    setState(() {
+      appLanguage = language;
+    });
+    saveData(
+      data: appLanguage,
+      myName: 'appLanguage',
+    );
   }
 
   @override
@@ -70,6 +90,25 @@ class _HomePageState extends State<HomePage> {
             'Home',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
           ),
+          actions: <Widget>[
+            Padding(
+                padding: const EdgeInsets.only(right: 12.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        CustomPageRoute(
+                            child: SettingsPage(
+                          appLanguage: appLanguage,
+                          changeLanguage: changeLanguage,
+                        )));
+                  },
+                  child: const Icon(
+                    Icons.settings,
+                    size: 30.0,
+                  ),
+                )),
+          ],
         ),
         body: ReorderableListView(
           padding: const EdgeInsets.only(
@@ -96,6 +135,7 @@ class _HomePageState extends State<HomePage> {
                 margin: const EdgeInsets.only(bottom: 8.0),
                 child: SlidableListElement(
                   item: item,
+                  appLanguage: appLanguage,
                 ),
               )
           ],

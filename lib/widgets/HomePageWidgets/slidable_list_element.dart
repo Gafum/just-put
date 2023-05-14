@@ -7,9 +7,11 @@ import 'card_in_home_page.dart';
 
 class SlidableListElement extends StatelessWidget {
   final Map item;
+  final String appLanguage;
   const SlidableListElement({
     Key? key,
     required this.item,
+    required this.appLanguage,
   }) : super(key: key);
 
   @override
@@ -39,6 +41,7 @@ class SlidableListElement extends StatelessWidget {
       ),
       child: CardInHomePage(
         item: item,
+        appLanguage: appLanguage,
       ),
     );
   }

@@ -6,9 +6,12 @@ import '../custome_page_route.dart';
 
 class CardInHomePage extends StatelessWidget {
   final Map item;
+  final String appLanguage;
+
   const CardInHomePage({
     Key? key,
     required this.item,
+    required this.appLanguage,
   }) : super(key: key);
 
   @override
@@ -33,6 +36,7 @@ class CardInHomePage extends StatelessWidget {
               child: EditorPage(
                 idOfProject: item['myId'],
                 nameOfProject: item['name'],
+                appLanguage: appLanguage,
               ),
             ),
           )

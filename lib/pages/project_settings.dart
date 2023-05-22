@@ -8,6 +8,7 @@ import 'package:just_put/pages/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../const/hiden_const.dart';
+import '../const/translate/translate.dart';
 import '../function/code_creator.dart';
 import '../function/save_data.dart';
 import '../function/show_toast.dart';
@@ -17,11 +18,13 @@ import '../widgets/custome_page_route.dart';
 class ProjectSettings extends StatefulWidget {
   final String idOfProject;
   final String nameOfProject;
+  final String appLanguage;
 
   const ProjectSettings({
     Key? key,
     required this.idOfProject,
     required this.nameOfProject,
+    required this.appLanguage,
   }) : super(key: key);
 
   @override
@@ -110,7 +113,8 @@ class _ProjectSettingsState extends State<ProjectSettings> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Settings ${widget.nameOfProject}'),
+          title: Text(
+              '${translation[widget.appLanguage]!["home"]!["main-settings"]["name"]} ${widget.nameOfProject}'),
           leading: GestureDetector(
             child: const Icon(
               Icons.arrow_back_ios_rounded,
@@ -133,9 +137,10 @@ class _ProjectSettingsState extends State<ProjectSettings> {
                   },
                   maxLength: 25,
                   maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                  decoration: const InputDecoration(
-                      hintText: 'Change name',
-                      labelStyle: TextStyle(fontFamily: 'Cuprum')),
+                  decoration: InputDecoration(
+                      hintText: translation[widget.appLanguage]!["home"]![
+                          "project-settings"]["change"],
+                      labelStyle: const TextStyle(fontFamily: 'Cuprum')),
                 ),
               ),
               Flexible(
@@ -145,30 +150,34 @@ class _ProjectSettingsState extends State<ProjectSettings> {
                     left: 7.0,
                   ),
                   child: ElevatedButton(
-                      onPressed: () {
-                        if (RegExp(r'[^A-Za-z0-9]').hasMatch(
-                            _newProjectName.trim().replaceAll(' ', ''))) {
-                          showToast(context,
-                              "Name can only contain Latin letters and numbers");
-                          return;
-                        }
-                        if (_newProjectName
-                            .trim()
-                            .replaceAll(' ', '')
-                            .isNotEmpty) {
-                          /* Change the name of project */
-                          projectList[projectList.indexWhere((element) {
-                            return element['myId'] == widget.idOfProject;
-                          })]['name'] = _newProjectName.trim();
+                    onPressed: () {
+                      if (RegExp(r'[^A-Za-z0-9]').hasMatch(
+                          _newProjectName.trim().replaceAll(' ', ''))) {
+                        showToast(
+                            context,
+                            translation[widget.appLanguage]!["home"]!["home"]
+                                ["alert"]["problem"]);
+                        return;
+                      }
+                      if (_newProjectName
+                          .trim()
+                          .replaceAll(' ', '')
+                          .isNotEmpty) {
+                        /* Change the name of project */
+                        projectList[projectList.indexWhere((element) {
+                          return element['myId'] == widget.idOfProject;
+                        })]['name'] = _newProjectName.trim();
 
-                          /* go to the main scene and save all data */
-                          closeSettings();
-                        }
-                      },
-                      child: const Text(
-                        'OK',
-                        style: TextStyle(fontWeight: FontWeight.w700),
-                      )),
+                        /* go to the main scene and save all data */
+                        closeSettings();
+                      }
+                    },
+                    child: Text(
+                      translation[widget.appLanguage]!["home"]!["home"]["alert"]
+                          ["btns"][1],
+                      style: const TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                  ),
                 ),
               )
             ],
@@ -188,14 +197,21 @@ class _ProjectSettingsState extends State<ProjectSettings> {
                 setState(() {
                   createJustPutFileText = true;
                 });
-                showToast(context, value);
+                showToast(
+                    context,
+                    value == "saved"
+                        ? translation[widget.appLanguage]!["home"]![
+                            "project-settings"]["file-saved"]
+                        : value);
                 _loadAd();
               });
             },
             icon: const Icon(Icons.save_alt_rounded),
             label: Text(createJustPutFileText
-                ? "Saved in Folder"
-                : "Create Just Put file"),
+                ? translation[widget.appLanguage]!["home"]!["project-settings"]
+                    ["saved"]
+                : translation[widget.appLanguage]!["home"]!["project-settings"]
+                    ["just-put"]),
           ),
           const SizedBox(
             width: double.infinity,
@@ -218,13 +234,21 @@ class _ProjectSettingsState extends State<ProjectSettings> {
                 setState(() {
                   createHTMLFileText = true;
                 });
-                showToast(context, value);
+                showToast(
+                    context,
+                    value == "saved"
+                        ? translation[widget.appLanguage]!["home"]![
+                            "project-settings"]["file-saved"]
+                        : value);
                 _loadAd();
               });
             },
             icon: const Icon(Icons.web_asset),
-            label: Text(
-                createHTMLFileText ? "Saved in Folder" : "Create HTML file"),
+            label: Text(createHTMLFileText
+                ? translation[widget.appLanguage]!["home"]!["project-settings"]
+                    ["saved"]
+                : translation[widget.appLanguage]!["home"]!["project-settings"]
+                    ["html"]),
           ),
           ElevatedButton.icon(
               /*  ============================================= Delete Project */
@@ -239,9 +263,10 @@ class _ProjectSettingsState extends State<ProjectSettings> {
                 closeSettings();
               },
               icon: const Icon(Icons.delete_rounded),
-              label: const Text(
-                'Delete Project',
-                style: TextStyle(fontFamily: 'Cuprum'),
+              label: Text(
+                translation[widget.appLanguage]!["home"]!["project-settings"]
+                    ["delete"],
+                style: const TextStyle(fontFamily: 'Cuprum'),
               )),
         ]),
       ),

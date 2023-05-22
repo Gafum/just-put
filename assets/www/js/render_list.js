@@ -1,21 +1,26 @@
 function CreateInnerTextOfElement(idOfElement, DataOfElement) {
-  let textInEditor = ListOfElements[idOfElement].text;
+  let textInEditor = appLanguage["elements"][idOfElement].text[0];
   if (ListOfElements[idOfElement].listChengers) {
-    let maxTextWidth = Math.floor(
-      (window.screen.availWidth -
-        ListOfElements[idOfElement].text.length * 10) /
-        17
+    let maxTextWidth = Math.max(
+      Math.floor((window.screen.availWidth - textInEditor.length * 10) / 17),
+      2
     );
-    if (!maxTextWidth || maxTextWidth < 2) {
-      maxTextWidth = 2;
-    }
     for (let i = 0; i < ListOfElements[idOfElement].listChengers.length; i++) {
       if (!DataOfElement[i] || DataOfElement[i].length == 0) {
         /* Create if undefined */
         DataOfElement[i] = ListOfElements[idOfElement].standartParameter[i];
       }
+
       let realChenge = DataOfElement[i]
-        .reduce((a, b) => a + b)
+        .reduce((a, b) => {
+          let elementText =
+            formulasTranslation.indexOf(String(b)) + 1
+              ? appLanguage["formuls"]["btns"][
+                  formulasTranslation.indexOf(String(b))
+                ]
+              : String(b);
+          return a + elementText;
+        }, "")
         .slice(0, maxTextWidth);
       textInEditor = textInEditor.replace(
         ListOfElements[idOfElement].listChengers[i],
@@ -26,7 +31,7 @@ function CreateInnerTextOfElement(idOfElement, DataOfElement) {
   return textInEditor;
 }
 
-function addBlockToMainList(element, where) {
+function addBlockToMainList(element, where, isNew = false) {
   if (element.id.startsWith("AMain") || element.id.startsWith("CONTI")) {
     let addLi = document.createElement("li");
     addLi.classList.add(
@@ -38,13 +43,12 @@ function addBlockToMainList(element, where) {
 
     addLi.dataset.id = element.id;
     addLi.dataset.parameter = '"' + element.parameter + '"';
-
     addLi.innerHTML = `
 							<div class="innerOfElement">
 								<span style="margin-left: 38px; color: ${
-                  ListOfElements[element.id.slice(6)].color
+                  mainColors[ListOfElements[element.id.slice(6)].color]
                 };" class="elementText">
-									${ListOfElements[element.id.slice(6)].secondArgument[element.id[5]].text}
+									${appLanguage["elements"][element.id.slice(6)].text[Number(element.id[5]) + 1]}
 								</span>
 							</div>`;
     return;
@@ -70,9 +74,21 @@ function addBlockToMainList(element, where) {
     "ElementsInEditor",
     ListOfElements[element.id].secondArgument ? "start" : "newElement"
   );
+  console.log(ListOfElements[element.id].isfunction);
   li.style.marginTop = ListOfElements[element.id].isfunction ? "15px" : "0px";
   li.dataset.id = element.id;
   li.dataset.parameter = JSON.stringify(element.parameter);
+
+  if (isNew) {
+    li.style.color = "black";
+    li.style.backgroundColor = mainColors[ListOfElements[element.id].color];
+    setTimeout(() => {
+      li.style.color = mainColors[ListOfElements[element.id].color];
+      li.style.backgroundColor = "transparent";
+    }, 100);
+  } else {
+    li.style.color = mainColors[ListOfElements[element.id].color];
+  }
 
   li.innerHTML = `<div class="innerOfElement">
 		<div class="my-handle" onclick="showBtnElement(event);">
@@ -96,7 +112,7 @@ function addBlockToMainList(element, where) {
 				</svg>
 			</div>
 		</div>
-		<span class="elementText" style="color:${ListOfElements[element.id].color};">
+		<span class="elementText">
 			${innerTextOfElement.replaceAll("<", "&#60;").replaceAll(">", "&#62;")}
 		</span>
 	</div>
@@ -131,12 +147,14 @@ function addBlock(element) {
   if (ListInEditor.children.length * 40 < window.innerHeight * 0.7) {
     adderElement = ListInEditor.children.length - 1;
   }
+
   addBlockToMainList(
     {
       id: String(element),
       parameter: ListOfElements[element].standartParameter
     },
-    adderElement
+    adderElement,
+    true
   );
 
   /* Second Arguments ==========================> */
@@ -160,32 +178,4 @@ function addBlock(element) {
   saveData();
   addblocks.classList.remove("active");
   body.classList.remove("no-scroll");
-}
-
-function CreateInnerTextOfElement(idOfElement, DataOfElement) {
-  let textInEditor = ListOfElements[idOfElement].text;
-  if (ListOfElements[idOfElement].listChengers) {
-    let maxTextWidth = Math.floor(
-      (window.screen.availWidth -
-        ListOfElements[idOfElement].text.length * 10) /
-        17
-    );
-    if (!maxTextWidth || maxTextWidth < 2) {
-      maxTextWidth = 2;
-    }
-    for (let i = 0; i < ListOfElements[idOfElement].listChengers.length; i++) {
-      if (!DataOfElement[i] || DataOfElement[i].length == 0) {
-        /* Create if undefined */
-        DataOfElement[i] = ListOfElements[idOfElement].standartParameter[i];
-      }
-      let realChenge = DataOfElement[i]
-        .reduce((a, b) => a + b)
-        .slice(0, maxTextWidth);
-      textInEditor = textInEditor.replace(
-        ListOfElements[idOfElement].listChengers[i],
-        realChenge
-      );
-    }
-  }
-  return textInEditor;
 }

@@ -41,7 +41,7 @@ Future<String> saveFile({
     }
     File saveFile = File("${directory.path}/$fileName");
     saveFile.writeAsString(data);
-    return 'File is saved in /Download/JustPut';
+    return "saved";
   } catch (e) {
     return e.toString();
   }

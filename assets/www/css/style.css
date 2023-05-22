@@ -355,8 +355,10 @@ nav > li:active {
   max-width: 100vw;
   white-space: nowrap;
   overflow: hidden;
-  -webkit-transition: background-color 5s ease;
-  transition: background-color 5s ease;
+  -webkit-transition-duration: 5s;
+          transition-duration: 5s;
+  -webkit-transition-property: background-color, color;
+  transition-property: background-color, color;
 }
 #listEditor .ElementsInEditor > span {
   cursor: pointer;
@@ -373,6 +375,7 @@ nav > li:active {
           align-items: center;
   gap: 3px;
   max-width: 89%;
+  color: inherit;
 }
 #listEditor .ElementsInEditor > .innerOfElement > .my-handle {
   width: 30px;
@@ -452,12 +455,11 @@ nav > li:active {
   left: 0;
 }
 #listEditor .ElementsInEditor > .innerOfElement > .elementText {
+  color: inherit;
   position: relative;
   left: -25px;
   white-space: nowrap;
   overflow: hidden;
-  -webkit-transition: color 5s ease;
-  transition: color 5s ease;
 }
 #listEditor .ElementsInEditor .EditParameterBtn {
   height: 25px;

@@ -42,11 +42,11 @@ function pasteElement(event) {
 
       if (index === 0) {
         cloneOfElement.style.backgroundColor =
-          ListOfElements[cloneOfElement.dataset.id].color;
+          mainColors[ListOfElements[cloneOfElement.dataset.id].color];
         cloneOfElement.querySelector(".elementText").style.color = "black";
         setTimeout(() => {
           cloneOfElement.querySelector(".elementText").style.color =
-            ListOfElements[cloneOfElement.dataset.id].color;
+            mainColors[ListOfElements[cloneOfElement.dataset.id].color];
           cloneOfElement.style.backgroundColor = "transparent";
         }, 0);
       }

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:just_put/const/translate/translate.dart';
 import 'package:just_put/function/show_toast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,10 +16,12 @@ const alertTextStyle = TextStyle(
 
 class AlertDialogInput extends StatefulWidget {
   final Function changeListOfProjects;
+  final String appLanguage;
 
   const AlertDialogInput({
     Key? key,
     required this.changeListOfProjects,
+    required this.appLanguage,
   }) : super(key: key);
   @override
   State<AlertDialogInput> createState() => _AlertDialogInputState();
@@ -64,7 +67,8 @@ class _AlertDialogInputState extends State<AlertDialogInput> {
         Expanded(
           flex: 2,
           child: Text(
-            createOrImport ? 'Import' : 'Add project',
+            translation[widget.appLanguage]!["home"]!["home"]["alert"]["text"]
+                [createOrImport ? 1 : 0],
             textAlign: TextAlign.center,
             style: alertTextStyle,
           ),
@@ -89,7 +93,8 @@ class _AlertDialogInputState extends State<AlertDialogInput> {
               });
             },
             child: Text(
-              createOrImport ? 'Add project' : 'Import',
+              translation[widget.appLanguage]!["home"]!["home"]["alert"]["text"]
+                  [createOrImport ? 0 : 1],
               textAlign: TextAlign.center,
               style: alertTextStyle,
             ),
@@ -110,9 +115,14 @@ class _AlertDialogInputState extends State<AlertDialogInput> {
                   _saveData('${idOfProject}photos', result[1]);
                 });
               },
-              child: const Text(
-                'Import',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
+              child: Text(
+                translation[widget.appLanguage]!["home"]!["home"]["alert"]
+                    ["text"][1],
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.normal,
+                  fontFamily: "Cuprum",
+                ),
               ),
             )
           : /* Create New */
@@ -125,9 +135,10 @@ class _AlertDialogInputState extends State<AlertDialogInput> {
               maxLength: 25,
               maxLengthEnforcement: MaxLengthEnforcement.enforced,
               autofocus: false,
-              decoration: const InputDecoration(
-                hintText: 'Enter name',
-                labelStyle: TextStyle(fontFamily: 'Cuprum'),
+              decoration: InputDecoration(
+                hintText: translation[widget.appLanguage]!["home"]!["home"]
+                    ["alert"]["hint"],
+                labelStyle: const TextStyle(fontFamily: 'Cuprum'),
               ),
             ),
       actions: <Widget>[
@@ -147,8 +158,10 @@ class _AlertDialogInputState extends State<AlertDialogInput> {
                 onPressed: () {
                   if (RegExp(r'[^A-Za-z0-9]')
                       .hasMatch(_newProjectName.trim().replaceAll(' ', ''))) {
-                    showToast(context,
-                        "Name can only contain Latin letters and numbers");
+                    showToast(
+                        context,
+                        translation[widget.appLanguage]!["home"]!["home"]
+                            ["alert"]["problem"]);
                     return;
                   }
                   if (_newProjectName.trim().replaceAll(' ', '').isNotEmpty) {
@@ -157,7 +170,8 @@ class _AlertDialogInputState extends State<AlertDialogInput> {
                   }
                 },
                 child: Text(
-                  'OK',
+                  translation[widget.appLanguage]!["home"]!["home"]["alert"]
+                      ["btns"][1],
                   style: TextStyle(
                     color:
                         _newProjectName.isNotEmpty ? Colors.green : Colors.grey,

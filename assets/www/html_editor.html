@@ -601,13 +601,13 @@
 		/* Else function==============> */
 		function openAddBlock(elementColor) {
 			addblocks.scrollTo(0, 0)
-			let resultList = ListOfElements.filter((element) => element.color == elementColor)
+			let resultList = ListOfElements.filter((element) => element.color == mainColors.indexOf(elementColor))
 			ListAddBlock.innerHTML = ""
 			resultList.forEach((j) => {
 				ListAddBlock.innerHTML += `
 							<li class="ElementsInEditor" onclick="addBlock(${j.id});">
-								<span style="color: ${ListOfElements[j.id].color};">
-								${j.text}
+								<span style="color: ${elementColor};">
+								${appLanguage["elements"][j.id].text[0]}
 								</span>
 							</li>`
 			}

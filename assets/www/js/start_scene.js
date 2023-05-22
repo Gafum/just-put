@@ -1,14 +1,21 @@
-const objectColor = "#913e5f";
-const controlColor = "#f59073";
-const propertiesColor = "#96b38e";
-const dataColor = "#eb4464";
+const mainColors = ["#96b38e", "#f59073", "#913e5f", "#eb4464"];
 
 let ListOfElements = [
   {
-    id: 0, // PROPERTIES
+    id: 0,
+    code: "function name(params){",
+    text: "Function name(params)",
+    color: 1,
+    listChengers: ["name", "params"],
+    standartParameter: [["name"], ["params"]],
+    secondArgument: [{ code: "};", text: "End" }],
+    isfunction: true
+  },
+  {
+    id: 1, // PROPERTIES
     code: "//Coment",
     text: "Coment",
-    color: propertiesColor,
+    color: 0,
     listChengers: ["Coment"],
     standartParameter: [["Coment"]]
   }
@@ -179,10 +186,12 @@ let sortable = Sortable.create(ListInEditor, {
     }
   },
   onEnd: (evt) => {
-    if (evt.newIndex == 0 && ListInEditor.children[0]) {
+    if (
+      evt.newIndex == 0 &&
+      ListInEditor.children[0] &&
       ListOfElements[ListInEditor.children[0].dataset.id].isfunction
-        ? (ListInEditor.children[1].style.marginTop = "15px")
-        : "";
+    ) {
+      ListInEditor.children[1].style.marginTop = "15px";
     }
     if (evt.item.classList.contains("start")) {
       if (ListOfElements[evt.item.dataset.id].isfunction) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import '../const/translate/translate.dart';
 import '../function/code_creator.dart';
 import '../function/save_data.dart';
 
@@ -66,9 +67,9 @@ class _ViewResultState extends State<ViewResult> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: const Text(
-            'View Result',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+          title: Text(
+            translation[widget.appLanguage]!["home"]!["view"],
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
           ),
           leading: GestureDetector(
             child: const Icon(

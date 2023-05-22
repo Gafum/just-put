@@ -147,6 +147,7 @@ addNewImage({data: "${value['base64data']}", name: "${message.message}"});''');
                 child: ProjectSettings(
                   idOfProject: widget.idOfProject,
                   nameOfProject: widget.nameOfProject,
+                  appLanguage: widget.appLanguage,
                 ),
               ),
             );

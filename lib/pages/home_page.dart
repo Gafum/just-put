@@ -6,6 +6,7 @@ import 'package:just_put/pages/settings_page.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../const/translate/translate.dart';
 import '../function/save_data.dart';
 import '../widgets/HomePageWidgets/alert_dialog_input.dart';
 import '../widgets/HomePageWidgets/slidable_list_element.dart';
@@ -27,7 +28,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var projectList = [];
-  String appLanguage = "en";
+  String appLanguage = "English";
 
   @override
   void initState() {
@@ -86,9 +87,9 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: const Text(
-            'Home',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+          title: Text(
+            translation[appLanguage]!["home"]!["home"]["name"],
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
           ),
           actions: <Widget>[
             Padding(
@@ -149,6 +150,7 @@ class _HomePageState extends State<HomePage> {
                   backgroundColor: Colors.transparent,
                   body: AlertDialogInput(
                     changeListOfProjects: changeListOfProjects,
+                    appLanguage: appLanguage,
                   ),
                 ),
               ),

@@ -15,10 +15,10 @@ function openParams(event) {
     return;
   }
 
-  TextInWhereOnStart = ListOfElements[idOfElement].text;
-  if (ListOfElements[idOfElement].textInWhere) {
+  TextInWhereOnStart = appLanguage["elements"][idOfElement].text[0];
+  if (appLanguage["elements"][idOfElement].textInWhere) {
     /*===== Sometime the text of Element is more longer than right version */
-    TextInWhereOnStart = ListOfElements[idOfElement].textInWhere;
+    TextInWhereOnStart = appLanguage["elements"][idOfElement].textInWhere;
   }
 
   listOfChageParams = ListOfElements[idOfElement].listChengers;
@@ -45,7 +45,7 @@ function openParams(event) {
 
   /* Add style to where */
   editparams.querySelector("#where").style.backgroundColor =
-    ListOfElements[idOfElement].color;
+    mainColors[ListOfElements[idOfElement].color];
 
   /* Does Element work with texure? */
   editparams.querySelector("#texturesListEditor").style.display = "none";

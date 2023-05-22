@@ -32,20 +32,31 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: const Text("Settings")),
+        appBar: AppBar(
+            title: Text(
+                translation[dropdownValue]!["home"]!["main-settings"]["name"])),
         body: ListView(
             padding: const EdgeInsets.only(
               top: 12.0,
             ),
             children: [
               DropdownButtonFormField(
-                decoration: const InputDecoration(
-                  enabledBorder: InputBorder.none,
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: Color.fromRGBO(200, 190, 255, 1),
+                decoration: InputDecoration(
+                  labelText:
+                      translation[dropdownValue]!["home"]!["main-settings"]
+                          ["language"],
+                  contentPadding: const EdgeInsets.only(
+                    left: 12.0,
+                    bottom: 8.0,
+                    right: 8.0,
+                  ),
+                  labelStyle:
+                      const TextStyle(color: Color.fromARGB(200, 75, 75, 75)),
+                  enabledBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(width: 3, color: Colors.green),
+                  ),
                 ),
-                dropdownColor: const Color.fromRGBO(200, 190, 255, 1),
+                dropdownColor: const Color.fromARGB(255, 255, 255, 255),
                 value: dropdownValue,
                 onChanged: (String? newValue) {
                   setState(() {

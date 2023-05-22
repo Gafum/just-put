@@ -233,7 +233,8 @@ nav {
     max-width: 100vw;
     white-space: nowrap;
     overflow: hidden;
-    transition: background-color 5s ease;
+    transition-duration: 5s;
+    transition-property: background-color, color;
 
     > span {
       cursor: pointer;
@@ -245,6 +246,7 @@ nav {
       align-items: center;
       gap: 3px;
       max-width: 89%;
+      color: inherit;
 
       > .my-handle {
         width: 30px;
@@ -303,6 +305,7 @@ nav {
         display: flex;
         width: 30px;
         gap: 3px;
+
         &.active {
           transform: scaleX(1);
           width: max-content;
@@ -313,11 +316,11 @@ nav {
         }
       }
       > .elementText {
+        color: inherit;
         position: relative;
         left: -25px;
         white-space: nowrap;
         overflow: hidden;
-        transition: color 5s ease;
       }
     }
 

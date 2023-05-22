@@ -29,6 +29,7 @@ class SlidableListElement extends StatelessWidget {
                   child: ProjectSettings(
                     idOfProject: item['myId'],
                     nameOfProject: item['name'],
+                    appLanguage: appLanguage,
                   ),
                 ),
               )

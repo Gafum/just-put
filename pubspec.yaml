@@ -3,7 +3,7 @@ description: Just put and make a game.
 
 publish_to: "none"
 
-version: 0.3.6+9
+version: 0.4.0+10
 
 environment:
   sdk: ">=2.19.2 <3.0.0"
@@ -61,6 +61,8 @@ flutter:
     - family: Cuprum
       fonts:
         - asset: assets/www/fonts/Cuprum-Bold.woff2
+          weight: 700
+        - asset: assets/www/fonts/Cuprum-Bold-Cirillic.woff2
           weight: 700
         - asset: assets/www/fonts/Cuprum-Regular.ttf
           style: normal

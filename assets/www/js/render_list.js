@@ -74,7 +74,6 @@ function addBlockToMainList(element, where, isNew = false) {
     "ElementsInEditor",
     ListOfElements[element.id].secondArgument ? "start" : "newElement"
   );
-  console.log(ListOfElements[element.id].isfunction);
   li.style.marginTop = ListOfElements[element.id].isfunction ? "15px" : "0px";
   li.dataset.id = element.id;
   li.dataset.parameter = JSON.stringify(element.parameter);

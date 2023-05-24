@@ -229,7 +229,7 @@ nav {
     justify-content: space-between;
     align-items: center;
     height: 40px;
-    padding: 10px 10px 13px 5px;
+    padding: 10px 10px 13px 0px;
     max-width: 100vw;
     white-space: nowrap;
     overflow: hidden;
@@ -247,7 +247,8 @@ nav {
       gap: 3px;
       max-width: 89%;
       color: inherit;
-
+      border-end-end-radius: 20px;
+      border-start-end-radius: 20px;
       > .my-handle {
         width: 30px;
         min-width: 30px;
@@ -339,8 +340,8 @@ nav {
   }
 
   .sortable-fallback {
-    /* where to put */
-    background-color: #5c5c5cc7;
+    opacity: 0.2;
+    background-color: black;
     border-radius: 8px;
   }
 }

@@ -28,6 +28,7 @@ function openSettings(e) {
 function closeFileCodes() {
   files.classList.remove("active");
   codePieces.classList.remove("active");
+  body.classList.remove("no-scroll");
 }
 
 function openFiles() {

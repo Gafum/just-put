@@ -167,11 +167,19 @@ function readData(data, nameOfProject) {
 }
 
 let sortable = Sortable.create(ListInEditor, {
+  delay: 220,
+  delayOnTouchOnly: true,
   handle: ".my-handle-inner",
   animation: 150,
   filter: ".filtered",
   fallbackTolerance: 5,
   touchStartThreshold: 4,
+  onChoose: function (evt) {
+    evt.item.querySelector(".innerOfElement").style.backgroundColor = "#000";
+  },
+  onUnchoose: function (evt) {
+    evt.item.querySelector(".innerOfElement").style.backgroundColor = "";
+  },
   onStart: (evt) => {
     if (evt.item.classList.contains("start")) {
       listOfchangeElemnents = [];
@@ -186,12 +194,13 @@ let sortable = Sortable.create(ListInEditor, {
     }
   },
   onEnd: (evt) => {
+    evt.item.querySelector(".innerOfElement").style.backgroundColor = "";
     if (
       evt.newIndex == 0 &&
       ListInEditor.children[0] &&
       ListOfElements[ListInEditor.children[0].dataset.id].isfunction
     ) {
-      ListInEditor.children[1].style.marginTop = "15px";
+      ListInEditor.children[0].style.marginTop = "15px";
     }
     if (evt.item.classList.contains("start")) {
       if (ListOfElements[evt.item.dataset.id].isfunction) {

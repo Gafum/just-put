@@ -5,6 +5,15 @@
   font-weight: 700;
   font-display: swap;
   src: url(../fonts/Cuprum-Bold.woff2) format("woff2");
+  unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF, U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Cuprum";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(../fonts/Cuprum-Bold-Cirillic.woff2) format("woff2");
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F, U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
 * {
   padding: 0;
@@ -351,7 +360,7 @@ nav > li:active {
       -ms-flex-align: center;
           align-items: center;
   height: 40px;
-  padding: 10px 10px 13px 5px;
+  padding: 10px 10px 13px 0px;
   max-width: 100vw;
   white-space: nowrap;
   overflow: hidden;
@@ -376,6 +385,8 @@ nav > li:active {
   gap: 3px;
   max-width: 89%;
   color: inherit;
+  border-end-end-radius: 20px;
+  border-start-end-radius: 20px;
 }
 #listEditor .ElementsInEditor > .innerOfElement > .my-handle {
   width: 30px;
@@ -480,8 +491,8 @@ nav > li:active {
   max-width: 20px;
 }
 #listEditor .sortable-fallback {
-  /* where to put */
-  background-color: rgba(92, 92, 92, 0.7803921569);
+  opacity: 0.2;
+  background-color: black;
   border-radius: 8px;
 }
 

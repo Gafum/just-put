@@ -41,14 +41,14 @@ function pasteElement(event) {
       const cloneOfElement = i.cloneNode(true);
 
       if (index === 0) {
+        cloneOfElement.style.color = "black";
         cloneOfElement.style.backgroundColor =
           mainColors[ListOfElements[cloneOfElement.dataset.id].color];
-        cloneOfElement.querySelector(".elementText").style.color = "black";
         setTimeout(() => {
-          cloneOfElement.querySelector(".elementText").style.color =
+          cloneOfElement.style.color =
             mainColors[ListOfElements[cloneOfElement.dataset.id].color];
           cloneOfElement.style.backgroundColor = "transparent";
-        }, 0);
+        }, 100);
       }
 
       if (cloneOfElement.querySelector(".active")) {

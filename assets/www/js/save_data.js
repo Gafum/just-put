@@ -18,7 +18,8 @@ function saveData(createCode = false) {
       parameter: JSON.parse(i.dataset.parameter)
     });
 
-    i.style.paddingLeft = (attachment < 6 ? attachment * 20 : 120) + "px";
+    i.querySelector(".innerOfElement").style.paddingLeft =
+      (attachment < 6 ? attachment * 20 : 120) + "px";
     if (i.classList.contains("start")) {
       attachment++;
     }

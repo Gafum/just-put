@@ -216,10 +216,10 @@ var ListOfElements = [
   {
     "id": 14,
     "code":
-        "function myName(event) {\nlet MousePosition = getpositionOfMouse(event);\n(Array.isArray(//Object) ? //Object : [//Object]).forEach((iser) => {\n\tif (colisionWithTouch({ object: iser, MousePosition })) {\n\t\tlet tappedElement = iser;",
+        "function myFunctionName(event) {\nlet MousePosition = getpositionOfMouse(event);\n(Array.isArray(//Object) ? //Object : [//Object]).forEach((iser) => {\n\tif (colisionWithTouch({ object: iser, MousePosition })) {\n\t\tlet tappedElement = iser;",
     "text": "//Object.onClick",
     "color": 1,
-    "listChengers": ["//Object", "myName"],
+    "listChengers": ["//Object", "myFunctionName"],
     "standartParameter": [
       ["myName"],
       []
@@ -854,10 +854,10 @@ var ListOfElements = [
   },
   {
     "id": 64,
-    "code": "moveObject(Object, endX, endY, duration);",
-    "text": "Object smoothMove to endX, endY",
+    "code": "moveObject(myName, endX, endY, duration);",
+    "text": "myName smoothMove to endX, endY",
     "color": 0,
-    "listChengers": ["Object", "endX", "endY", "duration"],
+    "listChengers": ["myName", "endX", "endY", "duration"],
     "standartParameter": [
       ["myName"],
       ["2", "5", "0"],
@@ -983,7 +983,7 @@ var ListOfElements = [
     "standartParameter": [
       ["\"Text\""],
       ["\"textId\""],
-      ["4", "0"],
+      ["2", "5", "0"],
       ["1", "0", "0"],
       ["\"text-align: center;\""]
     ],
@@ -1013,8 +1013,8 @@ var ListOfElements = [
       ["\"width: 200px;\""],
       [" myName"],
       ["false"],
-      ["4", "0"],
-      ["6", "0"]
+      ["2", "5", "0"],
+      ["5", "0"]
     ],
   },
   {
@@ -1042,8 +1042,8 @@ var ListOfElements = [
       ["1"],
       ["myName"],
       ["\"width: 200px;\""],
-      ["4", "0"],
-      ["8", "0"]
+      ["2", "5", "0"],
+      ["5", "0"]
     ],
   },
   {
@@ -1057,7 +1057,7 @@ var ListOfElements = [
       ["\"ColorId\""],
       ["\"#eb4464\""],
       ["myName"],
-      ["4", "0"],
+      ["2", "5", "0"],
       ["1", "0", "0"]
     ],
   },
@@ -1082,8 +1082,8 @@ var ListOfElements = [
       ["\"isHappy\""],
       ["myName"],
       ["\"width: 200px;\""],
-      ["4", "0"],
-      ["1", "2", "0"]
+      ["2", "5", "0"],
+      ["1", "0", "0"]
     ],
   },
   {
@@ -1109,8 +1109,8 @@ var ListOfElements = [
       ["\"Option 1\""],
       ["myName"],
       ["\"width: 100px;\""],
-      ["4", "0"],
-      ["1", "4", "0"]
+      ["2", "5", "0"],
+      ["1", "0", "0"]
     ],
   },
   {
@@ -1124,8 +1124,8 @@ var ListOfElements = [
       ["\"btnId\""],
       ["\"press me\""],
       ["showMessege(\"hi\");"],
-      ["8", "0"],
-      ["1", "6", "0"],
+      ["2", "5", "0"],
+      ["2", "0", "0"],
       ["\"width: 100px;\""]
     ],
   },
@@ -1157,10 +1157,10 @@ var ListOfElements = [
   },
   {
     "id": 83,
-    "code": "object.newProperty = 10",
-    "text": "Set object newProperty to 10",
+    "code": "Object.newProperty = 10",
+    "text": "Object.newProperty = 10",
     "color": 0,
-    "listChengers": ["object", "newProperty", "10"],
+    "listChengers": ["Object", "newProperty", "10"],
     "standartParameter": [
       ["myName"],
       ["health"],
@@ -1178,5 +1178,16 @@ var ListOfElements = [
       ["health"],
       ["-", "1"]
     ]
-  }
+  },
+  {
+    "id": 85,
+    "code": "Object.texture = myIMG",
+    "text": "Set Object texture to myIMG",
+    "color": 0,
+    "listChengers": ["Object", "myIMG"],
+    "standartParameter": [
+      ["myName"],
+      ["undefined"]
+    ]
+  },
 ];

@@ -89,7 +89,8 @@ class _EditorPageState extends State<EditorPage> {
             controller.runJavaScript('''
             ListOfElements = ${json.encode(ListOfElements)};
             appLanguage = ${json.encode(translation[widget.appLanguage]!["html"])};
-            readData($value, '${widget.nameOfProject}');''');
+            readData($value, '${widget.nameOfProject}');
+            ''');
             setState(() {
               isLoading = false;
             });

@@ -88,7 +88,7 @@ const ukrainianLanguage = {
         "<=",
         "і",
         "або",
-        "ні",
+        "ні ",
         "правда",
         "хиба",
         "неозначено",
@@ -373,9 +373,9 @@ const ukrainianLanguage = {
         "text": ["Додати до //Object Напрямку 20"],
       },
       {
-        "text": ["Object плавноПерейти до endX, endY"],
+        "text": ["плавноПеремістити myName до endX, endY"],
         "textInWhere":
-            "Object Плавно перемістити до x: endX, y: endY за duration мілесекунд<span style='font-size:10px;'>(1s/1000)</span>"
+            "myName Плавно перемістити до x: endX, y: endY за duration мілесекунд<span style='font-size:10px;'>(1s/1000)</span>"
       },
       {
         "text": ["Колір фону: myColor"],
@@ -455,11 +455,14 @@ const ukrainianLanguage = {
         "text": ["Видалити HTML елемент myId"]
       },
       {
-        "text": ["Встановити object.newProperty 10"]
+        "text": ["Object.newProperty = 10"]
       },
       {
         "text": ["Додати до object.myProperty -1"]
-      }
+      },
+      {
+        "text": ["Object.текстура = myIMG"]
+      },
     ]
   }
 };

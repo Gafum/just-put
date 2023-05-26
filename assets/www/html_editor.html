@@ -601,7 +601,9 @@
 		/* Else function==============> */
 		function openAddBlock(elementColor) {
 			addblocks.scrollTo(0, 0)
-			let resultList = ListOfElements.filter((element) => element.color == mainColors.indexOf(elementColor))
+			let resultList = sortOrder.map((id) =>
+				ListOfElements.find((item) => item.id === id)
+			).filter((element) => element.color == mainColors.indexOf(elementColor))
 			ListAddBlock.innerHTML = ""
 			resultList.forEach((j) => {
 				ListAddBlock.innerHTML += `

@@ -88,7 +88,7 @@ const russianLanguage = {
         "<=",
         "и",
         "или",
-        "нет",
+        "нет ",
         "правда",
         "ложь",
         "неопределено",
@@ -377,9 +377,9 @@ const russianLanguage = {
         "text": ["Добавить к //Object Направления 20"],
       },
       {
-        "text": ["Object плавноПерейти до endX, endY"],
+        "text": ["myName плавноПерейти до endX, endY"],
         "textInWhere":
-            "Object Плавно переместить до x: endX, y: endY за duration миллисекунд<span style='font-size:10px;'>(1s/1000)</span>"
+            "myName Плавно переместить до x: endX, y: endY за duration миллисекунд<span style='font-size:10px;'>(1s/1000)</span>"
       },
       {
         "text": ["Цвет фона: myColor"],
@@ -459,11 +459,14 @@ const russianLanguage = {
         "text": ["Удалить HTML элемент myId"]
       },
       {
-        "text": ["Установить object.newProperty 10"]
+        "text": ["Object.newProperty = 10"]
       },
       {
         "text": ["Добавить к object.myProperty -1"]
-      }
+      },
+      {
+        "text": ["Object.текстура = myIMG"]
+      },
     ]
   }
 };

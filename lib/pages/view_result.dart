@@ -52,6 +52,7 @@ class _ViewResultState extends State<ViewResult> {
         setState(() {
           isLoading = false;
         });
+        controller.setBackgroundColor(Colors.black);
       }))
       ..enableZoom(false)
       ..setJavaScriptMode(JavaScriptMode.unrestricted);

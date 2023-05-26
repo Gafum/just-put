@@ -88,7 +88,7 @@ const englishLanguage = {
         "<=",
         "and",
         "or",
-        "no",
+        "no ",
         "true",
         "false",
         "undefined",
@@ -376,8 +376,8 @@ const englishLanguage = {
         "text": ["Add to //Object Direction 20"],
       },
       {
-        "text": ["Object smoothMove to endX, endY"],
-        "textInWhere": "Object move smoothly to x: endX, y: endY in duration ms"
+        "text": ["myName smoothMove to endX, endY"],
+        "textInWhere": "myName move smoothly to x: endX, y: endY in duration ms"
       },
       {
         "text": ["Background-color: myColor"],
@@ -453,10 +453,13 @@ const englishLanguage = {
         "text": ["Delete element myId"]
       },
       {
-        "text": ["Set object.newProperty to 10"]
+        "text": ["Object.newProperty = 10"]
       },
       {
         "text": ["Add to object.myProperty -1"]
+      },
+      {
+        "text": ["Object.texture = myIMG"]
       }
     ]
   }

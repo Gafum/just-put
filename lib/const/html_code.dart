@@ -18,6 +18,10 @@ const htmlCode = '''
 			width: 100%;
 		}
 
+    canvas{
+      background-color: white;
+    }
+
 		.input-text-container{
 			margin-top: 10px;
 			position: relative;
@@ -187,11 +191,6 @@ const htmlCode = '''
 	<div id="main" style="position: relative;"></div>
 
 	<canvas style="display: block;" width="640" height="1440">Error. Your browser does not support canvas. 0(</canvas>
-
-	<div class="loadTips">
-		<h1>Loading...</h1>
-		<p>will restart the game if you see this text for a long time</p>
-	</div>
 
 	<dialog id="modal-window">
 		<div id="inner-modal-window"> Is it me? </div>
@@ -467,15 +466,14 @@ const htmlCode = '''
 
 	/* Main Script */
 	setTimeout(()=>{	
-		canva.width =  window.innerWidth*2
-		canva.height = window.innerHeight*2
-		document.querySelector(".loadTips").style.display = "none"
-		const DisplayWidth = canva.width
-		const DisplayHeight = canva.height
+		canva.width =  window.innerWidth*2;
+		canva.height = window.innerHeight*2;
+		const DisplayWidth = canva.width;
+		const DisplayHeight = canva.height;
 		try{
 			HereMustBeMainCode====>
 		}catch(e){
-			alert(e)
+			alert(e);
 		}
 	}, 300)
 	</script>

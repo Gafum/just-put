@@ -53,8 +53,9 @@ function openParams(event) {
     listOfTexture.length > 0 &&
     texturesElements.includes(editingElement.dataset.id)
   ) {
-    editparams.querySelector("#eventList").style.display = "flex";
-    editparams.querySelector("#texturesListEditor").innerHTML = `Textures
+    editparams.querySelector("#texturesListEditor").style.display = "flex";
+    editparams.querySelector("#texturesListEditor").innerHTML = `
+			<span>Textures</span>
 				<ul>
 			${listOfTexture.reduce((a, b) => {
         return (
@@ -68,13 +69,18 @@ function openParams(event) {
 
   /* Is element inside the mouse or touch function? */
   editparams.querySelector("#eventList").style.display = "none";
-  if (event.target.closest(".ElementsInEditor").style.paddingLeft !== "0px") {
+  if (
+    editingElement.querySelector(".innerOfElement").style.paddingLeft !== "0px"
+  ) {
+    console.log(
+      getFirstElement(
+        Array.from(ListInEditor.children).indexOf(editingElement) - 1
+      )
+    );
     if (
       tapElements.includes(
         getFirstElement(
-          Array.from(ListInEditor.children).indexOf(
-            event.target.closest(".ElementsInEditor")
-          ) - 1
+          Array.from(ListInEditor.children).indexOf(editingElement) - 1
         )
       )
     ) {
@@ -98,7 +104,10 @@ function getFirstElement(index) {
   if (index < 0) {
     return false;
   }
-  if (ListInEditor.children[index].style.paddingLeft == "0px") {
+  if (
+    ListInEditor.children[index].querySelector(".innerOfElement").style
+      .paddingLeft == "0px"
+  ) {
     return String(ListInEditor.children[index].dataset.id);
   } else {
     return getFirstElement(index - 1);

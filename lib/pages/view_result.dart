@@ -91,7 +91,7 @@ class _ViewResultState extends State<ViewResult> {
                   ? const Center(
                       child: CircularProgressIndicator(),
                     )
-                  : Stack(),
+                  : const Stack(),
             ],
           ),
         ),

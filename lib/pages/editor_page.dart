@@ -183,7 +183,7 @@ addNewImage({data: "${value['base64data']}", name: "${message.message}"});''');
                 ? const Center(
                     child: CircularProgressIndicator(),
                   )
-                : Stack(),
+                : const Stack(),
           ],
         ),
       ),

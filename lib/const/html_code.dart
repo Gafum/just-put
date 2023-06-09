@@ -16,11 +16,35 @@ const htmlCode = '''
 		html, body, canvas{
 			height: 100%;
 			width: 100%;
+      background-color: white;
 		}
 
-    canvas{
-      background-color: white;
-    }
+    input[type="range"] {
+			appearance: none;
+			height: 10px;
+			background: transparent;
+			outline: none;
+			background: transparent;
+		}
+		input[type="range"]::-webkit-slider-runnable-track {
+			-webkit-appearance: none;
+			background: white;
+			border: 1px solid black;
+			border-radius: 10px;
+		}
+		input[type="range"]::-webkit-slider-thumb {
+			-webkit-appearance: none;
+			border: none;
+			width: 15px;
+			height: 15px;
+			border-radius: 50%;
+			transition: transform 0.2s ease-in-out;
+			background: black;
+			cursor: ew-resize;
+		}
+		input[type="range"]:active::-webkit-slider-thumb {
+			transform: scale(1.3);
+		}
 
 		.input-text-container{
 			margin-top: 10px;
@@ -53,7 +77,6 @@ const htmlCode = '''
 			outline:none;
 			border-bottom: 2px solid black;	
 		}
-
 		.input-text-container input:focus ~ label,
 		.input-text-container input:valid ~ label{
 			top: -50%;

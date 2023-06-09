@@ -177,11 +177,9 @@
 			<path class="fillWite"
 				d="M9,0C4,0,0,4,0,9v32c0,5,4,9,9,9h22c5,0,9-4,9-9V20H26c-3.3,0-6-2.7-6-6V0H9z M24,0.3V14c0,1.1,0.9,2,2,2h13.7L24,0.3z" />
 		</symbol>
-		<symbol viewBox="0 0 24 24" id="icon-draw">
-			<path class="fillWite"
-				d="M17.13,22.5H9.87a2,2,0,1,1,0-4.05h1.86L5.06,11.78a2,2,0,0,1-.19-2.65A1.92,1.92,0,0,1,7.68,9l4.05,4.05L15.81,10a1.9,1.9,0,0,1,2.49.18h0a17.3,17.3,0,0,1,4.17,6.74l.06.19" />
-			<path class="fillWite"
-				d="M13,1.5H8.25A1.91,1.91,0,0,0,6.34,3.41h0A1.92,1.92,0,0,0,8.25,5.32h2.86A1.9,1.9,0,0,1,13,7.23h0a1.91,1.91,0,0,1-1.91,1.91H8.29" />
+		<symbol viewBox="0 0 512 512" id="icon-draw">
+			<path
+				d="M416 128V32c0-17.67-14.33-32-32-32H32C14.33 0 0 14.33 0 32v96c0 17.67 14.33 32 32 32h352c17.67 0 32-14.33 32-32zm32-64v128c0 17.67-14.33 32-32 32H256c-35.35 0-64 28.65-64 64v32c-17.67 0-32 14.33-32 32v128c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32V352c0-17.67-14.33-32-32-32v-32h160c53.02 0 96-42.98 96-96v-64c0-35.35-28.65-64-64-64z" />
 		</symbol>
 		<symbol viewBox="0 0 550 330" id="icon-internet">
 			<path class="fillWite" d="M538.9,122.6c-3.3-15.8-16.5-27.1-39.1-33.6c-20.5-5-41.5-7.4-62.6-7.1H434c8,13.6,14.4,28.1,18.8,43.2
@@ -407,6 +405,7 @@
 				<li class="mainLi" id="eventList" style="display:none;">
 					<span>MouseEvent</span>
 					<ul>
+						<li onclick="tapOfFunctionBtn(0,'MousePosition');">mousePosition</li>
 						<li onclick="tapOfFunctionBtn(0,'MousePosition.x');">mouse X</li>
 						<li onclick="tapOfFunctionBtn(0, 'MousePosition.y');">mouse Y</li>
 						<li onclick="tapOfFunctionBtn(1, 'colisionWithTouch({ MousePosition, object: ', '})');">

@@ -117,7 +117,7 @@ var ListOfElements = [
       ["5", "0", "0"],
       ["2", "0", "0"],
       ["7", "0"],
-      ["degToRadian(", "0", ")"],
+      ["degToRadian(", "9", "0", ")"],
       ["\"#000\""],
       ["0"],
       ["undefined"]
@@ -126,7 +126,7 @@ var ListOfElements = [
   {
     "id": 9,
     "code":
-        "myName = new rect({ x: myX, y: myY, radius: myR, startAngle:myS, endAngle: myE, counterclockwise: myCl, color: myColor, shape: \"circle\", width: myR*2, height: myR*2 });",
+        "myName = new rect({ x: myX, y: myY, radius: myR, startAngle:myS, endAngle: myE, counterclockwise: myCl, color: myColor, direction: myDir, shape: \"circle\", width: myR*2, height: myR*2 });",
     "text": "Create Circle myName",
     "color": 2,
     "listChengers": [
@@ -137,7 +137,8 @@ var ListOfElements = [
       "myS",
       "myE",
       "myCl",
-      "myColor"
+      "myColor",
+      "myDir"
     ],
     "standartParameter": [
       ["myName"],
@@ -147,7 +148,8 @@ var ListOfElements = [
       ["0"],
       ["degToRadian(", "3", "6", "0", ")"],
       ["false"],
-      ["\"#000\""]
+      ["\"#000\""],
+      ["degToRadian(", "9", "0", ")"]
     ],
   },
   {
@@ -208,7 +210,7 @@ var ListOfElements = [
       ["\"Hi Gafum\""],
       ["2", "0", "0"],
       ["8", "0"],
-      ["\"#000\""],
+      ["\"#ff0000\""],
       ["\"48px serif\""],
       ["\"center\""]
     ],
@@ -867,7 +869,8 @@ var ListOfElements = [
   },
   {
     "id": 65,
-    "code": "canva.style.backgroundColor = myColor",
+    "code":
+        "canva.style.backgroundColor = myColor;\n document.querySelector('body').style.backgroundColor = myColor;",
     "text": "Background-color: myColor",
     "color": 0,
     "listChengers": ["myColor"],
@@ -1132,7 +1135,7 @@ var ListOfElements = [
   {
     "id": 81,
     "code":
-        "addElementByHtml(`<img src='\${myTexture.a.src}' style=\"position: absolute; left: \${(myX)/2}px; top: \${(myY)/2}px; \${myStyle} transform: translate(-50%, -50%);\">`, myId);",
+        "addElementByHtml(`<img src='\${myTexture.a.src}' style=\"pointer-events: none; position: absolute; left: \${(myX)/2}px; top: \${(myY)/2}px; \${myStyle} transform: translate(-50%, -50%);\">`, myId);",
     "text": "Image(myId)",
     "color": 2,
     "listChengers": ["myId", "myTexture", "myX", "myY", "myStyle"],
@@ -1188,6 +1191,32 @@ var ListOfElements = [
     "standartParameter": [
       ["myName"],
       ["undefined"]
+    ]
+  },
+  {
+    "id": 86,
+    "code":
+        "function myName(event){\nlet tappedElement = //Object;\nlet MousePosition = getpositionOfMouse(event);",
+    "text": "Start of the touching",
+    "color": 1,
+    "listChengers": ["//Object", "myName"],
+    "standartParameter": [
+      ["undefined"],
+      []
+    ],
+    "secondArgument": [
+      {"code": "};", "text": "End of Tap"}
+    ],
+    "isfunction": true,
+  },
+  {
+    "id": 87,
+    "code": "//a = [];",
+    "text": "Set //a to empty list",
+    "color": 3,
+    "listChengers": ["//a"],
+    "standartParameter": [
+      [" //a"]
     ]
   },
 ];

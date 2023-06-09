@@ -1,4 +1,5 @@
 function createVarieble(isData) {
+  event.stopPropagation();
   showMessege({
     text: isData
       ? appLanguage["message"]["createData"]

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -57,6 +59,7 @@ class _ViewResultState extends State<ViewResult> {
       ..enableZoom(false)
       ..setJavaScriptMode(JavaScriptMode.unrestricted);
     _getData().then((value) {
+      log(codeCreator(value: widget.data, inApp: value));
       return controller
           .loadHtmlString(codeCreator(value: widget.data, inApp: value));
     });

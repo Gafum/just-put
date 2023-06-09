@@ -3,7 +3,7 @@ description: Just put and make a game.
 
 publish_to: "none"
 
-version: 0.4.0+10
+version: 0.4.2+12
 
 environment:
   sdk: ">=2.19.2 <3.0.0"
@@ -17,10 +17,21 @@ dependencies:
   webview_flutter: ^4.0.6
   path_provider: ^2.0.13
   permission_handler: ^10.2.0
+  flutter_native_splash: ^2.2.19
   file_picker: ^5.2.6
   image_picker: ^0.8.7
   google_mobile_ads: ^2.4.0
   flutter_slidable: ^3.0.0
+
+flutter_native_splash:
+  color: "#ffffff"
+
+  image: assets/splash/splash.png
+
+  android_12:
+    image: assets/splash/splash.png
+    color: "#ffffff"
+    icon_background_color: "#ffffff"
 
 dev_dependencies:
   flutter_test:

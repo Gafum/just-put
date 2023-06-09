@@ -40,6 +40,7 @@ const ukrainianLanguage = {
       ],
       "btns": [
         "+Створити",
+        "позиціяМиші",
         "мишаX",
         "мишаY",
         "зіткненняЗДотиком({",
@@ -145,7 +146,7 @@ const ukrainianLanguage = {
         "text": ["Coment"]
       },
       {
-        "text": ["Установіть //a значення 2"]
+        "text": ["Встановити //a значення 2"]
       },
       {
         "text": ["//code"]
@@ -170,7 +171,7 @@ const ukrainianLanguage = {
       {
         "text": ["Створити коло myName"],
         "textInWhere":
-            "myName: x: myX, y: myY, радіус: myR, початковийКут(радіан): myS, кінцевийКут(радіан): myE, годинниковаПерегоротка: myCl, колір: myColor"
+            "myName: x: myX, y: myY, радіус: myR, початковийКут(радіан): myS, кінцевийКут(радіан): myE, годинниковаПерегоротка: myCl, колір: myColor, напрям: myDir"
       },
       {
         "text": ["Цикл Малювання", "Кінець малювання"],
@@ -462,6 +463,14 @@ const ukrainianLanguage = {
       },
       {
         "text": ["Object.текстура = myIMG"]
+      },
+      {
+        "text": ["Початок натиску", "Кінець натиску"],
+        "textInWhere":
+            "Початок натиску натиснутийОб'єкт://Object <span style='font-size:10px;'>(не обов'язково)</span>"
+      },
+      {
+        "text": ["Порожній список //a"],
       },
     ]
   }

@@ -81,6 +81,7 @@ let StoredData = {}
   List listOfTaps = [];
   List listOfMoveTaps = [];
   List listOfEndOfTaps = [];
+  List listOfStartOfTaps = [];
 
   /* Check for the functions in every piece */
   for (var items in data) {
@@ -94,6 +95,9 @@ let StoredData = {}
       } else if (element['id'] == '26') {
         // EndOfTheTouching (Mouse up) =>
         listOfEndOfTaps.add(element);
+      } else if (element['id'] == '86') {
+        // StartOfTheTouching (Mouse down) =>
+        listOfStartOfTaps.add(element);
       }
     }
   }
@@ -101,6 +105,14 @@ let StoredData = {}
   if (listOfTaps.isNotEmpty) {
     fisrtStrCode += '''\ncanva.onclick = (event)=> {
   ${listOfTaps.fold('', (a, b) => '$a\n${b['parameter'][1][0]}(event)')}
+};''';
+  }
+  if (listOfStartOfTaps.isNotEmpty) {
+    fisrtStrCode += '''\n
+document.addEventListener("mousedown", StartOfTaps);
+document.addEventListener("touchstart", StartOfTaps);
+function StartOfTaps (event) {
+  ${listOfStartOfTaps.fold('', (a, b) => '$a\n${b['parameter'][1][0]}(event)')}
 };''';
   }
   if (listOfMoveTaps.isNotEmpty) {
@@ -113,9 +125,18 @@ function MouseNowIsMove (event) {
   }
   if (listOfEndOfTaps.isNotEmpty) {
     fisrtStrCode += '''\n
-document.addEventListener("mouseup", EndOfTheTouching);
-function EndOfTheTouching(event) {
-  ${listOfEndOfTaps.fold('', (a, b) => '$a\n${b['parameter'][1][0]}(event)')}
+let interactionEndedInTheEndPosition = false;
+
+document.addEventListener('mouseup', EndOfTheTouching);
+document.addEventListener('touchend', EndOfTheTouching);
+function EndOfTheTouching() {
+  if (!interactionEndedInTheEndPosition) {
+    interactionEndedInTheEndPosition = true;
+    ${listOfEndOfTaps.fold('', (a, b) => '$a\n${b['parameter'][1][0]}(event)')}
+    setTimeout(() => {
+      interactionEndedInTheEndPosition = false;
+    }, 100);
+  };
 };''';
   }
 

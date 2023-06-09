@@ -40,6 +40,7 @@ const englishLanguage = {
       ],
       "btns": [
         "+Create",
+        "mousePosition",
         "mouseX",
         "mouseY",
         "colisionWithTouch({ ",
@@ -174,7 +175,7 @@ const englishLanguage = {
       {
         "text": ["Create Circle myName"],
         "textInWhere":
-            "myName: x: myX, y: myY, radius: myR, startAngle(rad): myS, endAngle(rad): myE, counterclockwise: myCl, color: myColor"
+            "myName: x: myX, y: myY, radius: myR, startAngle(rad): myS, endAngle(rad): myE, counterclockwise: myCl, color: myColor, direction: myDir"
       },
       {
         "text": ["Drawing cycle", "End Drawing"],
@@ -460,7 +461,15 @@ const englishLanguage = {
       },
       {
         "text": ["Object.texture = myIMG"]
-      }
+      },
+      {
+        "text": ["Start Of The Touching", "End of Tap"],
+        "textInWhere":
+            "Start Of The Touch / Mouse down tappedElement://Object <span style='font-size:10px;'>(not necessarily)</span>"
+      },
+      {
+        "text": ["Set //a to empty array"],
+      },
     ]
   }
 };

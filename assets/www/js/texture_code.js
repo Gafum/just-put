@@ -89,13 +89,19 @@ function createTextureURL() {
 }
 
 function createTextureDraw() {
-  showMessege({
-    text: `<span style='color = red;'>Not available now 0(</span>`,
-    defaultValue: "empty"
-  });
   modalInput.querySelector("#ok-btn").onclick = () => {
-    return true;
+    let userAnswer = modalInput.querySelector("input").value.slice(0, 20);
+    userAnswer = userAnswer.replace(/\s/g, "");
+    if (!userAnswer) return false;
+
+    let inputPlaceholder = checkForIncludesVarieblse(userAnswer);
+    if (inputPlaceholder) {
+      modalInput.querySelector("label").innerHTML = inputPlaceholder;
+      return false;
+    }
+    PaintImg.postMessage(userAnswer);
   };
+  showMessege({ text: appLanguage["message"]["writeName"], defaultValue: "" });
 }
 
 function deleteTexture(id, name) {

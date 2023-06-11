@@ -1142,8 +1142,8 @@ var ListOfElements = [
     "standartParameter": [
       ["\"imgId\""],
       ["myTexture"],
-      ["8", "0"],
-      ["1", "8", "0"],
+      ["3", "2", "0"],
+      ["3", "0", "0"],
       ["\"border-radius: 5px;\""]
     ],
   },

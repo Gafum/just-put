@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+	<meta charset="utf-8">
+	<title>Drawing App JavaScript</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		@font-face {
+			font-family: "Cuprum";
+			font-style: normal;
+			font-weight: 700;
+			font-display: swap;
+			src: url(../fonts/Cuprum-Bold.woff2) format("woff2");
+			unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF,
+				U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF,
+				U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+				U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193,
+				U+2212, U+2215, U+FEFF, U+FFFD;
+		}
+
+		@font-face {
+			font-family: "Cuprum";
+			font-style: normal;
+			font-weight: 700;
+			font-display: swap;
+			src: url(../fonts/Cuprum-Bold-Cirillic.woff2) format("woff2");
+			unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F,
+				U+FE2E-FE2F, U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+		}
+
+		@import url("https://fonts.googleapis.com/css2?family=Cuprum:wght@700&display=swap");
+
+		* {
+			padding: 0;
+			margin: 0;
+			border: 0;
+			box-sizing: border-box;
+			color: #000;
+			font-family: "Cuprum", sans-serif;
+			font-weight: normal;
+			font-size: 18px;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+			-webkit-tap-highlight-color: transparent;
+		}
+
+		body {
+			background-color: #f7f7f7;
+		}
+
+		header {
+			box-sizing: border-box;
+			display: block;
+			z-index: 4;
+			position: relative;
+			box-shadow: 0px 1px 8px #888;
+			width: 100%;
+			background-color: #4caf50;
+		}
+
+		header button {
+			display: flex;
+			border: none;
+			outline: none;
+			height: -webkit-fit-content;
+			height: -moz-fit-content;
+			height: fit-content;
+			background-color: transparent;
+			overflow: hidden;
+		}
+
+		.btn {
+			display: flex;
+			gap: 10px;
+		}
+
+		.header-class {
+			height: fit-content;
+			min-height: 56px;
+			z-index: 3;
+			width: 100%;
+			padding: 15px;
+			display: flex;
+			justify-content: space-between;
+			gap: 10px;
+			align-items: center;
+			box-sizing: border-box;
+		}
+
+		.header-class>button {
+			position: absolute;
+			left: 0;
+			width: 43px;
+			padding: 0 0 0 16px;
+			min-width: 40px;
+		}
+
+		canvas {
+			touch-action: manipulation;
+			width: 100%;
+			height: 100%;
+			margin: 0 auto;
+			background-color: #fff;
+			box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+		}
+
+		.drawwing-board {
+			width: 100vw;
+			height: calc(100vh - 120px);
+			overflow-y: scroll;
+			overflow-x: scroll;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.drawwing-board::-webkit-scrollbar {
+			width: 16px;
+			height: 16px;
+		}
+
+		.drawwing-board::-webkit-scrollbar-track {
+			background: #f1f1f1;
+		}
+
+		.drawwing-board::-webkit-scrollbar-thumb {
+			background: #888;
+			border-radius: 20px;
+		}
+
+		.drawwing-board::-webkit-scrollbar-thumb:hover {
+			background: #555;
+		}
+
+		footer {
+			position: fixed;
+			bottom: 0;
+			width: 100%;
+		}
+
+		.tools-board {
+			width: 100%;
+			height: 100%;
+			max-height: 60vh;
+			display: flex;
+			flex-direction: column;
+			align-items: stretch;
+			justify-content: space-between;
+			background-color: #fff;
+			padding: 10px;
+			box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+			gap: 10px;
+			border-top: 1px solid #000;
+			overflow-y: scroll;
+			overflow-x: hidden;
+		}
+
+		.tools-board-inner {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+		}
+
+		#close-tool {
+			position: absolute;
+			top: 4px;
+			right: 5px;
+		}
+
+		.row {
+			display: flex;
+			align-items: center;
+			flex-direction: column;
+			gap: 5px;
+		}
+
+		.title {
+			font-weight: bold;
+			margin-right: 10px;
+		}
+
+		.options {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			align-items: center;
+			gap: 10px;
+		}
+
+		.option {
+			cursor: pointer;
+			padding: 4px 8px 2px 8px;
+			border-radius: 5px;
+			background-color: #eee;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			transition: background-color .4s;
+		}
+
+		.option.active {
+			background-color: #ccc;
+		}
+
+		.option span {
+			pointer-events: none;
+		}
+
+		#myModal {
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			width: 100vw;
+			padding: 10px;
+			border-radius: 15px;
+			border: none;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+		}
+
+		#myModal h2 {
+			font-size: 30px;
+			margin-bottom: 20px;
+		}
+
+		#myModal #inner-modal-window {
+			display: flex;
+			gap: 8px;
+		}
+
+		#myModal button {
+			display: block;
+			margin-top: 10px;
+			padding: 10px;
+			width: 100%;
+			background-color: #4caf50;
+			color: white;
+			border: none;
+			border-radius: 3px;
+			cursor: pointer;
+		}
+
+		.input-text-container {
+			margin-top: 10px;
+			position: relative;
+			background: white;
+		}
+
+		.input-text-container label {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			display: block;
+			font-size: 16px;
+			color: gray;
+			pointer-events: none;
+			cursor: text;
+			padding: 8px 0 5px 4px;
+			transition: all 0.2s ease-in-out;
+		}
+
+		.input-text-container input {
+			border: 0;
+			border-bottom: 1px solid black;
+			background: transparent;
+			width: 100%;
+			padding: 8px 0 5px 4px;
+			font-size: 16px;
+			color: black;
+		}
+
+		.input-text-container input:focus {
+			border: none;
+			outline: none;
+			border-bottom: 2px solid black;
+		}
+
+		.input-text-container input:focus~label,
+		.input-text-container input:valid~label {
+			top: -50%;
+			font-size: 12px;
+		}
+
+		input[type=checkbox] {
+			display: none;
+			opacity: 0;
+			width: 0;
+			height: 0;
+			transform: scale(0);
+		}
+
+		input[type="range"] {
+			appearance: none;
+			height: 10px;
+			background: transparent;
+			outline: none;
+			background: transparent;
+		}
+
+		input[type="range"]::-webkit-slider-runnable-track {
+			-webkit-appearance: none;
+			background: white;
+			border: 1px solid black;
+			border-radius: 10px;
+		}
+
+		input[type="range"]::-webkit-slider-thumb {
+			-webkit-appearance: none;
+			border: none;
+			width: 15px;
+			height: 15px;
+			border-radius: 50%;
+			transition: transform 0.2s ease-in-out;
+			background: black;
+			cursor: ew-resize;
+		}
+
+		input[type="range"]:active::-webkit-slider-thumb {
+			transform: scale(1.3);
+		}
+
+		.options.optionTwo {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		@media (min-width: 250px) {
+			.options {
+				grid-template-columns: repeat(3, 1fr);
+			}
+
+			#myModal {
+				width: 220px;
+				padding: 14px;
+			}
+		}
+
+		@media (min-width: 600px) {
+			#myModal {
+				width: 400px;
+				padding: 20px;
+			}
+
+			.row {
+				flex-direction: row;
+			}
+
+			.options {
+				display: flex;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<header>
+		<div class="header-class">
+			<button title="Go back" onclick="myDialog.showModal();">
+				<svg width="35" height="35" viewBox="0 0 24 24">
+					<path style="fill: white;"
+						d="M15.125 21.1L6.7 12.7q-.15-.15-.212-.325q-.063-.175-.063-.375t.063-.375q.062-.175.212-.325l8.425-8.425q.35-.35.875-.35t.9.375q.375.375.375.875t-.375.875L9.55 12l7.35 7.35q.35.35.35.862q0 .513-.375.888t-.875.375q-.5 0-.875-.375Z" />
+				</svg>
+			</button>
+			<span style="color: white; font-size: 20px; margin-left: 50px;"> Paint </span>
+			<div class="btn">
+				<button class="undo">
+					<svg width="30" height="24" viewBox="0 0 24 24">
+						<path style="fill: grey; transition: fill .2s;"
+							d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L3.71 8.71C3.08 8.08 2 8.52 2 9.41V15c0 .55.45 1 1 1h5.59c.89 0 1.34-1.08.71-1.71l-1.91-1.91c1.39-1.16 3.16-1.88 5.12-1.88 3.16 0 5.89 1.84 7.19 4.5.27.56.91.84 1.5.64.71-.23 1.07-1.04.75-1.72C20.23 10.42 16.65 8 12.5 8z">
+						</path>
+					</svg>
+				</button>
+				<button class="redo">
+					<svg width="30" height="24" viewBox="0 0 24 24">
+						<path style="fill: grey; transition: fill .2s;"
+							d="M18.4 10.6C16.55 8.99 14.15 8 11.5 8c-4.16 0-7.74 2.42-9.44 5.93-.32.67.04 1.47.75 1.71.59.2 1.23-.08 1.5-.64 1.3-2.66 4.03-4.5 7.19-4.5 1.95 0 3.73.72 5.12 1.88l-1.91 1.91c-.63.63-.19 1.71.7 1.71H21c.55 0 1-.45 1-1V9.41c0-.89-1.08-1.34-1.71-.71l-1.89 1.9z">
+						</path>
+					</svg>
+				</button>
+				<button id="done-btn" style="display: none;">
+					<svg viewBox="0 0 24 24" style="fill: white;" width="24" height="24">
+						<path
+							d="M18.71,7.21a1,1,0,0,0-1.42,0L9.84,14.67,6.71,11.53A1,1,0,1,0,5.29,13l3.84,3.84a1,1,0,0,0,1.42,0l8.16-8.16A1,1,0,0,0,18.71,7.21Z">
+						</path>
+					</svg>
+				</button>
+			</div>
+		</div>
+	</header>
+
+	<dialog id="myModal">
+		<h2>Canvas Size</h2>
+		<form method="dialog" id="setWidthAndHeight">
+			<div class="input-text-container">
+				<input type="number" id="width" required autocomplete="off" autocapitalize="off" value="500">
+				<label for="width">Width</label>
+			</div>
+			<div class="input-text-container">
+				<input type="number" id="height" required autocomplete="off" autocapitalize="off" value="500">
+				<label for="height">Height</label>
+			</div>
+			<button id="applyBtn">Apply</button>
+		</form>
+	</dialog>
+
+	<section class="drawwing-board">
+		<canvas width="500" height="500"></canvas>
+	</section>
+
+	<footer>
+		<div id="close-tool">
+			<svg viewBox="0 0 24 24" width="30" height="30">
+				<path
+					d="M15.71,8.29a1,1,0,0,0-1.42,0L12,10.59,9.71,8.29A1,1,0,0,0,8.29,9.71L10.59,12l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42L13.41,12l2.3-2.29A1,1,0,0,0,15.71,8.29Zm3.36-3.36A10,10,0,1,0,4.93,19.07,10,10,0,1,0,19.07,4.93ZM17.66,17.66A8,8,0,1,1,20,12,7.95,7.95,0,0,1,17.66,17.66Z">
+				</path>
+			</svg>
+		</div>
+		<section class="tools-board">
+			<div class="row zoom-btns">
+				<label class="title ">Zoom</label>
+				<ul class="options optionTwo">
+					<li class="option" id="zoom-in">
+						<svg viewBox="0 0 32 32" width="24" height="24">
+							<path
+								d="M25.10999,19.15997c-0.58997-0.58997-1.53998-0.58997-2.12,0L22.13,20.01001l-1.90002-1.90002c3.26001-4.31,2.94-10.47998-0.97998-14.40002c-4.28003-4.27997-11.25-4.27997-15.53998,0c-4.28003,4.29004-4.28003,11.25,0,15.54004c2.13995,2.14001,4.95996,3.20996,7.76996,3.20996c2.34003,0,4.67004-0.75,6.63-2.22998L20.01001,22.13l-0.85004,0.85999c-0.58997,0.58002-0.58997,1.52997,0,2.12L24.31,30.26996C25.10999,31.06,26.16998,31.5,27.28998,31.5s2.17999-0.44,2.98004-1.23004C31.06,29.46997,31.5,28.40997,31.5,27.28998c0-1.13-0.44-2.17999-1.22998-2.97998L25.10999,19.15997z M17.13,17.13c-3.12,3.10999-8.17999,3.10999-11.29999,0c-3.11005-3.12-3.11005-8.17999,0-11.30005C7.39001,4.27997,9.44,3.5,11.47998,3.5c2.04004,0,4.09003,0.77997,5.65002,2.32996C20.23999,8.95001,20.23999,14.01001,17.13,17.13z">
+							</path>
+							<path
+								d="M15.57935,9.97955h-2.59906V7.38098c0-0.82874-0.67151-1.50024-1.50031-1.50024c-0.82874,0-1.50024,0.67151-1.50024,1.50024v2.59857H7.38116c-0.82874,0-1.50024,0.67151-1.50024,1.50024c0,0.8288,0.67151,1.50024,1.50024,1.50024h2.59857v2.59912c0,0.82874,0.67151,1.50024,1.50024,1.50024c0.8288,0,1.50031-0.67151,1.50031-1.50024v-2.59912h2.59906c0.82874,0,1.50024-0.67145,1.50024-1.50024C17.07959,10.65106,16.40808,9.97955,15.57935,9.97955z">
+							</path>
+						</svg>
+					</li>
+					<li class="option" id="zoom-out">
+						<svg viewBox="0 0 32 32" width="24" height="24">
+							<path
+								d="M11.47998,22.45996c2.34003,0,4.67004-0.75,6.63-2.22998L20.01001,22.13l-0.85004,0.85999c-0.58997,0.58002-0.58997,1.52997,0,2.12L24.31,30.26996C25.10999,31.06,26.16998,31.5,27.28998,31.5s2.17999-0.44,2.98004-1.23004C31.06,29.46997,31.5,28.40997,31.5,27.28998c0-1.13-0.44-2.17999-1.22998-2.97998l-5.16003-5.15002c-0.27997-0.28998-0.65997-0.44-1.06-0.44c-0.39996,0-0.77997,0.15002-1.06,0.44L22.13,20.01001l-1.90002-1.90002c1.44-1.90002,2.23999-4.20001,2.23999-6.63c0-2.92999-1.14996-5.69-3.21997-7.77002c-4.28003-4.27997-11.25-4.27997-15.53998,0c-4.28003,4.29004-4.28003,11.25,0,15.54004C5.84998,21.39001,8.66998,22.45996,11.47998,22.45996z M5.83002,5.82996C7.39001,4.27997,9.44,3.5,11.47998,3.5c2.04004,0,4.09003,0.77997,5.65002,2.32996c1.5,1.51001,2.33997,3.52002,2.33997,5.65002S18.63,15.62,17.13,17.13c-3.12,3.10999-8.17999,3.10999-11.29999,0C2.71997,14.01001,2.71997,8.95001,5.83002,5.82996z">
+							</path>
+							<path
+								d="M7.38116,12.98004h8.19818c0.82874,0,1.50024-0.67145,1.50024-1.50024c0-0.82874-0.67151-1.50024-1.50024-1.50024H7.38116c-0.82874,0-1.50024,0.67151-1.50024,1.50024C5.88092,12.30859,6.55243,12.98004,7.38116,12.98004z">
+							</path>
+						</svg>
+					</li>
+				</ul>
+			</div>
+			<div class="tools-board-inner">
+
+				<div class="row">
+					<label class="title">Color</label>
+					<ul class="options optionTwo">
+						<li>
+							<input type="color" id="color-picker">
+						</li>
+						<li class="option tool" id="pipette">
+							<svg viewBox="0 0 64 64" width="20" height="20">
+								<path fill="#000" d="M48.4,2.7l-7.9,7.9L37,7c-1.2-1.2-3.1-1.2-4.2,0c-1.2,1.2-1.2,3.1,0,4.2l0.7,0.7L5.2,40.1
+								c-0.8,0.8-1.1,1.9-0.8,2.9l0.5,1.8c0.5,1.7,0.1,3.5-1.1,4.6L2,51.3c-2.8,2.8-2.7,7.5,0.2,10.4C3.7,63.2,5.7,64,7.7,64h0
+								c1.9,0,3.7-0.7,5-2.1l1.8-1.8c1.2-1.2,2.9-1.6,4.6-1.1l1.8,0.5c1,0.3,2.2,0,2.9-0.8l28.3-28.2l0.9,0.9c0.6,0.6,1.4,0.9,2.1,0.9
+								c0.8,0,1.5-0.3,2.1-0.9c1.2-1.2,1.2-3.1,0-4.2l-3.8-3.7l7.9-7.9c1.7-1.7,2.7-4,2.7-6.4s-0.9-4.7-2.7-6.4C57.8-0.9,52-0.9,48.4,2.7
+								z M20.8,53.3L20.8,53.3c-3.9-1.1-7.9-0.1-10.6,2.6l-1.8,1.8C8.2,58,7.9,58,7.7,58c-0.4,0-0.8-0.2-1.2-0.5c-0.6-0.6-0.7-1.5-0.2-2
+								l1.8-1.8c2.7-2.7,3.7-6.7,2.6-10.5l0-0.1l6.8-6.8l3.8,3.8c0.6,0.6,1.4,0.9,2.1,0.9c0.8,0,1.5-0.3,2.1-0.9c1.2-1.2,1.2-3.1,0-4.2
+								l-3.8-3.7l5.1-5.1l3.8,3.8c0.6,0.6,1.4,0.9,2.1,0.9c0.8,0,1.5-0.3,2.1-0.9c1.2-1.2,1.2-3.1,0-4.2l-3.8-3.7l6.5-6.5l10.2,10.2
+								L20.8,53.3z" />
+							</svg>
+						</li>
+					</ul>
+				</div>
+				<div class="row">
+					<label class="title">Options</label>
+					<ul class="options">
+						<li class="option pens active" id="brush">
+							<svg width="24" height="24" viewBox="0 0 512 512">
+								<path fill="#000"
+									d="M64 368v80h80l235.727-235.729-79.999-79.998L64 368zm377.602-217.602c8.531-8.531 8.531-21.334 0-29.865l-50.135-50.135c-8.531-8.531-21.334-8.531-29.865 0l-39.468 39.469 79.999 79.998 39.469-39.467z">
+								</path>
+							</svg>
+						</li>
+						<li class="option pens" id="eraser">
+							<svg viewBox="0 0 256 256" width="24" height="24">
+								<path
+									d="M216.001,207.833H130.34375l34.72949-34.72949.0166-.01465.01465-.0166,56.55371-56.55274a24.02962,24.02962,0,0,0,0-33.94141L176.40332,37.32324a24.0007,24.0007,0,0,0-33.94141,0L85.90283,93.88232l-.01025.00928-.00928.01026L29.32422,150.46094a24.00066,24.00066,0,0,0,0,33.9414l37.08887,37.08789a8.00232,8.00232,0,0,0,5.65722,2.34278H216.001a8,8,0,0,0,0-16ZM153.77637,48.6377a7.99708,7.99708,0,0,1,11.3125,0l45.25488,45.25488a8.00888,8.00888,0,0,1,0,11.31347l-50.91113,50.91114L102.86475,99.54932Z">
+								</path>
+							</svg>
+						</li>
+						<li class="option">
+							<input type="checkbox" id="fill-color">
+							<label for="fill-color">
+								<svg viewBox="0 0 1792 1792" width="24" height="24">
+									<path
+										d="M1692.444 645.333q41.223 0 70.39 29.167Q1792 703.667 1792 744.889v298.667q0 41.222-29.167 70.388-29.166 29.167-70.389 29.167v124.445q0 51.333-36.555 87.888Q1619.333 1392 1568 1392H124.444q-51.333 0-87.888-36.556Q0 1318.89 0 1267.556V520.889Q0 469.556 36.556 433q36.555-36.556 87.888-36.556H1568q51.333 0 87.889 36.556 36.555 36.556 36.555 87.889v124.444zm0 398.223V744.889h-99.555v-224q0-10.889-7-17.889T1568 496H124.444q-10.888 0-17.888 7-7 7-7 17.889v746.667q0 10.888 7 17.888 7 7 17.888 7H1568q10.889 0 17.889-7t7-17.888v-224h99.555z">
+									</path>
+								</svg>
+								<svg viewBox="0 0 1792 1792" width="24" height="24" style="display: none;">
+									<path
+										d="M1493.333 575.556v597.333H199.111V575.556h1294.222zm99.556 448h99.555V724.889h-99.555v-224q0-10.889-7-17.889T1568 476H124.444q-10.888 0-17.888 7-7 7-7 17.889v746.667q0 10.888 7 17.888 7 7 17.888 7H1568q10.889 0 17.889-7t7-17.888v-224zM1792 724.889v298.667q0 41.222-29.167 70.388-29.166 29.167-70.389 29.167v124.445q0 51.333-36.555 87.888Q1619.333 1372 1568 1372H124.444q-51.333 0-87.888-36.556Q0 1298.89 0 1247.556V500.889Q0 449.556 36.556 413q36.555-36.556 87.888-36.556H1568q51.333 0 87.889 36.556 36.555 36.556 36.555 87.889v124.444q41.223 0 70.39 29.167Q1792 683.667 1792 724.889Z">
+									</path>
+								</svg>
+							</label>
+						</li>
+						<li class="option">
+							<input type="checkbox" id="dashed-line">
+							<label for="dashed-line">
+								<svg viewBox="0 0 454 454" width="24" height="24">
+									<path style="fill:none;stroke:#000000;stroke-width:31;stroke-linecap:round;stroke-miterlimit:10;" d="M369.4,72.6c-1.9,6.8-4.4,17.7-4.5,31.4c-0.1,7.4,0.6,10.2,2.7,32.7c2.4,26.6,2.2,30.2,1.2,34.5
+	c-2.5,10.3-7.6,16.8-14,25c-6.1,7.8-15.2,19.4-31.1,27.7c-20.5,10.8-40.8,10.2-60.5,9.5c-10.5-0.3-20.1-0.6-32.8-4.2
+	c-10.2-2.8-33.3-9.6-52-30.7c-4.9-5.6-17.5-20.1-21.3-42c-1.1-6.5-6.4-36.3,14.8-57.9c13-13.3,35.3-22.7,57.9-16.3
+	c32.9,9.3,51.6,47.9,47.9,77.6c-4,32-33.3,47.3-43.4,52.6c-26.8,14-63.8,9.3-66.7,9c-9.9-1-16.4-2.8-27.1-1
+	c-4.7,0.8-22.4,4-35.7,19.3c-1.6,1.8-17.5,20.7-13.7,46.6c3.4,23.5,19.1,26,23.4,51.4c3,17.6-2,32.1-5.6,42.7
+	c-5.2,15.2-10.9,30.8-23.9,39.7" />
+								</svg>
+								<svg
+									style="display: none;fill:none;stroke:#000000;stroke-width:31;stroke-linecap:round;stroke-miterlimit:10;stroke-dasharray:60;"
+									viewBox="0 0 454 454" width="24" height="24">
+									<path d="M369.4,72.6c-1.9,6.8-4.4,17.7-4.5,31.4c-0.1,7.4,0.6,10.2,2.7,32.7c2.4,26.6,2.2,30.2,1.2,34.5
+	c-2.5,10.3-7.6,16.8-14,25c-6.1,7.8-15.2,19.4-31.1,27.7c-20.5,10.8-40.8,10.2-60.5,9.5c-10.5-0.3-20.1-0.6-32.8-4.2
+	c-10.2-2.8-33.3-9.6-52-30.7c-4.9-5.6-17.5-20.1-21.3-42c-1.1-6.5-6.4-36.3,14.8-57.9c13-13.3,35.3-22.7,57.9-16.3
+	c32.9,9.3,51.6,47.9,47.9,77.6c-4,32-33.3,47.3-43.4,52.6c-26.8,14-63.8,9.3-66.7,9c-9.9-1-16.4-2.8-27.1-1
+	c-4.7,0.8-22.4,4-35.7,19.3c-1.6,1.8-17.5,20.7-13.7,46.6c3.4,23.5,19.1,26,23.4,51.4c3,17.6-2,32.1-5.6,42.7
+	c-5.2,15.2-10.9,30.8-23.9,39.7" />
+								</svg>
+							</label>
+						</li>
+						<li style="grid-column: span 2;">
+							<input type="range" id="size-slider" min="1" max="30" value="5">
+						</li>
+
+					</ul>
+				</div>
+				<div class="row">
+					<label class="title">Shapes</label>
+					<ul class="options">
+						<li class="option active tool" id="brush">
+							<svg width="24" height="24" viewBox="0 0 24 24" id="brush">
+								<path
+									d="M7 14c-1.66 0-3 1.34-3 3 0 1.31-1.16 2-2 2 .92 1.22 2.49 2 4 2 2.21 0 4-1.79 4-4 0-1.66-1.34-3-3-3zm13.71-9.37l-1.34-1.34c-.39-.39-1.02-.39-1.41 0L9 12.25 11.75 15l8.96-8.96c.39-.39.39-1.02 0-1.41z">
+								</path>
+							</svg>
+						</li>
+						<li class="option tool" id="line">
+							<svg viewBox="0 0 24 24" width="24" height="24">
+								<path style="stroke:#000000;stroke-width:3;stroke-miterlimit:10;" d="M21.7,2.3c-0.4-0.4-1-0.4-1.4,0c0,0,0,0,0,0l-18,18c-0.4,0.4-0.4,1,0,1.4c0,0,0,0,0,0c0.4,0.4,1,0.4,1.4,0
+									c0,0,0,0,0,0l18-18C22.1,3.3,22.1,2.7,21.7,2.3C21.7,2.3,21.7,2.3,21.7,2.3z" />
+							</svg>
+						</li>
+						<li class="option tool" id="rectangle">
+							<svg viewBox="0 0 454 454" width="24" height="24">
+								<path style="fill:none;stroke:#000000;stroke-width:70;stroke-miterlimit:10;" d="M342.8,413.5H110.8c-38.8,0-70.3-31.5-70.3-70.3V111.3C40.6,72.4,72,41,110.8,41h231.9
+	c38.8,0,70.3,31.5,70.3,70.3v231.9C413.1,382,381.6,413.5,342.8,413.5z" />
+							</svg>
+						</li>
+						<li class="option tool" id="circle">
+							<svg viewBox="0 0 454 454" width="24" height="24">
+								<path style="fill:none;stroke:#000000;stroke-width:70;stroke-miterlimit:10;" d="M226.8,413.5L226.8,413.5c-102.9,0-186.2-83.4-186.2-186.2v0C40.6,124.4,124,41,226.8,41h0
+	c102.9,0,186.2,83.4,186.2,186.2v0C413.1,330.1,329.7,413.5,226.8,413.5z" />
+							</svg>
+						</li>
+						<li class="option tool" id="triangle">
+							<svg viewBox="0 0 454 454" width="24" height="24">
+								<path style="fill:none;stroke:#000000;stroke-width:70;stroke-miterlimit:10;" d="M53.3,368.7L226.7,66.3c0.7-1.3,2.6-1.3,3.3,0l176,302.5c0.7,1.3-0.2,2.9-1.7,2.9H55
+	C53.5,371.6,52.6,370,53.3,368.7z" />
+								<path style="fill:none;stroke:#000000;stroke-width:50;stroke-miterlimit:10;" class="st1" d="M120.8,277.2l63.1-110c20-34.9,70.3-35.1,90.6-0.3l64,110c20.3,34.9-4.9,78.6-45.2,78.6h-127
+	C126,355.5,100.8,312.1,120.8,277.2z" />
+							</svg>
+						</li>
+						<li class="option tool" id="fill">
+							<svg viewBox="0 0 320 320" width="24" height="24">
+								<g>
+									<g>
+										<path d="M139.3,310.4c-6.5,0-12.7-2.6-17.3-7.2L12.6,193.8c-9.6-9.6-9.6-25.1,0-34.7L122.7,49c4.6-4.6,10.8-7.2,17.3-7.2
+								 s12.7,2.6,17.3,7.2l109.4,109.4c4.6,4.6,7.2,10.8,7.2,17.3c0,6.5-2.6,12.7-7.2,17.3L156.7,303.3
+								 C152,307.9,145.9,310.4,139.3,310.4z" />
+										<path d="M140,42.4c6.4,0,12.4,2.5,17,7l109.4,109.4c9.4,9.4,9.4,24.6,0,34L156.3,302.9c-4.5,4.5-10.6,7-17,7c-6.4,0-12.4-2.5-17-7
+								 L12.9,193.5c-4.5-4.5-7-10.6-7-17c0-6.4,2.5-12.4,7-17L123,49.4C127.6,44.9,133.6,42.4,140,42.4 M140,41.4
+								 c-6.4,0-12.8,2.4-17.7,7.3L12.2,158.8c-9.8,9.8-9.8,25.6,0,35.4l109.4,109.4c4.9,4.9,11.3,7.3,17.7,7.3c6.4,0,12.8-2.4,17.7-7.3
+								 l110.1-110.1c9.8-9.8,9.8-25.6,0-35.4L157.7,48.7C152.8,43.8,146.4,41.4,140,41.4L140,41.4z" />
+									</g>
+									<g>
+										<path
+											d="M63.6,81.7c-17.4-17.6-17.4-46.3,0-64C72,9.2,83.2,4.5,95.1,4.5s23.1,4.7,31.5,13.2l119,119.6
+								 c20.4,20.7,20.2,54.5-0.5,75.5l-26.1,26.5L63.6,81.7z M96,26c-6.5,0-12.6,2.6-17.2,7.2c-9.5,9.6-9.5,25.3,0,34.9l136,137.8
+								 c0.9,0.9,2.1,1.4,3.4,1.4s2.5-0.5,3.4-1.4l27.7-28.1c1.9-1.9,1.9-4.9,0-6.8l-136-137.8C108.6,28.5,102.5,26,96,26z" />
+										<path d="M95.1,5c11.8,0,22.9,4.7,31.2,13.1l119,119.6c9.8,9.9,15.1,23.2,14.9,37.4c-0.1,14.2-5.6,27.4-15.4,37.4l-25.7,26.1
+								 L63.9,81.3c-17.2-17.4-17.2-45.8,0-63.3C72.3,9.7,83.3,5,95.1,5 M218.2,207.8c1.4,0,2.7-0.6,3.7-1.6l27.7-28.1c2-2.1,2-5.4,0-7.5
+								 l-136-137.8c-4.7-4.8-10.9-7.4-17.6-7.4c-6.6,0-12.9,2.6-17.6,7.4c-9.7,9.8-9.7,25.8,0,35.6l136,137.8
+								 C215.4,207.3,216.8,207.8,218.2,207.8 M95.1,4C83.6,4,72,8.5,63.2,17.4l0,0c-17.6,17.9-17.6,46.8,0,64.7l155.9,158l26.5-26.8
+								 c20.6-20.9,21.1-55.3,0.5-76.2L127,17.4C118.2,8.5,106.7,4,95.1,4L95.1,4z M218.2,206.8c-1.1,0-2.2-0.4-3-1.3L79.2,67.7
+								 c-9.3-9.4-9.3-24.7,0-34.2v0c4.7-4.7,10.8-7.1,16.9-7.1c6.1,0,12.2,2.4,16.9,7.1l136,137.8c1.7,1.7,1.7,4.4,0,6.1l-27.7,28.1
+								 C220.3,206.4,219.3,206.8,218.2,206.8L218.2,206.8z" />
+									</g>
+									<path d="M250.5,141.5c0,0,94.5,84.5-10.5,79.5" />
+									<path
+										d="M270,231.1c4.2-5.6,12.8-5.5,16.9,0c18.6,24.9,55.9,82.9-6.6,82.9C214.3,314,251.4,255.6,270,231.1z" />
+								</g>
+							</svg>
+
+						</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+	</footer>
+
+	<script>
+		const canvas = document.querySelector("canvas"),
+			toolBtns = document.querySelectorAll(".tool.option"),
+			pensBtns = document.querySelectorAll(".pens"),
+			fillColor = document.querySelector("#fill-color"),
+			dashedLine = document.querySelector("#dashed-line"),
+			sizeSlider = document.querySelector("#size-slider"),
+			colorPicker = document.querySelector("#color-picker"),
+			zoomInBtn = document.querySelector("#zoom-in"),
+			zoomOutBtn = document.querySelector("#zoom-out"),
+			ctx = canvas.getContext("2d"),
+			undoBtn = document.querySelector(".undo"),
+			redoBtn = document.querySelector(".redo"),
+			closeTools = document.querySelector("#close-tool"),
+			toolInner = document.querySelector(".tools-board-inner"),
+			myDialog = document.querySelector("#myModal"),
+			doneBtn = document.querySelector("#done-btn");
+
+		let prevMouseX, prevMouseY, snapshot,
+			isDrawing = false,
+			isPen = "brush",
+			selectedTool = "brush",
+			brushWidth = 5,
+			selectedColor = "#000",
+			zoomLevel = 1,
+			undoStack = [],
+			redoStack = [];
+
+		ctx.willReadFrequently = true;
+
+		window.addEventListener("load", () => {
+			canvas.width = canvas.offsetWidth;
+			canvas.height = canvas.offsetHeight;
+			document.querySelector("#width").value = canvas.width;
+			document.querySelector("#height").value = canvas.height;
+			setCanvasSize();
+			myDialog.showModal();
+		});
+
+		document.querySelector("#setWidthAndHeight").onsubmit = () => {
+			const widthInput = Number(document.querySelector("#width").value);
+			const heightInput = Number(document.querySelector("#height").value);
+			if (!widthInput || !heightInput || heightInput < 10 || widthInput < 10 || heightInput > 20000 || widthInput > 20000) {
+				return false;
+			}
+			canvas.width = parseInt(Math.floor(widthInput));
+			canvas.height = parseInt(Math.floor(heightInput));
+
+			myDialog.close();
+			undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+			setCanvasSize();
+			myDialog.innerHTML = `
+			<form method="dialog">
+			<h2 style="margin-bottom: 4px; font-size: 25px;">Do you want to exit?</h2>
+			<div id="inner-modal-window">
+				<button type="button" onclick="myDialog.close()">
+					CANCEL
+				</button>
+				<button onclick="GoToAnotherHome.postMessage('goBack');">
+					OK
+				</button>
+			</div>
+		</form>`;
+		}
+
+		const setCanvasSize = () => {
+			canvas.style.width = canvas.width * zoomLevel + "px";
+			canvas.style.height = canvas.height * zoomLevel + "px";
+		};
+
+		const drawRect = (x, y) => {
+			if (!fillColor.checked) {
+				return ctx.strokeRect(x, y, prevMouseX - x, prevMouseY - y);
+			}
+			ctx.fillRect(x, y, prevMouseX - x, prevMouseY - y);
+		};
+
+		const drawCircle = (x, y) => {
+			ctx.beginPath();
+			let radius = Math.sqrt(Math.pow((prevMouseX - x), 2) + Math.pow((prevMouseY - y), 2));
+			ctx.arc(prevMouseX, prevMouseY, radius, 0, 2 * Math.PI);
+			fillColor.checked ? ctx.fill() : ctx.stroke();
+		};
+
+		const drawTriangle = (x, y) => {
+			ctx.beginPath();
+			ctx.moveTo(prevMouseX, prevMouseY);
+			ctx.lineTo(x, y);
+			ctx.lineTo(prevMouseX * 2 - x, y);
+			ctx.closePath();
+			fillColor.checked ? ctx.fill() : ctx.stroke();
+		};
+
+		const drawLine = (x, y) => {
+			ctx.beginPath();
+			ctx.moveTo(prevMouseX, prevMouseY);
+			ctx.lineTo(x, y);
+			ctx.closePath();
+			ctx.stroke();
+		};
+
+		const startDraw = (x, y) => {
+			if (selectedTool === "fill") {
+				drawFill(x, y, hexToRgb(selectedColor)[0], hexToRgb(selectedColor)[1], hexToRgb(selectedColor)[2], 255);
+				return;
+			} else if (selectedTool === "pipette") {
+				const pixelData = ctx.getImageData(x, y, 1, 1).data;
+				const r = pixelData[0];
+				const g = pixelData[1];
+				const b = pixelData[2];
+				selectedColor = rgbToHex(r, g, b);
+				colorPicker.value = selectedColor;
+				return;
+			}
+
+			isDrawing = true;
+			prevMouseX = x;
+			prevMouseY = y;
+			ctx.beginPath();
+			ctx.setLineDash([brushWidth, dashedLine.checked ? brushWidth + 3 : 0])
+			ctx.lineCap = "round";
+			ctx.lineWidth = brushWidth;
+			ctx.strokeStyle = selectedColor;
+			ctx.fillStyle = selectedColor;
+			snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
+		};
+
+		const drawing = (x, y) => {
+			if (!isDrawing || selectedTool === "fill" || selectedTool === "pipette") return;
+			ctx.putImageData(snapshot, 0, 0);
+			ctx.globalCompositeOperation = isPen === "eraser" ? "destination-out" : "source-over";
+			if (selectedTool === "rectangle") {
+				drawRect(x, y);
+			} else if (selectedTool === "circle") {
+				drawCircle(x, y);
+			} else if (selectedTool === "triangle") {
+				drawTriangle(x, y);
+			} else if (selectedTool === "line") {
+				drawLine(x, y);
+			} else {
+				ctx.lineTo(x, y);
+				ctx.stroke();
+			}
+		};
+
+		function hexToRgb(hex) {
+			hex = hex.replace("#", "");
+
+			var bigint = parseInt(hex, 16);
+			var r = (bigint >> 16) & 255;
+			var g = (bigint >> 8) & 255;
+			var b = bigint & 255;
+
+			return [r, g, b];
+		}
+
+		function rgbToHex(r, g, b) {
+			const hexR = r.toString(16).padStart(2, "0");
+			const hexG = g.toString(16).padStart(2, "0");
+			const hexB = b.toString(16).padStart(2, "0");
+			return `#${hexR}${hexG}${hexB}`;
+		}
+
+		function drawFill(start_x, start_y, fill_r, fill_g, fill_b, fill_a) {
+
+			const stack = [[start_x, start_y]];
+			const c_width = canvas.width;
+			const c_height = canvas.height;
+			const id = ctx.getImageData(0, 0, c_width, c_height);
+			let pixel_pos = (start_y * c_width + start_x) * 4;
+			const start_r = id.data[pixel_pos + 0];
+			const start_g = id.data[pixel_pos + 1];
+			const start_b = id.data[pixel_pos + 2];
+			const start_a = id.data[pixel_pos + 3];
+
+			if (
+				fill_r === start_r &&
+				fill_g === start_g &&
+				fill_b === start_b &&
+				fill_a === start_a
+			) {
+				return;
+			}
+
+			while (stack.length) {
+				let new_pos;
+				let x;
+				let y;
+				let reach_left;
+				let reach_right;
+				new_pos = stack.pop();
+				x = new_pos[0];
+				y = new_pos[1];
+
+				pixel_pos = (y * c_width + x) * 4;
+				while (should_fill_at(pixel_pos)) {
+					y--;
+					pixel_pos = (y * c_width + x) * 4;
+				}
+
+				reach_left = false;
+				reach_right = false;
+				while (true) {
+					y++;
+					pixel_pos = (y * c_width + x) * 4;
+
+					if (!(y < c_height && should_fill_at(pixel_pos))) {
+						break;
+					}
+
+					do_fill_at(pixel_pos);
+
+					if (x > 0) {
+						if (should_fill_at(pixel_pos - 4)) {
+							if (!reach_left && !stack.includes([x - 1, y])) {
+								stack.push([x - 1, y]);
+								reach_left = true;
+							}
+						} else if (reach_left) {
+							reach_left = false;
+						}
+					}
+
+					if (x < c_width - 1) {
+						if (should_fill_at(pixel_pos + 4)) {
+							if (!reach_right && !stack.includes([x + 1, y])) {
+								stack.push([x + 1, y]);
+								reach_right = true;
+							}
+						} else if (reach_right) {
+							reach_right = false;
+						}
+					}
+
+					pixel_pos += c_width * 4;
+				}
+			}
+			ctx.putImageData(id, 0, 0);
+
+			function should_fill_at(pixel_pos) {
+				return (
+					id.data[pixel_pos + 0] === start_r &&
+					id.data[pixel_pos + 1] === start_g &&
+					id.data[pixel_pos + 2] === start_b &&
+					id.data[pixel_pos + 3] === start_a
+				);
+			}
+
+			function do_fill_at(pixel_pos) {
+				id.data[pixel_pos + 0] = fill_r;
+				id.data[pixel_pos + 1] = fill_g;
+				id.data[pixel_pos + 2] = fill_b;
+				id.data[pixel_pos + 3] = fill_a;
+			}
+		}
+
+		toolBtns.forEach(btn => {
+			btn.addEventListener("click", () => {
+				document.querySelector(".option.tool.active").classList.remove("active");
+				btn.classList.add("active");
+				selectedTool = btn.id;
+			});
+		});
+
+		pensBtns.forEach(btn => {
+			btn.addEventListener("click", () => {
+				document.querySelector("#" + isPen).classList.remove("active");
+				isPen = btn.id;
+				document.querySelector("#" + isPen).classList.add("active");
+			});
+		});
+
+		canvas.addEventListener("mousedown", (event) => {
+			const x = Math.round(event.offsetX / zoomLevel);
+			const y = Math.round(event.offsetY / zoomLevel);
+			startDraw(x, y);
+		});
+
+		canvas.addEventListener("mousemove", (event) => {
+			const x = Math.round(event.offsetX / zoomLevel);
+			const y = Math.round(event.offsetY / zoomLevel);
+			drawing(x, y);
+		});
+
+		canvas.addEventListener("mouseup", (event) => {
+			isDrawing = false;
+			redoBtn.querySelector("path").style.fill = "grey";
+			undoBtn.querySelector("path").style.fill = "white";
+			doneBtn.style.display = "";
+			undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+			redoStack.length = 0;
+		});
+
+		canvas.addEventListener("touchstart", (event) => {
+			event.preventDefault();
+			const touch = event.touches[0];
+			const x = Math.round((touch.clientX - canvas.offsetLeft + document.querySelector(".drawwing-board").scrollLeft) / zoomLevel);
+			const y = Math.round((touch.clientY - canvas.offsetTop + document.querySelector(".drawwing-board").scrollTop) / zoomLevel);
+			startDraw(x, y);
+		});
+
+		canvas.addEventListener("touchmove", (event) => {
+			event.preventDefault();
+			const touch = event.touches[0];
+			const x = Math.round((touch.clientX - canvas.offsetLeft + document.querySelector(".drawwing-board").scrollLeft) / zoomLevel);
+			const y = Math.round((touch.clientY - canvas.offsetTop + document.querySelector(".drawwing-board").scrollTop) / zoomLevel);
+			drawing(x, y);
+		});
+
+		canvas.addEventListener("touchend", (event) => {
+			isDrawing = false;
+			redoBtn.querySelector("path").style.fill = "grey";
+			undoBtn.querySelector("path").style.fill = "white";
+			doneBtn.style.display = "";
+			undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+			redoStack.length = 0;
+		});
+
+		fillColor.addEventListener("change", (event) => {
+			let iconsList = fillColor.closest("li").querySelector("label").children
+			iconsList[1].style.display = fillColor.checked ? "" : "none"
+			iconsList[0].style.display = fillColor.checked ? "none" : ""
+		});
+
+		dashedLine.addEventListener("change", (event) => {
+			let iconsList = dashedLine.closest("li").querySelector("label").children
+			iconsList[1].style.display = dashedLine.checked ? "" : "none"
+			iconsList[0].style.display = dashedLine.checked ? "none" : ""
+		});
+
+		closeTools.addEventListener("click", () => {
+			closeTools.classList.toggle("active")
+			let isOpen = !closeTools.classList.contains("active")
+			toolInner.style.display = isOpen ? "" : "none";
+			document.querySelector(".zoom-btns").style.flexDirection = isOpen ? "" : "row";
+			closeTools.style.top = isOpen ? "" : "10px";
+
+			closeTools.innerHTML = isOpen ? `<svg viewBox="0 0 24 24" width="30" height="30"><path d="M15.71,8.29a1,1,0,0,0-1.42,0L12,10.59,9.71,8.29A1,1,0,0,0,8.29,9.71L10.59,12l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42L13.41,12l2.3-2.29A1,1,0,0,0,15.71,8.29Zm3.36-3.36A10,10,0,1,0,4.93,19.07,10,10,0,1,0,19.07,4.93ZM17.66,17.66A8,8,0,1,1,20,12,7.95,7.95,0,0,1,17.66,17.66Z"></path></svg>` : `<svg viewBox="0 0 24 24" width="30" height="30"><path d="M19.54 5.08A10.61 10.61 0 0 0 11.91 2a10 10 0 0 0-.05 20 2.58 2.58 0 0 0 2.53-1.89 2.52 2.52 0 0 0-.57-2.28.5.5 0 0 1 .37-.83h1.65A6.15 6.15 0 0 0 22 11.33a8.48 8.48 0 0 0-2.46-6.25zm-12.7 9.66a1.5 1.5 0 1 1 .4-2.08 1.49 1.49 0 0 1-.4 2.08zM8.3 9.25a1.5 1.5 0 1 1-.55-2 1.5 1.5 0 0 1 .55 2zM11 7a1.5 1.5 0 1 1 1.5-1.5A1.5 1.5 0 0 1 11 7zm5.75.8a1.5 1.5 0 1 1 .55-2 1.5 1.5 0 0 1-.55 2z" data-name="color-palette"></path></svg>`
+		})
+
+		sizeSlider.addEventListener("change", () => brushWidth = Number(sizeSlider.value));
+
+		colorPicker.addEventListener("input", () => {
+			selectedColor = colorPicker.value;
+			ctx.strokeStyle = selectedColor;
+			ctx.fillStyle = selectedColor;
+		});
+
+		zoomInBtn.addEventListener("click", () => {
+			zoomLevel *= 1.2;
+			setCanvasSize();
+		});
+
+		zoomOutBtn.addEventListener("click", () => {
+			if (zoomLevel > 0.2) {
+				zoomLevel /= 1.2;
+				setCanvasSize();
+			}
+		});
+
+		undoBtn.addEventListener("click", () => {
+			if (undoStack.length > 1) {
+				redoBtn.querySelector("path").style.fill = "white";
+				redoStack.push(undoStack.pop());
+				ctx.putImageData(undoStack[undoStack.length - 1], 0, 0);
+				if (undoStack.length <= 1) {
+					undoBtn.querySelector("path").style.fill = "grey";
+					doneBtn.style.display = "none";
+				}
+			}
+		});
+
+		redoBtn.addEventListener("click", () => {
+			if (redoStack.length > 0) {
+				undoBtn.querySelector("path").style.fill = "white";
+				ctx.putImageData(redoStack[redoStack.length - 1], 0, 0);
+				undoStack.push(redoStack.pop());
+				if (redoStack.length <= 0) {
+					redoBtn.querySelector("path").style.fill = "grey";
+				}
+			}
+		});
+
+		doneBtn.addEventListener("click", () => {
+			if (!undoStack.length || ctx.getImageData(0, 0, canvas.width, canvas.height) == undoStack[0]) return;
+			SaveFile.postMessage(canvas.toDataURL());
+		});
+
+	</script>
+</body>
+
+</html>

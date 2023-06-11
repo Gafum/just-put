@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:just_put/const/list_of_elements.dart';
+import 'package:just_put/pages/paint_page.dart';
 import 'package:just_put/pages/project_settings.dart';
 import 'package:just_put/pages/view_result.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -129,11 +130,29 @@ class _EditorPageState extends State<EditorPage> {
         'SelectFile',
         onMessageReceived: (JavaScriptMessage message) {
           pickImageAndSave(message.message).then((value) {
-            showToast(context, value['text']!);
             if (value['base64data']!.isEmpty) return;
+            showToast(context, value['text']!);
             controller.runJavaScript('''
 addNewImage({data: "${value['base64data']}", name: "${message.message}"});''');
           });
+        },
+      )
+      ..addJavaScriptChannel(
+        'PaintImg',
+        onMessageReceived: (JavaScriptMessage message) {
+          Navigator.push(
+            context,
+            CustomPageRoute(
+              child: PaintPage(
+                appLanguage: widget.appLanguage,
+                addImage: (value) => {
+                  controller.runJavaScript('''
+addNewImage({data: "$value", name: "${message.message}"});
+''')
+                },
+              ),
+            ),
+          );
         },
       )
       ..addJavaScriptChannel(

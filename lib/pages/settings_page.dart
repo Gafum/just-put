@@ -33,8 +33,17 @@ class _SettingsPageState extends State<SettingsPage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-            title: Text(
-                translation[dropdownValue]!["home"]!["main-settings"]["name"])),
+          title: Text(
+              translation[dropdownValue]!["home"]!["main-settings"]["name"]),
+          leading: GestureDetector(
+            child: const Icon(
+              Icons.arrow_back_ios_rounded,
+            ),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
         body: ListView(
             padding: const EdgeInsets.only(
               top: 12.0,

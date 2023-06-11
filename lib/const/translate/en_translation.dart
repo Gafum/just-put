@@ -18,6 +18,19 @@ const englishLanguage = {
       "just-put": "Create Just Put file",
       "html": "Create HTML file",
       "file-saved": "File is saved in /Download/JustPut",
+    },
+    "paint": {
+      "name": "Paint",
+      "option-list": ["Zoom", "Color", "Options", "Shapes"],
+      "start-dialog": {
+        "title": "Canvas Size",
+        "inputs": ["Width", "Height"],
+        "btn": "Apply"
+      },
+      "leaving-dialog": {
+        "title": "Do you want to exit?",
+        "btns": ["CANCEL", "OK"],
+      }
     }
   },
   "html": {

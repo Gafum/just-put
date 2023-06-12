@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:just_put/const/translate/translate.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PaintPage extends StatefulWidget {
@@ -34,6 +37,13 @@ class _PaintPageState extends State<PaintPage> {
             );
           },
         ),
+      )
+      ..addJavaScriptChannel(
+        'PageIsReady',
+        onMessageReceived: (JavaScriptMessage message) {
+          controller.runJavaScript(
+              'translatePage(${json.encode(translation[widget.appLanguage]["home"]["paint"])});');
+        },
       )
       ..addJavaScriptChannel(
         'GoToAnotherHome',

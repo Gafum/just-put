@@ -18,6 +18,19 @@ const russianLanguage = {
       "just-put": "Создать файл Just Put",
       "html": "Создать HTML-файл",
       "file-saved": "Файл сохранен в /Download/JustPut"
+    },
+    "paint": {
+      "name": "Рисовать",
+      "option-list": ["Масштаб", "Цвет", "Параметры", "Фигуры"],
+      "start-dialog": {
+        "title": "Размер холста",
+        "inputs": ["Ширина", "Высота"],
+        "btn": "Применить"
+      },
+      "leaving-dialog": {
+        "title": "Вы хотите выйти?",
+        "btns": ["НЕТ", "ДА"],
+      }
     }
   },
   "html": {

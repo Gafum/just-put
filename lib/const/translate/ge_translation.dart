@@ -20,6 +20,19 @@ const germanLanguage = {
       "html": "HTML-Datei erstellen",
       "file-saved": "Datei gespeichert unter /Download/JustPut",
     },
+    "paint": {
+      "name": "Malen",
+      "option-list": ["Zoomen", "Farbe", "Optionen", "Formen"],
+      "start-dialog": {
+        "title": "Leinwandgröße",
+        "inputs": ["Breite", "Höhe"],
+        "btn": "Bestätigen"
+      },
+      "leaving-dialog": {
+        "title": "Möchten Sie beenden?",
+        "btns": ["NEIN", "JA"],
+      }
+    }
   },
   "html": {
     "name-add-block": "Block hinzufügen",

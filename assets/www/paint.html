@@ -11,7 +11,7 @@
 			font-style: normal;
 			font-weight: 700;
 			font-display: swap;
-			src: url(../fonts/Cuprum-Bold.woff2) format("woff2");
+			src: url(./fonts/Cuprum-Bold.woff2) format("woff2");
 			unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF,
 				U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF,
 				U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
@@ -24,7 +24,7 @@
 			font-style: normal;
 			font-weight: 700;
 			font-display: swap;
-			src: url(../fonts/Cuprum-Bold-Cirillic.woff2) format("woff2");
+			src: url(./fonts/Cuprum-Bold-Cirillic.woff2) format("woff2");
 			unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F,
 				U+FE2E-FE2F, U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 		}
@@ -283,7 +283,8 @@
 		}
 
 		.input-text-container input:focus~label,
-		.input-text-container input:valid~label {
+		.input-text-container input:valid~label,
+		.input-text-container input.valid~label {
 			top: -50%;
 			font-size: 12px;
 		}
@@ -367,7 +368,7 @@
 						d="M15.125 21.1L6.7 12.7q-.15-.15-.212-.325q-.063-.175-.063-.375t.063-.375q.062-.175.212-.325l8.425-8.425q.35-.35.875-.35t.9.375q.375.375.375.875t-.375.875L9.55 12l7.35 7.35q.35.35.35.862q0 .513-.375.888t-.875.375q-.5 0-.875-.375Z" />
 				</svg>
 			</button>
-			<span style="color: white; font-size: 20px; margin-left: 50px;"> Paint </span>
+			<h1 class="title" style="color: white; font-size: 20px; margin-left: 50px;"> Paint </h1>
 			<div class="btn">
 				<button class="undo">
 					<svg width="30" height="24" viewBox="0 0 24 24">
@@ -395,18 +396,6 @@
 	</header>
 
 	<dialog id="myModal">
-		<h2>Canvas Size</h2>
-		<form method="dialog" id="setWidthAndHeight">
-			<div class="input-text-container">
-				<input type="number" id="width" required autocomplete="off" autocapitalize="off" value="500">
-				<label for="width">Width</label>
-			</div>
-			<div class="input-text-container">
-				<input type="number" id="height" required autocomplete="off" autocapitalize="off" value="500">
-				<label for="height">Height</label>
-			</div>
-			<button id="applyBtn">Apply</button>
-		</form>
 	</dialog>
 
 	<section class="drawwing-board">
@@ -425,16 +414,6 @@
 			<div class="row zoom-btns">
 				<label class="title ">Zoom</label>
 				<ul class="options optionTwo">
-					<li class="option" id="zoom-in">
-						<svg viewBox="0 0 32 32" width="24" height="24">
-							<path
-								d="M25.10999,19.15997c-0.58997-0.58997-1.53998-0.58997-2.12,0L22.13,20.01001l-1.90002-1.90002c3.26001-4.31,2.94-10.47998-0.97998-14.40002c-4.28003-4.27997-11.25-4.27997-15.53998,0c-4.28003,4.29004-4.28003,11.25,0,15.54004c2.13995,2.14001,4.95996,3.20996,7.76996,3.20996c2.34003,0,4.67004-0.75,6.63-2.22998L20.01001,22.13l-0.85004,0.85999c-0.58997,0.58002-0.58997,1.52997,0,2.12L24.31,30.26996C25.10999,31.06,26.16998,31.5,27.28998,31.5s2.17999-0.44,2.98004-1.23004C31.06,29.46997,31.5,28.40997,31.5,27.28998c0-1.13-0.44-2.17999-1.22998-2.97998L25.10999,19.15997z M17.13,17.13c-3.12,3.10999-8.17999,3.10999-11.29999,0c-3.11005-3.12-3.11005-8.17999,0-11.30005C7.39001,4.27997,9.44,3.5,11.47998,3.5c2.04004,0,4.09003,0.77997,5.65002,2.32996C20.23999,8.95001,20.23999,14.01001,17.13,17.13z">
-							</path>
-							<path
-								d="M15.57935,9.97955h-2.59906V7.38098c0-0.82874-0.67151-1.50024-1.50031-1.50024c-0.82874,0-1.50024,0.67151-1.50024,1.50024v2.59857H7.38116c-0.82874,0-1.50024,0.67151-1.50024,1.50024c0,0.8288,0.67151,1.50024,1.50024,1.50024h2.59857v2.59912c0,0.82874,0.67151,1.50024,1.50024,1.50024c0.8288,0,1.50031-0.67151,1.50031-1.50024v-2.59912h2.59906c0.82874,0,1.50024-0.67145,1.50024-1.50024C17.07959,10.65106,16.40808,9.97955,15.57935,9.97955z">
-							</path>
-						</svg>
-					</li>
 					<li class="option" id="zoom-out">
 						<svg viewBox="0 0 32 32" width="24" height="24">
 							<path
@@ -442,6 +421,16 @@
 							</path>
 							<path
 								d="M7.38116,12.98004h8.19818c0.82874,0,1.50024-0.67145,1.50024-1.50024c0-0.82874-0.67151-1.50024-1.50024-1.50024H7.38116c-0.82874,0-1.50024,0.67151-1.50024,1.50024C5.88092,12.30859,6.55243,12.98004,7.38116,12.98004z">
+							</path>
+						</svg>
+					</li>
+					<li class="option" id="zoom-in">
+						<svg viewBox="0 0 32 32" width="24" height="24">
+							<path
+								d="M25.10999,19.15997c-0.58997-0.58997-1.53998-0.58997-2.12,0L22.13,20.01001l-1.90002-1.90002c3.26001-4.31,2.94-10.47998-0.97998-14.40002c-4.28003-4.27997-11.25-4.27997-15.53998,0c-4.28003,4.29004-4.28003,11.25,0,15.54004c2.13995,2.14001,4.95996,3.20996,7.76996,3.20996c2.34003,0,4.67004-0.75,6.63-2.22998L20.01001,22.13l-0.85004,0.85999c-0.58997,0.58002-0.58997,1.52997,0,2.12L24.31,30.26996C25.10999,31.06,26.16998,31.5,27.28998,31.5s2.17999-0.44,2.98004-1.23004C31.06,29.46997,31.5,28.40997,31.5,27.28998c0-1.13-0.44-2.17999-1.22998-2.97998L25.10999,19.15997z M17.13,17.13c-3.12,3.10999-8.17999,3.10999-11.29999,0c-3.11005-3.12-3.11005-8.17999,0-11.30005C7.39001,4.27997,9.44,3.5,11.47998,3.5c2.04004,0,4.09003,0.77997,5.65002,2.32996C20.23999,8.95001,20.23999,14.01001,17.13,17.13z">
+							</path>
+							<path
+								d="M15.57935,9.97955h-2.59906V7.38098c0-0.82874-0.67151-1.50024-1.50031-1.50024c-0.82874,0-1.50024,0.67151-1.50024,1.50024v2.59857H7.38116c-0.82874,0-1.50024,0.67151-1.50024,1.50024c0,0.8288,0.67151,1.50024,1.50024,1.50024h2.59857v2.59912c0,0.82874,0.67151,1.50024,1.50024,1.50024c0.8288,0,1.50031-0.67151,1.50031-1.50024v-2.59912h2.59906c0.82874,0,1.50024-0.67145,1.50024-1.50024C17.07959,10.65106,16.40808,9.97955,15.57935,9.97955z">
 							</path>
 						</svg>
 					</li>
@@ -606,6 +595,7 @@
 
 	<script>
 		const canvas = document.querySelector("canvas"),
+			ctx = canvas.getContext("2d"),
 			toolBtns = document.querySelectorAll(".tool.option"),
 			pensBtns = document.querySelectorAll(".pens"),
 			fillColor = document.querySelector("#fill-color"),
@@ -614,7 +604,6 @@
 			colorPicker = document.querySelector("#color-picker"),
 			zoomInBtn = document.querySelector("#zoom-in"),
 			zoomOutBtn = document.querySelector("#zoom-out"),
-			ctx = canvas.getContext("2d"),
 			undoBtn = document.querySelector(".undo"),
 			redoBtn = document.querySelector(".redo"),
 			closeTools = document.querySelector("#close-tool"),
@@ -627,7 +616,7 @@
 			isPen = "brush",
 			selectedTool = "brush",
 			brushWidth = 5,
-			selectedColor = "#000",
+			selectedColor = "#000000",
 			zoomLevel = 1,
 			undoStack = [],
 			redoStack = [];
@@ -637,13 +626,17 @@
 		window.addEventListener("load", () => {
 			canvas.width = canvas.offsetWidth;
 			canvas.height = canvas.offsetHeight;
-			document.querySelector("#width").value = canvas.width;
-			document.querySelector("#height").value = canvas.height;
 			setCanvasSize();
-			myDialog.showModal();
+			PageIsReady.postMessage("hi")
 		});
 
-		document.querySelector("#setWidthAndHeight").onsubmit = () => {
+		const setCanvasSize = () => {
+			canvas.style.width = canvas.width * zoomLevel + "px";
+			canvas.style.height = canvas.height * zoomLevel + "px";
+		};
+
+		const submitForm = (translation) => {
+			event.preventDefault()
 			const widthInput = Number(document.querySelector("#width").value);
 			const heightInput = Number(document.querySelector("#height").value);
 			if (!widthInput || !heightInput || heightInput < 10 || widthInput < 10 || heightInput > 20000 || widthInput > 20000) {
@@ -657,22 +650,17 @@
 			setCanvasSize();
 			myDialog.innerHTML = `
 			<form method="dialog">
-			<h2 style="margin-bottom: 4px; font-size: 25px;">Do you want to exit?</h2>
+			<h2 style="margin-bottom: 4px; font-size: 25px;">${translation["title"]}</h2>
 			<div id="inner-modal-window">
-				<button type="button" onclick="myDialog.close()">
-					CANCEL
-				</button>
 				<button onclick="GoToAnotherHome.postMessage('goBack');">
-					OK
+					${translation["btns"][1]}
+				</button>
+				<button type="button" onclick="myDialog.close()">
+					${translation["btns"][0]}
 				</button>
 			</div>
 		</form>`;
 		}
-
-		const setCanvasSize = () => {
-			canvas.style.width = canvas.width * zoomLevel + "px";
-			canvas.style.height = canvas.height * zoomLevel + "px";
-		};
 
 		const drawRect = (x, y) => {
 			if (!fillColor.checked) {
@@ -705,70 +693,7 @@
 			ctx.stroke();
 		};
 
-		const startDraw = (x, y) => {
-			if (selectedTool === "fill") {
-				drawFill(x, y, hexToRgb(selectedColor)[0], hexToRgb(selectedColor)[1], hexToRgb(selectedColor)[2], 255);
-				return;
-			} else if (selectedTool === "pipette") {
-				const pixelData = ctx.getImageData(x, y, 1, 1).data;
-				const r = pixelData[0];
-				const g = pixelData[1];
-				const b = pixelData[2];
-				selectedColor = rgbToHex(r, g, b);
-				colorPicker.value = selectedColor;
-				return;
-			}
-
-			isDrawing = true;
-			prevMouseX = x;
-			prevMouseY = y;
-			ctx.beginPath();
-			ctx.setLineDash([brushWidth, dashedLine.checked ? brushWidth + 3 : 0])
-			ctx.lineCap = "round";
-			ctx.lineWidth = brushWidth;
-			ctx.strokeStyle = selectedColor;
-			ctx.fillStyle = selectedColor;
-			snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
-		};
-
-		const drawing = (x, y) => {
-			if (!isDrawing || selectedTool === "fill" || selectedTool === "pipette") return;
-			ctx.putImageData(snapshot, 0, 0);
-			ctx.globalCompositeOperation = isPen === "eraser" ? "destination-out" : "source-over";
-			if (selectedTool === "rectangle") {
-				drawRect(x, y);
-			} else if (selectedTool === "circle") {
-				drawCircle(x, y);
-			} else if (selectedTool === "triangle") {
-				drawTriangle(x, y);
-			} else if (selectedTool === "line") {
-				drawLine(x, y);
-			} else {
-				ctx.lineTo(x, y);
-				ctx.stroke();
-			}
-		};
-
-		function hexToRgb(hex) {
-			hex = hex.replace("#", "");
-
-			var bigint = parseInt(hex, 16);
-			var r = (bigint >> 16) & 255;
-			var g = (bigint >> 8) & 255;
-			var b = bigint & 255;
-
-			return [r, g, b];
-		}
-
-		function rgbToHex(r, g, b) {
-			const hexR = r.toString(16).padStart(2, "0");
-			const hexG = g.toString(16).padStart(2, "0");
-			const hexB = b.toString(16).padStart(2, "0");
-			return `#${hexR}${hexG}${hexB}`;
-		}
-
-		function drawFill(start_x, start_y, fill_r, fill_g, fill_b, fill_a) {
-
+		const drawFill = (start_x, start_y, fill_r, fill_g, fill_b, fill_a) => {
 			const stack = [[start_x, start_y]];
 			const c_width = canvas.width;
 			const c_height = canvas.height;
@@ -858,23 +783,92 @@
 				id.data[pixel_pos + 2] = fill_b;
 				id.data[pixel_pos + 3] = fill_a;
 			}
+		};
+
+		const startDraw = (x, y) => {
+			if (selectedTool === "fill") {
+				drawFill(x, y, hexToRgb(selectedColor)[0], hexToRgb(selectedColor)[1], hexToRgb(selectedColor)[2], 255);
+				return;
+			} else if (selectedTool === "pipette") {
+				const pixelData = ctx.getImageData(x, y, 1, 1).data;
+				const r = pixelData[0];
+				const g = pixelData[1];
+				const b = pixelData[2];
+				selectedColor = rgbToHex(r, g, b);
+				colorPicker.value = selectedColor;
+				return;
+			}
+
+			isDrawing = true;
+			prevMouseX = x;
+			prevMouseY = y;
+			ctx.beginPath();
+			ctx.setLineDash([brushWidth, dashedLine.checked ? brushWidth + 3 : 0])
+			ctx.lineCap = "round";
+			ctx.lineWidth = brushWidth;
+			ctx.strokeStyle = selectedColor;
+			ctx.fillStyle = selectedColor;
+			snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
+		};
+
+		const drawing = (x, y) => {
+			if (!isDrawing || selectedTool === "fill" || selectedTool === "pipette") return;
+			ctx.putImageData(snapshot, 0, 0);
+			ctx.globalCompositeOperation = isPen === "eraser" ? "destination-out" : "source-over";
+			if (selectedTool === "rectangle") {
+				drawRect(x, y);
+			} else if (selectedTool === "circle") {
+				drawCircle(x, y);
+			} else if (selectedTool === "triangle") {
+				drawTriangle(x, y);
+			} else if (selectedTool === "line") {
+				drawLine(x, y);
+			} else {
+				ctx.lineTo(x, y);
+				ctx.stroke();
+			}
+		};
+
+		const hexToRgb = (hex) => {
+			hex = hex.replace("#", "");
+
+			var bigint = parseInt(hex, 16);
+			var r = (bigint >> 16) & 255;
+			var g = (bigint >> 8) & 255;
+			var b = bigint & 255;
+
+			return [r, g, b];
 		}
 
-		toolBtns.forEach(btn => {
-			btn.addEventListener("click", () => {
-				document.querySelector(".option.tool.active").classList.remove("active");
-				btn.classList.add("active");
-				selectedTool = btn.id;
-			});
-		});
+		const rgbToHex = (r, g, b) => {
+			const hexR = r.toString(16).padStart(2, "0");
+			const hexG = g.toString(16).padStart(2, "0");
+			const hexB = b.toString(16).padStart(2, "0");
+			return `#${hexR}${hexG}${hexB}`;
+		}
 
-		pensBtns.forEach(btn => {
-			btn.addEventListener("click", () => {
-				document.querySelector("#" + isPen).classList.remove("active");
-				isPen = btn.id;
-				document.querySelector("#" + isPen).classList.add("active");
-			});
-		});
+		const translatePage = (translation) => {
+			document.querySelectorAll(".tools-board .row").forEach((element, index) => {
+				element.querySelector("label").innerText = translation["option-list"][index];
+			})
+			document.querySelector("h1").innerText = translation["name"];
+			myDialog.innerHTML = `
+			<h2>${translation["start-dialog"]["title"]}</h2>
+		<form method="dialog" onsubmit='submitForm(${JSON.stringify(translation["leaving-dialog"])});'>
+			<div class="input-text-container">
+				<input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); this.value? this.classList.add('valid'):this.classList.remove('valid');" min="10" max="20000" maxLength="5" type="number" id="width" required autocomplete="off" autocapitalize="off" value="500">
+				<label for="width">${translation["start-dialog"]["inputs"][0]}</label>
+			</div>
+			<div class="input-text-container">
+				<input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);  this.value? this.classList.add('valid'):this.classList.remove('valid');" min="10" max="20000" maxLength="5" type="number" id="height" required autocomplete="off" autocapitalize="off" value="500">
+				<label for="height">${translation["start-dialog"]["inputs"][1]}</label>
+			</div>
+			<button id="applyBtn" type="submit">${translation["start-dialog"]["btn"]}</button>
+		</form>`
+			document.querySelector("#width").value = canvas.width;
+			document.querySelector("#height").value = canvas.height;
+			myDialog.showModal();
+		}
 
 		canvas.addEventListener("mousedown", (event) => {
 			const x = Math.round(event.offsetX / zoomLevel);
@@ -990,6 +984,22 @@
 		doneBtn.addEventListener("click", () => {
 			if (!undoStack.length || ctx.getImageData(0, 0, canvas.width, canvas.height) == undoStack[0]) return;
 			SaveFile.postMessage(canvas.toDataURL());
+		});
+
+		toolBtns.forEach(btn => {
+			btn.addEventListener("click", () => {
+				document.querySelector(".option.tool.active").classList.remove("active");
+				btn.classList.add("active");
+				selectedTool = btn.id;
+			});
+		});
+
+		pensBtns.forEach(btn => {
+			btn.addEventListener("click", () => {
+				document.querySelector("#" + isPen).classList.remove("active");
+				isPen = btn.id;
+				document.querySelector("#" + isPen).classList.add("active");
+			});
 		});
 
 	</script>

@@ -18,6 +18,19 @@ const ukrainianLanguage = {
       "just-put": "Створити файл Just Put",
       "html": "Створити HTML-файл",
       "file-saved": "Файл збережено у /Download/JustPut",
+    },
+    "paint": {
+      "name": "Малювати",
+      "option-list": ["Масштаб", "Колір", "Параметри", "Фігури"],
+      "start-dialog": {
+        "title": "Розмір полотна",
+        "inputs": ["Ширина", "Висота"],
+        "btn": "Застосувати"
+      },
+      "leaving-dialog": {
+        "title": "Ви дійсно хочете вийти?",
+        "btns": ["Ні", "Так"]
+      }
     }
   },
   "html": {

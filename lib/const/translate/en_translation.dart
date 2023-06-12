@@ -29,7 +29,7 @@ const englishLanguage = {
       },
       "leaving-dialog": {
         "title": "Do you want to exit?",
-        "btns": ["CANCEL", "OK"],
+        "btns": ["NO", "Yes"],
       }
     }
   },

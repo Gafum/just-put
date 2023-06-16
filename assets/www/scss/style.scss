@@ -547,12 +547,33 @@ body > .fab-btn {
   overflow-y: scroll;
   overflow-x: hidden;
   width: 100%;
-  height: 28vh;
-  overflow-wrap: break-word;
+  height: 26vh;
   background-color: #191919;
   padding: 15px 10px;
   color: white;
   font-size: 18px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: flex-start;
+  b {
+    color: inherit;
+    font-size: inherit;
+    line-height: 14px;
+    color: inherit;
+    font-size: 20px;
+    animation: cursor 1.2s infinite;
+    animation-delay: 0.4s;
+  }
+  span {
+    color: inherit;
+    font-size: inherit;
+    overflow-wrap: break-word;
+  }
 
   @include display(smallHeight) {
     height: auto;
@@ -560,6 +581,27 @@ body > .fab-btn {
 
   @include display(phone) {
     height: 17vh;
+  }
+}
+
+#copy-formula {
+  position: absolute;
+  right: 0;
+  top: 0;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  gap: 4px;
+  z-index: 10;
+  background-color: #191919bf;
+  border-bottom-left-radius: 4px;
+  div {
+    height: 24px;
+    width: 24px;
+    svg {
+      max-height: 100%;
+    }
   }
 }
 
@@ -939,5 +981,17 @@ dialog {
   to {
     opacity: 1;
     top: 30vh;
+  }
+}
+
+@keyframes cursor {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

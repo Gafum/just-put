@@ -23,19 +23,14 @@ function openParams(event) {
 
   listOfChageParams = ListOfElements[idOfElement].listChengers;
   List = JSON.parse(editingElement.dataset.parameter);
-  if (listOfChageParams.length > List.length) {
-    /*===== New version can have more element in listOfChageParams */
-    if (!List) {
-      List = [];
-    }
-    for (let i = 0; i < listOfChageParams.length - List.length; i++) {
-      List.push(ListOfElements[idOfElement].standartParameter[List.length + i]);
-    }
+
+  if (!List) {
+    List = [];
   }
 
   where.scrollTo(0, 0);
   document.querySelector("#tree").scrollTo(0, 0);
-
+  copyFormula.style.display = "none";
   onStart();
 
   /* close all element in formulas */
@@ -91,13 +86,18 @@ function openParams(event) {
   body.classList.add("no-scroll");
 }
 
+function onStart() {
+  listOfParams = List[whichPosition];
+  position = listOfParams.length;
+  changeDataList(true);
+  changeDataList(false);
+  setTextInWhere();
+  changeText();
+}
+
 function closeEditParams() {
   editparams.classList.remove("active");
   body.classList.remove("no-scroll");
-}
-
-function addColor() {
-  tapofbtn('"' + editparams.querySelector("#color-picker").value + '"');
 }
 
 function getFirstElement(index) {
@@ -145,37 +145,62 @@ function setTextInWhere() {
   whereBtns.forEach((i, index) => (i.textContent = realChenge[index]));
 }
 
-function changeText() {
-  let textFromList = " ";
-  if (listOfParams.length > 0) {
-    textFromList = listOfParams.reduce((a, b, i) => {
-      let c = "";
-      let elementText =
-        formulasTranslation.indexOf(String(b)) + 1
-          ? appLanguage["formuls"]["btns"][
-              formulasTranslation.indexOf(String(b))
-            ]
-          : String(b);
-      if (i == 0 && position == 0) {
-        return (c = "|" + elementText);
-      }
+function cursorMove(event, index) {
+  let newCursor =
+    event.offsetX >
+    (event.target.offsetWidth -
+      parseFloat(
+        getComputedStyle(event.target).getPropertyValue("padding-right")
+      )) /
+      2
+      ? index + 1
+      : index;
+  if (newCursor == position) {
+    return;
+  }
+  position = newCursor;
+  changeText();
+}
 
-      c = String(a) + elementText;
-      if (i + 1 == position) {
-        c += "|";
+function changeText() {
+  if (listOfParams.length > 0) {
+    result.innerHTML = "";
+    let cursor = document.createElement("b");
+    cursor.innerHTML = "|";
+    listOfParams.forEach((element, index) => {
+      if (index === position) {
+        result.append(cursor);
       }
-      return c;
-    }, "");
-    result.textContent = textFromList;
+      let newSpan = document.createElement("span");
+      newSpan.onclick = (event) => cursorMove(event, index);
+      newSpan.textContent =
+        formulasTranslation.indexOf(String(element)) + 1
+          ? appLanguage["formuls"]["btns"][
+              formulasTranslation.indexOf(String(element))
+            ]
+          : String(element);
+      result.append(newSpan);
+    });
+
+    if (position === listOfParams.length) {
+      result.append(cursor);
+    } else {
+      let lastElement = result.children[result.children.length - 1];
+      lastElement.style.paddingRight = `${
+        Math.floor(
+          result.offsetWidth -
+            lastElement.getBoundingClientRect().left -
+            lastElement.offsetWidth
+        ) - 40
+      }px`;
+    }
   } else {
-    result.textContent = "|";
+    result.innerHTML = "<b>| </b>";
   }
 
   List[whichPosition] = listOfParams;
-  document.querySelectorAll(".whereBtn")[whichPosition].innerHTML =
-    textFromList.replace("|", "");
-
-  return textFromList;
+  document.querySelectorAll(".whereBtn")[whichPosition].textContent =
+    result.textContent.replace("|", "");
 }
 
 function newParameter(parameter) {
@@ -265,6 +290,11 @@ function tapofbtn(text) {
       }
       break;
     case "@0Ok**":
+      for (let index = List.length - 1; index >= 0; index--) {
+        if (List[index].length == 0) {
+          List[index] = ListOfElements[idOfElement].standartParameter[index];
+        }
+      }
       editingElement.dataset.parameter = JSON.stringify(List);
       editingElement.querySelector(".elementText").textContent =
         CreateInnerTextOfElement(idOfElement, List);
@@ -279,11 +309,66 @@ function tapofbtn(text) {
   changeText();
 }
 
-function onStart() {
-  listOfParams = List[whichPosition];
-  position = listOfParams.length;
-  changeDataList(true);
-  changeDataList(false);
-  setTextInWhere();
-  changeText();
+function addColor() {
+  tapofbtn('"' + editparams.querySelector("#color-picker").value + '"');
 }
+
+function setupCopyFormula() {
+  let touchEventTriggered = false;
+  let copyListFormula = [];
+  const doubleTapHandler = createDoubleTapHandler(openCopyPaste);
+
+  result.addEventListener("touchend", (event) => {
+    touchEventTriggered = true;
+    doubleTapHandler(event);
+  });
+
+  result.addEventListener("dblclick", (event) => {
+    if (!touchEventTriggered) {
+      openCopyPaste();
+    }
+    touchEventTriggered = false;
+  });
+
+  function createDoubleTapHandler(handler) {
+    let lastTouchTime = 0;
+    return (event) => {
+      const currentTime = new Date().getTime();
+      const tapLength = currentTime - lastTouchTime;
+      if (tapLength < 300 && tapLength > 0) {
+        event.preventDefault();
+        handler();
+      }
+      lastTouchTime = currentTime;
+    };
+  }
+
+  function openCopyPaste() {
+    copyFormula.style.top =
+      Number(result.getBoundingClientRect().top + 3) + "px";
+    if (copyFormula.style.display === "flex") {
+      copyFormula.style.display = "none";
+    } else {
+      copyFormula.style.display = "flex";
+    }
+
+    if (copyListFormula.length > 0) {
+      copyFormula.children[1].style.display = "";
+    } else {
+      copyFormula.children[1].style.display = "none";
+    }
+  }
+
+  copyFormula.children[0].onclick = () => {
+    copyListFormula = [...listOfParams];
+    copyFormula.children[1].style.display = "";
+  };
+
+  copyFormula.children[1].onclick = () => {
+    listOfParams.splice(position, 0, ...copyListFormula);
+    position += copyListFormula.length;
+    changeText();
+  };
+}
+
+setupCopyFormula();

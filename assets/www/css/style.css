@@ -730,12 +730,47 @@ body > .fab-btn {
   overflow-y: scroll;
   overflow-x: hidden;
   width: 100%;
-  height: 28vh;
-  overflow-wrap: break-word;
+  height: 26vh;
   background-color: #191919;
   padding: 15px 10px;
   color: white;
   font-size: 18px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  gap: 0;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -ms-flex-line-pack: start;
+      align-content: flex-start;
+}
+#result b {
+  color: inherit;
+  font-size: inherit;
+  line-height: 14px;
+  color: inherit;
+  font-size: 20px;
+  -webkit-animation: cursor 1.2s infinite;
+          animation: cursor 1.2s infinite;
+  -webkit-animation-delay: 0.4s;
+          animation-delay: 0.4s;
+}
+#result span {
+  color: inherit;
+  font-size: inherit;
+  overflow-wrap: break-word;
 }
 @media (max-height: 360px) {
   #result {
@@ -746,6 +781,35 @@ body > .fab-btn {
   #result {
     height: 17vh;
   }
+}
+
+#copy-formula {
+  position: absolute;
+  right: 0;
+  top: 0;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  gap: 4px;
+  z-index: 10;
+  background-color: rgba(25, 25, 25, 0.7490196078);
+  border-bottom-left-radius: 4px;
+}
+#copy-formula div {
+  height: 24px;
+  width: 24px;
+}
+#copy-formula div svg {
+  max-height: 100%;
 }
 
 #btns {
@@ -1247,5 +1311,27 @@ dialog #inner-modal-window {
   to {
     opacity: 1;
     top: 30vh;
+  }
+}
+@-webkit-keyframes cursor {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes cursor {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

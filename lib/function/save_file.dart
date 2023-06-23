@@ -30,11 +30,7 @@ Future<String> saveFile({
         return 'Give Permission!!!';
       }
     } else {
-      if (await requestPermission(Permission.photos)) {
-        directory = await getTemporaryDirectory();
-      } else {
-        return 'IOS problems';
-      }
+      return "Work just with Android";
     }
     if (!await directory.exists()) {
       await directory.create(recursive: true);

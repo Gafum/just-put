@@ -195,7 +195,7 @@ class _ProjectSettingsState extends State<ProjectSettings> {
                 data: projectData,
               ).then((value) {
                 setState(() {
-                  createJustPutFileText = true;
+                  createJustPutFileText = value == "saved";
                 });
                 showToast(
                     context,
@@ -232,7 +232,7 @@ class _ProjectSettingsState extends State<ProjectSettings> {
                 data: codeCreator(value: projectData, inApp: ''),
               ).then((value) {
                 setState(() {
-                  createHTMLFileText = true;
+                  createHTMLFileText = value == "saved";
                 });
                 showToast(
                     context,

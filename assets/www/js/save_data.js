@@ -37,7 +37,7 @@ function saveData(createCode = false) {
         "[" +
           JSON.stringify(MainList) +
           "," +
-          JSON.stringify(listOfTexture) +
+          JSON.stringify(listOfFiles) +
           "]"
       );
     } else {

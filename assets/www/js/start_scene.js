@@ -35,8 +35,9 @@ const sortOrder = [
 let listOfCodePieces = [];
 let MainList = [];
 let listOfData = [];
-let listOfTexture = [];
+let listOfFiles = [];
 let listOfFunct = [];
+let audio = new Audio();
 let copyList = [];
 let projectName = "";
 let codePiece = 0;
@@ -160,7 +161,7 @@ window.onload = () => PageIsReady.postMessage("Hi. Page is Ready");
 
 function readData(data, nameOfProject) {
   let result = data[0];
-  listOfTexture = data[1];
+  listOfFiles = data[1];
   if (!result) return;
 
   MainList = data[0];

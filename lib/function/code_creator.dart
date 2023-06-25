@@ -22,7 +22,7 @@ String stringB(Map<String, dynamic> element, changer) {
 String codeCreator({required String value, String inApp = ''}) {
   List fillData = json.decode(value);
   List data = fillData[0];
-  List listOfTextures = fillData[1];
+  List listOfFiles = fillData[1];
 
   /* Work with data */
   var fisrtStrCodeValues = 'document.title = "${data[0]['name']}";';
@@ -45,9 +45,17 @@ let StoredData = {}
   }
 
   /* Create Textures */
-  if (listOfTextures.isNotEmpty) {
-    fisrtStrCodeValues += listOfTextures.fold('', (a, b) {
-      return '''$a
+  if (listOfFiles.isNotEmpty) {
+    fisrtStrCodeValues += listOfFiles.fold('', (a, b) {
+      if (b["data"] == "0") {
+        return '''$a
+      // Audio: ${b['name']}
+      let  ${b['name']} = new Audio('${b['audioData']}');
+      ${b['name']}.currentTime = 0;
+      ''';
+      } else {
+        return '''$a
+      // Image: ${b['name']}
       let ${b['name']} = {}
       ${b['name']}.a = new Image()
       try {
@@ -62,6 +70,7 @@ let StoredData = {}
         alert('Image not found 0(')
       };
       ''';
+      }
     });
   }
 
@@ -157,6 +166,9 @@ function EndOfTheTouching() {
     return '$a\n$onePiece';
   });
 
+/*  log(htmlCode
+      .replaceFirst('HereMustBeCodeWithVariables====>', fisrtStrCodeValues)
+      .replaceFirst('HereMustBeMainCode====>', createdCode));*/
   return htmlCode
       .replaceFirst('HereMustBeCodeWithVariables====>', fisrtStrCodeValues)
       .replaceFirst('HereMustBeMainCode====>', createdCode);

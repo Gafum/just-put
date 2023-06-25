@@ -193,6 +193,14 @@
 			<path class="fillWite" d="M289.9,269.2c51.3-10.5,101.6-25.2,150.6-43.8c-11.4,41.8-37.8,78-74.3,101.5c-36.4,23.5-80.3,32.8-123.1,25.9
 	c-42.8-6.8-81.6-29.3-108.9-63C186.6,287.2,238.6,280.2,289.9,269.2L289.9,269.2z" />
 		</symbol>
+		<symbol viewBox="0 0 48 48" id="icon-audio">
+			<path class="fillWite" d="M24 6v18.55c-.94-.33-1.94-.55-3-.55a9 9 0 0 0 0 18c4.63 0 8.4-3.51 8.9-8h.1V12h8V6H24z">
+			</path>
+		</symbol>
+		<symbol viewBox="0 0 24 24" id="icon-sound">
+			<path
+				d="M13,4V20a1,1,0,0,1-2,0V4a1,1,0,0,1,2,0ZM8,5A1,1,0,0,0,7,6V18a1,1,0,0,0,2,0V6A1,1,0,0,0,8,5ZM4,7A1,1,0,0,0,3,8v8a1,1,0,0,0,2,0V8A1,1,0,0,0,4,7ZM16,5a1,1,0,0,0-1,1V18a1,1,0,0,0,2,0V6A1,1,0,0,0,16,5Zm4,2a1,1,0,0,0-1,1v8a1,1,0,0,0,2,0V8A1,1,0,0,0,20,7Z" />
+		</symbol>
 	</svg>
 
 	<header style="box-shadow: 0px 1px 8px #888;">
@@ -211,7 +219,7 @@
 			</button>
 			<nav class="color-green">
 				<li onclick="GoToAnotherHome.postMessage('goToSettings')">Settings</li>
-				<li onclick="openFiles();">Textures</li>
+				<li onclick="openFiles();">Files</li>
 				<li onclick="openPieces();">Code Pieces</li>
 			</nav>
 		</div>
@@ -231,6 +239,16 @@
 		<div class="fab-btn color-orange" onclick="this.classList.toggle('active');">
 			<span>+</span>
 			<ul class="list" id="files-fab">
+				<li onclick="createMusic()">
+					<span>Audio</span>
+					<div class="iconbutton color-orange">
+						<span class="icon-fab">
+							<svg>
+								<use xlink:href="#icon-audio"></use>
+							</svg>
+						</span>
+					</div>
+				</li>
 				<li onclick="createTextureDraw()">
 					<span>Draw</span>
 					<div class="iconbutton color-grey-green">

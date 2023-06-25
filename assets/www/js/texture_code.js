@@ -1,14 +1,22 @@
 function changeTextureList() {
   try {
-    filesList.innerHTML = listOfTexture.reduce((a, b, index) => {
+    filesList.innerHTML = listOfFiles.reduce((a, b, index) => {
       return (
         a +
         `
 			<li class="one-file">
-			<div class="img-in-file" style="background-image: url('${b.data}');"></div>
+			<div class="img-in-file" style="background-image: url('${b.data}');">
+				${
+          b.data == "0"
+            ? `<svg width='40' height='40' onclick='switchMusic(${index});'><use xlink:href='#icon-sound'></use></svg>`
+            : ""
+        }
+			</div>
 			<div class="text-in-file">
 				<h3>${b.name}</h3>
-				<button onclick="deleteTexture(${index}, '${b.name}')">${appLanguage["message"]["delete"]}</button>
+				<button onclick="deleteTexture(${index}, '${b.name}')">${
+          appLanguage["message"]["delete"]
+        }</button>
 			</div>
 		</li>`
       );
@@ -19,10 +27,14 @@ function changeTextureList() {
   return "Status: ok";
 }
 
-function addNewImage({ name = "myName", data = false }) {
+function addNewImage({ name = "myName", data = false, isAudio = false }) {
   if (!data) return;
-  listOfTexture.push({ name, data });
-  SaveTextures.postMessage(JSON.stringify(listOfTexture));
+  let newElement = { name, data };
+  if (isAudio) {
+    newElement.audioData = isAudio;
+  }
+  listOfFiles.push(newElement);
+  SaveTextures.postMessage(JSON.stringify(listOfFiles));
   return changeTextureList();
 }
 
@@ -53,7 +65,9 @@ function createTextureFile() {
           modalInput.querySelector("label").innerHTML = inputPlaceholder;
           return false;
         }
-        SelectFile.postMessage(userAnswer);
+        SelectFile.postMessage(
+          JSON.stringify({ name: userAnswer, isAudio: false })
+        );
       };
       modalInput.querySelector("input").maxLength = 20;
     }, 400);
@@ -101,6 +115,7 @@ function createTextureDraw() {
     }
     PaintImg.postMessage(userAnswer);
   };
+  modalInput.querySelector("input").maxLength = 20;
   showMessege({ text: appLanguage["message"]["writeName"], defaultValue: "" });
 }
 
@@ -110,8 +125,40 @@ function deleteTexture(id, name) {
     defaultValue: "empty"
   });
   modalInput.querySelector("#ok-btn").onclick = () => {
-    listOfTexture.splice(id, 1);
-    SaveTextures.postMessage(JSON.stringify(listOfTexture));
+    listOfFiles.splice(id, 1);
+    SaveTextures.postMessage(JSON.stringify(listOfFiles));
     return changeTextureList();
   };
+}
+
+function createMusic() {
+  modalInput.querySelector("#ok-btn").onclick = () => {
+    let userAnswer = modalInput.querySelector("input").value.slice(0, 20);
+    userAnswer = userAnswer.replace(/\s/g, "");
+    if (!userAnswer) return false;
+
+    let inputPlaceholder = checkForIncludesVarieblse(userAnswer);
+    if (inputPlaceholder) {
+      modalInput.querySelector("label").innerHTML = inputPlaceholder;
+      return false;
+    }
+    SelectFile.postMessage(JSON.stringify({ name: userAnswer, isAudio: true }));
+  };
+  modalInput.querySelector("input").maxLength = 20;
+  showMessege({ text: appLanguage["message"]["writeName"], defaultValue: "" });
+}
+
+function switchMusic(indexInList) {
+  if (audio.paused) {
+    audio.pause();
+    audio.currentTime = 0;
+    if (!listOfFiles[indexInList].audioData) {
+      return;
+    }
+    audio = new Audio(listOfFiles[indexInList].audioData);
+    audio.play();
+  } else {
+    audio.pause();
+    audio.currentTime = 0;
+  }
 }

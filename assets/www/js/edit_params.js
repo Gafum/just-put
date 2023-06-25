@@ -45,21 +45,17 @@ function openParams(event) {
   /* Does Element work with texure? */
   editparams.querySelector("#texturesListEditor").style.display = "none";
   if (
-    listOfTexture.length > 0 &&
+    listOfFiles.length > 0 &&
     texturesElements.includes(editingElement.dataset.id)
   ) {
     editparams.querySelector("#texturesListEditor").style.display = "flex";
-    editparams.querySelector("#texturesListEditor").innerHTML = `
-			<span>Textures</span>
-				<ul>
-			${listOfTexture.reduce((a, b) => {
-        return (
-          a +
-          `
-						<li onclick="tapofbtn('${b.name}');">${b.name}</li>`
-        );
-      }, "")}
-				</ul>`;
+    editparams
+      .querySelector("#texturesListEditor")
+      .querySelector("ul").innerHTML = listOfFiles
+      .filter((i) => !i.audioData)
+      .reduce((a, b) => {
+        return a + `<li onclick="tapofbtn('${b.name}');">${b.name}</li>`;
+      }, "");
   }
 
   /* Is element inside the mouse or touch function? */

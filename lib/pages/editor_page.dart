@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
@@ -44,6 +45,12 @@ class _EditorPageState extends State<EditorPage> {
     final bytes = await File(imagePath).readAsBytes();
     final base64 = base64Encode(bytes);
     return 'data:image/jpeg;base64,$base64';
+  }
+
+  Future<String> getMusicBase64(String imagePath) async {
+    final bytes = await File(imagePath).readAsBytes();
+    final base64 = base64Encode(bytes);
+    return 'data:audio/mp3;base64,$base64';
   }
 
   Future<String> _getData() async {
@@ -129,12 +136,26 @@ class _EditorPageState extends State<EditorPage> {
       ..addJavaScriptChannel(
         'SelectFile',
         onMessageReceived: (JavaScriptMessage message) {
-          pickImageAndSave(message.message).then((value) {
-            if (value['base64data']!.isEmpty) return;
-            showToast(context, value['text']!);
-            controller.runJavaScript('''
-addNewImage({data: "${value['base64data']}", name: "${message.message}"});''');
-          });
+          Map<String, dynamic> fileData = json.decode(message.message);
+          if (fileData['isAudio']) {
+            FilePicker.platform.pickFiles(
+              type: FileType.custom,
+              allowedExtensions: ['mp3', 'm4a', 'wav', 'flac', 'aac'],
+            ).then((pickedFile) {
+              return getMusicBase64(pickedFile!.files.first.path.toString());
+            }).then((value) {
+              if (value.isEmpty) return;
+              controller.runJavaScript('''
+addNewImage({data: "0", name: "${fileData['name']}", isAudio:"$value"});''');
+            });
+          } else {
+            pickImageAndSave(fileData['name']).then((value) {
+              if (value['base64data']!.isEmpty) return;
+              showToast(context, value['text']!);
+              controller.runJavaScript('''
+addNewImage({data: "${value['base64data']}", name: "${fileData['name']}", isAudio: false});''');
+            });
+          }
         },
       )
       ..addJavaScriptChannel(

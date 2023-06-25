@@ -65,7 +65,7 @@ function changeDataList(isData) {
 function checkForIncludesVarieblse(userAnswer) {
   if (
     listOfData.includes(userAnswer) ||
-    listOfTexture.findIndex(({ name }) => name == userAnswer) + 1
+    listOfFiles.findIndex(({ name }) => name == userAnswer) + 1
   ) {
     return appLanguage["message"]["alreadyIncledes"][0];
   }

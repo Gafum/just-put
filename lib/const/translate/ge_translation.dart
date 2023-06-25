@@ -36,9 +36,9 @@ const germanLanguage = {
   },
   "html": {
     "name-add-block": "Block hinzufügen",
-    "nav": ["Einstellungen", "Texturen", "Fragments"],
+    "nav": ["Einstellungen", "Dateien", "Fragments"],
     "main-fab-btn": ["Eigenschaften", "Steuerung", "Objekte", "Daten", "Start"],
-    "files-fab": ["Zeichnen", "Dateien", "URL"],
+    "files-fab": ["Musik", "Zeichnen", "Dateien", "URL"],
     "btns-edit-params": ["Code", "Text", "OK", "+"],
     "formuls": {
       "group-name": [

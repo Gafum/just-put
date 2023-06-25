@@ -35,9 +35,9 @@ const englishLanguage = {
   },
   "html": {
     "name-add-block": "Add Block",
-    "nav": ["Settings", "Textures", "Code Pieces"],
+    "nav": ["Settings", "Files", "Code Pieces"],
     "main-fab-btn": ["Propertie", "Control", "Object", "Data", "Start"],
-    "files-fab": ["Draw", "Files", "URL"],
+    "files-fab": ["Audio", "Draw", "Files", "URL"],
     "btns-edit-params": ["Code", "Text", "Ok", "Add"],
     "formuls": {
       "group-name": [

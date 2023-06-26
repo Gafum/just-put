@@ -1219,4 +1219,36 @@ var ListOfElements = [
       [" //a"]
     ]
   },
+  {
+    "id": 88,
+    "code": "MyAudio.currentTime = StartTime; \n MyAudio.play();",
+    "text": "Play MyAudio",
+    "color": 0,
+    "listChengers": ["MyAudio", "StartTime"],
+    "standartParameter": [
+      [" //myName"],
+      ["0"]
+    ]
+  },
+  {
+    "id": 89,
+    "code": "MyAudio.pause();",
+    "text": "Stop MyAudio",
+    "color": 0,
+    "listChengers": ["MyAudio"],
+    "standartParameter": [
+      [" //myName"],
+    ]
+  },
+  {
+    "id": 90,
+    "code": "MyAudio.volume = (50)/100;",
+    "text": "Set MyAudio volume to 50%",
+    "color": 0,
+    "listChengers": ["MyAudio", "50"],
+    "standartParameter": [
+      [" //myName"],
+      ["50"]
+    ]
+  },
 ];

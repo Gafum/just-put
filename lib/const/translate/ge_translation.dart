@@ -44,7 +44,7 @@ const germanLanguage = {
       "group-name": [
         "Daten",
         "Mausereignisse",
-        "Texturen",
+        "Dateien",
         "Mathematik",
         "Eigenschaften",
         "Logik",
@@ -138,12 +138,13 @@ const germanLanguage = {
     "message": {
       "writeText": "Schreiben Sie den Text",
       "writeCode": "Schreiben Sie den Code",
-      "writeName": "Texturname",
+      "writeName": "Schreiben Sie den Name",
       "writeURL": "Schreiben Sie die URL",
       "createFunction": "Funktion erstellen",
       "createData": "Variable erstellen",
       "createPiece": "Fragment erstellen",
       "delete": "Löschen",
+      "isAudio": "Ist das ein Audio?",
       "btns": ["ZURÜCK", "OK"],
       "notRecomended": [
         "Nicht empfohlen",
@@ -489,6 +490,16 @@ const germanLanguage = {
       },
       {
         "text": ["Leere Liste //a"],
+      },
+      {
+        "text": ["MyAudio abspielen"],
+        "textInWhere": "MyAudio abspielen, Startzeit: StartTime"
+      },
+      {
+        "text": ["MyAudio stoppen"],
+      },
+      {
+        "text": ["MyAudio Lautstärke auf 50% einstellen"],
       },
     ]
   }

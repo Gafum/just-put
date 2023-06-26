@@ -883,7 +883,7 @@ body > .fab-btn {
 }
 
 // Beatiful innput ====================>
-.input-text-container {
+.input-text-conteiner {
   margin-top: 10px;
   position: relative;
   background: white;
@@ -923,6 +923,41 @@ body > .fab-btn {
     cursor: text;
     padding: 8px 0 5px 4px;
     transition: all 0.2s ease-in-out;
+  }
+}
+
+.input-checkbox-conteiner {
+  display: flex;
+  justify-content: center;
+  gap: 3px;
+
+  .input-checkbox {
+    display: none;
+    &:checked ~ label .checkbox-bipolar:after {
+      left: 18px;
+      right: 2px;
+    }
+  }
+
+  .checkbox-bipolar {
+    width: 36px;
+    height: 20px;
+    border-radius: 10px;
+    border: 1px solid #000;
+    display: inline-block;
+    position: relative;
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      background: #000;
+      left: 2px;
+      top: 2px;
+      bottom: 2px;
+      right: 18px;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
   }
 }
 

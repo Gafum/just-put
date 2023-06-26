@@ -1176,13 +1176,13 @@ body > .fab-btn {
           box-shadow: 2px 2px 5px #888;
 }
 
-.input-text-container {
+.input-text-conteiner {
   margin-top: 10px;
   position: relative;
   background: white;
   width: 95%;
 }
-.input-text-container input {
+.input-text-conteiner input {
   border: 0;
   border-bottom: 1px solid black;
   background: transparent;
@@ -1191,19 +1191,19 @@ body > .fab-btn {
   font-size: 19px;
   color: black;
 }
-.input-text-container input:invalid {
+.input-text-conteiner input:invalid {
   border-bottom: 2px solid #eb4464;
 }
-.input-text-container input:focus {
+.input-text-conteiner input:focus {
   border: none;
   outline: none;
   border-bottom: 2px solid black;
 }
-.input-text-container input:focus ~ label, .input-text-container input:valid ~ label {
+.input-text-conteiner input:focus ~ label, .input-text-conteiner input:valid ~ label {
   top: -50%;
   font-size: 14px;
 }
-.input-text-container label {
+.input-text-conteiner label {
   position: absolute;
   top: 0px;
   left: 0px;
@@ -1215,6 +1215,44 @@ body > .fab-btn {
   padding: 8px 0 5px 4px;
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
+}
+
+.input-checkbox-conteiner {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 3px;
+}
+.input-checkbox-conteiner .input-checkbox {
+  display: none;
+}
+.input-checkbox-conteiner .input-checkbox:checked ~ label .checkbox-bipolar:after {
+  left: 18px;
+  right: 2px;
+}
+.input-checkbox-conteiner .checkbox-bipolar {
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
+  border: 1px solid #000;
+  display: inline-block;
+  position: relative;
+}
+.input-checkbox-conteiner .checkbox-bipolar:after {
+  content: "";
+  display: block;
+  position: absolute;
+  background: #000;
+  left: 2px;
+  top: 2px;
+  bottom: 2px;
+  right: 18px;
+  border-radius: 8px;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
 }
 
 dialog {

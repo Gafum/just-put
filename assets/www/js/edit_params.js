@@ -42,7 +42,7 @@ function openParams(event) {
   editparams.querySelector("#where").style.backgroundColor =
     mainColors[ListOfElements[idOfElement].color];
 
-  /* Does Element work with texure? */
+  /* Does Element work with texure or music? */
   editparams.querySelector("#texturesListEditor").style.display = "none";
   if (
     listOfFiles.length > 0 &&
@@ -52,7 +52,11 @@ function openParams(event) {
     editparams
       .querySelector("#texturesListEditor")
       .querySelector("ul").innerHTML = listOfFiles
-      .filter((i) => !i.audioData)
+      .filter(
+        (i) =>
+          !i.audioData ||
+          ["88", "89", "90"].includes(editingElement.dataset.id) /* Is Audio? */
+      )
       .reduce((a, b) => {
         return a + `<li onclick="tapofbtn('${b.name}');">${b.name}</li>`;
       }, "");

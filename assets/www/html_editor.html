@@ -597,10 +597,17 @@
 	<dialog id="modal-window">
 		<form method="dialog">
 			<h1></h1>
-			<div class="input-text-container" style="margin-bottom: 10px;">
+			<div class="input-text-conteiner" style="margin-bottom: 10px;">
 				<input required id="modal-input" name="modal-input" autofocus autocomplete="off" autocapitalize="off"
 					onfocusout="modalInput.style.top = '50%';" onfocusin="modalInput.style.top = '30vh';">
 				<label for="modal-input"></label>
+			</div>
+			<div class="input-checkbox-conteiner" style="margin: 4px 0 8px;">
+				<input type="checkbox" class="input-checkbox" id="checkbox-input" />
+				<label for="checkbox-input" id="input-checkbox-conteiner-text">Audio</label>
+				<label for="checkbox-input">
+					<span class="checkbox-bipolar"></span>
+				</label>
 			</div>
 			<div id="inner-modal-window">
 				<button type="button" onclick="modalInput.close()">
@@ -662,24 +669,32 @@
 			return getTheListOfChangeElem(index, attachment)
 		}
 
-		function showMessege({ text = 'Enter Text', defaultValue = '' }) {
+		function showMessege({ text = 'Enter Text', defaultValue = '', checkbox = false }) {
 			if (modalInput.open) return
 			modalInput.querySelector("input").type = 'text'
 			if (defaultValue == 'empty') {
 				modalInput.querySelector("h1").style.display = 'block'
-				modalInput.querySelector(".input-text-container").style.display = 'none'
+				modalInput.querySelector(".input-text-conteiner").style.display = 'none'
 				modalInput.querySelector("h1").innerHTML = text
 				modalInput.classList?.remove("show-modal");
 				modalInput.style.top = '50%'
 			} else {
 				modalInput.classList.add("show-modal");
-				modalInput.querySelector("h1").style.display = 'none'
-				modalInput.querySelector(".input-text-container").style.display = 'block'
-				modalInput.querySelector("label").innerHTML = text
-				modalInput.querySelector("input").focus();
+				modalInput.querySelector("h1").style.display = 'none';
+				modalInput.querySelector("label").innerHTML = text;
+				modalInput.querySelector(".input-text-conteiner").style.display = '';
+				modalInput.querySelector("#modal-input").focus();
 			}
-			modalInput.showModal()
-			modalInput.querySelector("input").value = defaultValue
+
+			if (checkbox) {
+				modalInput.querySelector("#checkbox-input").checked = false;
+				modalInput.querySelector("#input-checkbox-conteiner-text").innerHTML = checkbox;
+				modalInput.querySelector(".input-checkbox-conteiner").style.display = '';
+			} else {
+				modalInput.querySelector(".input-checkbox-conteiner").style.display = 'none';
+			}
+			modalInput.showModal();
+			modalInput.querySelector("input").value = defaultValue;
 		}
 
 	</script>

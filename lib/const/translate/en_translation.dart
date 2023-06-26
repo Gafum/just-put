@@ -43,7 +43,7 @@ const englishLanguage = {
       "group-name": [
         "Data",
         "MouseEvent",
-        "Textures",
+        "Files",
         "Math",
         "Properties",
         "Logic",
@@ -137,17 +137,18 @@ const englishLanguage = {
     "message": {
       "writeText": "Write Text",
       "writeCode": "Write Code",
-      "writeName": "Write texture name",
+      "writeName": "Write Name",
       "writeURL": "Write URL",
       "createFunction": "Create Function",
       "createData": "Create Data",
       "createPiece": "Create new piece",
       "delete": "Delete",
+      "isAudio": "Is Audio?",
       "btns": ["CANCEL", "OK"],
       "notRecomended": [
         "Not recommended",
         "Use the URL instead",
-        "Large images will take a long time to process"
+        "Large images or audios will take a long time to process"
       ],
       "alreadyIncledes": [
         "ALREADY EXISTS",
@@ -482,6 +483,16 @@ const englishLanguage = {
       },
       {
         "text": ["Set //a to empty array"],
+      },
+      {
+        "text": ["Play MyAudio"],
+        "textInWhere": "Play MyAudio, start time: StartTime"
+      },
+      {
+        "text": ["Stop MyAudio"],
+      },
+      {
+        "text": ["Set MyAudio volume to 50%"],
       },
     ]
   }

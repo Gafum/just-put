@@ -93,6 +93,8 @@ const germanLanguage = {
         ".Richtung",
         ".Startwinkel",
         ".Endwinkel",
+        ".Dauer",
+        ".aktuelleZeit",
         "Bildschirmbreite",
         "Bildschirmhöhe",
         "=",
@@ -501,6 +503,12 @@ const germanLanguage = {
       {
         "text": ["MyAudio Lautstärke auf 50% einstellen"],
       },
+      {
+        "text": ["MyAudio stumm schalten true"]
+      },
+      {
+        "text": ["MyAudio gestoppt", "Ende"]
+      }
     ]
   }
 };

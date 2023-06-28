@@ -1251,4 +1251,31 @@ var ListOfElements = [
       ["50"]
     ]
   },
+  {
+    "id": 91,
+    "code": "MyAudio.muted = true;",
+    "text": "Mute MyAudio true",
+    "color": 0,
+    "listChengers": ["MyAudio", "true"],
+    "standartParameter": [
+      [" //myName"],
+      ["true"]
+    ]
+  },
+  {
+    "id": 92,
+    "code":
+        "MyAudio.onended = myFunctionName; \n MyAudio.onpause = myFunctionName; \n function myFunctionName() {\n",
+    "text": "MyAudio stopped",
+    "color": 1,
+    "listChengers": ["MyAudio", "myFunctionName"],
+    "standartParameter": [
+      ["//myName"],
+      []
+    ],
+    "secondArgument": [
+      {"code": "};", "text": "End"}
+    ],
+    "isfunction": true,
+  },
 ];

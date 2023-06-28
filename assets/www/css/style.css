@@ -1063,10 +1063,28 @@ body > .fab-btn {
       align-content: center;
   background-image: radial-gradient(circle, rgba(121, 194, 155, 0.8547794118) 40%, rgb(91, 203, 96) 100%);
 }
-#files-list .one-file .img-in-file svg,
-#pieces-list .one-file .img-in-file svg {
+#files-list .one-file .img-in-file .music-switcher,
+#pieces-list .one-file .img-in-file .music-switcher {
   width: 100%;
   height: 100%;
+  padding: 4px;
+}
+#files-list .one-file .img-in-file .music-switcher svg,
+#pieces-list .one-file .img-in-file .music-switcher svg {
+  width: 100%;
+  height: 100%;
+}
+#files-list .one-file .img-in-file .music-switcher svg.music-play,
+#pieces-list .one-file .img-in-file .music-switcher svg.music-play {
+  display: none;
+}
+#files-list .one-file .img-in-file .music-switcher.active svg,
+#pieces-list .one-file .img-in-file .music-switcher.active svg {
+  display: none;
+}
+#files-list .one-file .img-in-file .music-switcher.active svg.music-play,
+#pieces-list .one-file .img-in-file .music-switcher.active svg.music-play {
+  display: block;
 }
 #files-list .one-file .img-in-piece,
 #pieces-list .one-file .img-in-piece {

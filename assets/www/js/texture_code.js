@@ -8,7 +8,14 @@ function changeTextureList() {
 			<div class="img-in-file" style="background-image: url('${b.data}');">
 				${
           b.data == "0"
-            ? `<svg width='40' height='40' onclick='switchMusic(${index});'><use xlink:href='#icon-sound'></use></svg>`
+            ? `<div class="music-switcher" onclick='switchMusic(${index});'>
+						<svg viewBox="0 0 6.2 7.3">
+							<path d="M5.6,2.7l-4-2.4c-0.7-0.5-1.5,0-1.5,0.9v4.9c0,0.8,0.8,1.3,1.5,0.9l4-2.4C6.3,4.1,6.3,3.1,5.6,2.7"/>
+						</svg>
+							<svg class="music-play" width='40' height='40'>
+								<use xlink:href='#icon-sound'></use>
+							</svg>
+						</div>`
             : ""
         }
 			</div>
@@ -186,6 +193,16 @@ function switchMusic(indexInList) {
     }
     audio = new Audio(listOfFiles[indexInList].audioData);
     audio.play();
+    filesList.children[indexInList]
+      .querySelector(".music-switcher")
+      .classList.add("active");
+    function stopAudio() {
+      filesList.children[indexInList]
+        .querySelector(".music-switcher")
+        .classList.remove("active");
+    }
+    audio.onended = stopAudio;
+    audio.onpause = stopAudio;
   } else {
     audio.pause();
     audio.currentTime = 0;

@@ -131,7 +131,7 @@ function renderList(data) {
 }
 
 function addBlock(element) {
-  if (tapElements.includes(String(element))) {
+  if ([/* Music */ "92", ...tapElements].includes(String(element))) {
     ListOfElements[element].standartParameter[1] = [
       "A" + Date.now() + Math.random().toString(32).slice(4)
     ];

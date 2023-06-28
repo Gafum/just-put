@@ -92,6 +92,8 @@ const englishLanguage = {
         ".direction",
         ".startAngle",
         ".endAngle",
+        ".duration",
+        ".currentTime",
         "DisplayWidth",
         "DisplayHeight",
         "=",
@@ -493,6 +495,12 @@ const englishLanguage = {
       },
       {
         "text": ["Set MyAudio volume to 50%"],
+      },
+      {
+        "text": ["Mute MyAudio true"]
+      },
+      {
+        "text": ["MyAudio stopped", "End"]
       },
     ]
   }

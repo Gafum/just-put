@@ -54,8 +54,8 @@ function openParams(event) {
       .querySelector("ul").innerHTML = listOfFiles
       .filter(
         (i) =>
-          !i.audioData ||
-          ["88", "89", "90"].includes(editingElement.dataset.id) /* Is Audio? */
+          !i.audioData /* Is Audio? */ ||
+          ["88", "89", "90", "91", "92"].includes(editingElement.dataset.id)
       )
       .reduce((a, b) => {
         return a + `<li onclick="tapofbtn('${b.name}');">${b.name}</li>`;

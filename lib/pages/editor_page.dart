@@ -1,23 +1,21 @@
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:just_put/const/list_of_elements.dart';
 import 'package:just_put/pages/paint_page.dart';
 import 'package:just_put/pages/project_settings.dart';
 import 'package:just_put/pages/view_result.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../const/hiden_const.dart'; /* addMod const */
 import '../const/translate/translate.dart';
-import '../function/request_permision.dart'; /* Permissions */
+import '../function/file_picker.dart';
+/* Permissions */
 import '../function/save_data.dart';
-import '../function/show_toast.dart'; /* Toast */
+/* Toast */
+import '../function/show_toast.dart';
 import '../widgets/custome_page_route.dart'; /* Animation page navigation */
 
 class EditorPage extends StatefulWidget {
@@ -41,18 +39,6 @@ class _EditorPageState extends State<EditorPage> {
   bool isLoading = true;
   BannerAd? _bannerAd;
 
-  Future<String> getImageBase64(String imagePath) async {
-    final bytes = await File(imagePath).readAsBytes();
-    final base64 = base64Encode(bytes);
-    return 'data:image/jpeg;base64,$base64';
-  }
-
-  Future<String> getMusicBase64(String imagePath) async {
-    final bytes = await File(imagePath).readAsBytes();
-    final base64 = base64Encode(bytes);
-    return 'data:audio/mp3;base64,$base64';
-  }
-
   Future<String> _getData() async {
     var prefs = await SharedPreferences.getInstance();
     var data = prefs.getString(widget.idOfProject);
@@ -63,22 +49,6 @@ class _EditorPageState extends State<EditorPage> {
     photosData ??= '[]';
 
     return '[$data, $photosData]';
-  }
-
-  Future<Map<String, String>> pickImageAndSave(String filename) async {
-    if (!await requestPermission(Permission.storage)) {
-      return {'text': 'Give Permission'};
-    }
-    final XFile? pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedImage == null) return {'text': 'No selected file'};
-
-    try {
-      var base64data = await getImageBase64(pickedImage.path);
-      return {'text': '$filename added', 'base64data': base64data};
-    } catch (e) {
-      return {'text': e.toString()};
-    }
   }
 
   @override
@@ -137,25 +107,15 @@ class _EditorPageState extends State<EditorPage> {
         'SelectFile',
         onMessageReceived: (JavaScriptMessage message) {
           Map<String, dynamic> fileData = json.decode(message.message);
-          if (fileData['isAudio']) {
-            FilePicker.platform.pickFiles(
-              type: FileType.custom,
-              allowedExtensions: ['mp3', 'm4a', 'wav', 'flac', 'aac'],
-            ).then((pickedFile) {
-              return getMusicBase64(pickedFile!.files.first.path.toString());
-            }).then((value) {
-              if (value.isEmpty) return;
-              controller.runJavaScript('''
-addNewImage({data: "0", name: "${fileData['name']}", isAudio:"$value"});''');
-            });
-          } else {
-            pickImageAndSave(fileData['name']).then((value) {
-              if (value['base64data']!.isEmpty) return;
-              showToast(context, value['text']!);
-              controller.runJavaScript('''
-addNewImage({data: "${value['base64data']}", name: "${fileData['name']}", isAudio: false});''');
-            });
-          }
+          pickFile(fileData['isAudio'], fileData['name']).then((code) {
+            if (code == null) {
+              showToast(context, "Problem with file");
+            } else {
+              controller.runJavaScript(code);
+            }
+          }).catchError((e) {
+            showToast(context, "Permission denied 0(");
+          });
         },
       )
       ..addJavaScriptChannel(

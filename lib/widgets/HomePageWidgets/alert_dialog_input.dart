@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_put/const/translate/translate.dart';
 import 'package:just_put/function/show_toast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../function/save_data.dart';
 
 const alertTextStyle = TextStyle(
   color: Colors.black,
@@ -33,26 +34,25 @@ class _AlertDialogInputState extends State<AlertDialogInput> {
   bool createOrImport = false;
 
   Future<dynamic> _pickFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['txt', 'justput'],
-    );
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['txt'],
+      );
 
-    if (result != null && result.files.single.path != null) {
-      PlatformFile file = result.files.first;
+      if (result != null && result.files.single.path != null) {
+        PlatformFile file = result.files.first;
 
-      File file0 = File(file.path.toString());
-      final contents = await file0.readAsString();
+        File file0 = File(file.path.toString());
+        final contents = await file0.readAsString();
 
-      return json.decode(contents);
-    } else {
+        return json.decode(contents);
+      } else {
+        return null;
+      }
+    } catch (e) {
       return null;
     }
-  }
-
-  void _saveData(String idOfProject, List data) async {
-    var prefs = await SharedPreferences.getInstance();
-    prefs.setString(idOfProject, json.encode(data));
   }
 
   void _closeDialog() {
@@ -105,14 +105,22 @@ class _AlertDialogInputState extends State<AlertDialogInput> {
           ? /* IMPORT */
           ElevatedButton(
               onPressed: () {
-                _closeDialog();
                 var idOfProject =
                     '${DateTime.now().millisecondsSinceEpoch}Imported';
                 _pickFile().then((result) async {
+                  if (result == null) {
+                    showToast(context, "File system problems 0(");
+                    return;
+                  }
+                  _closeDialog();
                   await widget.changeListOfProjects(
                       result[0][0]['name'], idOfProject);
-                  _saveData(idOfProject, result[0]);
-                  _saveData('${idOfProject}photos', result[1]);
+                  saveData(myName: idOfProject, data: json.encode(result[0]));
+                  saveData(
+                      myName: '${idOfProject}photos',
+                      data: json.encode(result[1]));
+                }).catchError((e) {
+                  showToast(context, "File system problems 0(");
                 });
               },
               child: Text(

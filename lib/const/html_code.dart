@@ -226,6 +226,7 @@ const htmlCode = '''
 
 	<script>
 	const mainElementInHTML = document.querySelector('#main')
+
 	class rect {
 		constructor({ 
 		x = 0,
@@ -235,9 +236,6 @@ const htmlCode = '''
 		radius = 100,
 		color = "#000",
 		shape = "cub",
-		startAngle = 0,
-		endAngle = 2 * Math.PI,
-		counterclockwise = false,
 		texture = undefined,
 		direction = 0}) {
 			this.color = color
@@ -247,47 +245,64 @@ const htmlCode = '''
 			this.height = height
 			this.radius = radius
 			this.shape = shape
-			this.startAngle = startAngle
-			this.endAngle = endAngle
-			this.counterclockwise = counterclockwise
 			this.texture = texture
 			this.direction = direction
-
-			this.go = (steps = 0) => {
-				this.x += Math.sin(this.direction)* steps
-				this.y -= Math.cos(this.direction)* steps
-			}
-
-			this.draw = (myStrokeWidth) => {
-        ctx.lineWidth = myStrokeWidth? myStrokeWidth : 0;
-				ctx.fillStyle = this.color
-				ctx.strokeStyle = this.color
-				ctx.beginPath()
-				if(shape=="cub"){
-					ctx.save();
-					ctx.translate(this.x, this.y);
-          ctx.rotate(this.direction);
-
-					if(this.texture && this.texture.a){
-						ctx.drawImage(this.texture.a, this.texture.sx, this.texture.sy, this.texture.swidth, this.texture.sheight, -this.width/2, -this.height/2, this.width, this.height);
-						ctx.restore();
-						return
-					}
-
-					ctx.roundRect( -this.width/2, -this.height/2, this.width, this.height, [this.radius] );
-					ctx.restore();
-				}else	if(shape=="circle"){
-					ctx.arc( this.x, this.y, this.radius, this.startAngle, this.endAngle, this.counterclockwise);
-				}
-
-				if(myStrokeWidth){
-          ctx.stroke()
-				}else{
-					ctx.fill()
-				}
-			}
 		}
+
+    go(steps){
+      if(typeof steps !== "number"){ return; } 
+      this.x += Math.sin(this.direction)* steps
+      this.y -= Math.cos(this.direction)* steps
+    }
+
+    draw(myStrokeWidth){
+      ctx.lineWidth = myStrokeWidth? myStrokeWidth : 0;
+      ctx.fillStyle = this.color
+      ctx.strokeStyle = this.color
+      ctx.beginPath()
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.direction);
+
+      if(this.texture && this.texture.a){
+        ctx.drawImage(this.texture.a, this.texture.sx, this.texture.sy, this.texture.swidth, this.texture.sheight, -this.width/2, -this.height/2, this.width, this.height);
+        ctx.restore();
+        return
+      }
+
+      ctx.roundRect( -this.width/2, -this.height/2, this.width, this.height, [this.radius] );
+      ctx.restore();
+
+      if(myStrokeWidth){
+        ctx.stroke()
+      }else{
+        ctx.fill()
+      }
+    }
 	}
+
+  class Circle extends rect{
+    constructor(data){
+      super(data);
+      this.startAngle = startAngle
+			this.endAngle = endAngle
+			this.counterclockwise = counterclockwise
+    }
+
+    draw(myStrokeWidth){
+      ctx.lineWidth = myStrokeWidth? myStrokeWidth : 0;
+      ctx.fillStyle = this.color
+      ctx.strokeStyle = this.color
+      ctx.beginPath()
+      ctx.arc( this.x, this.y, this.radius, this.startAngle, this.endAngle, this.counterclockwise);
+
+      if(myStrokeWidth){
+        ctx.stroke()
+      }else{
+        ctx.fill()
+      }
+    }
+  }
 
 	const canva = document.querySelector("canvas")
 	const ctx = canva.getContext("2d")

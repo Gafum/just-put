@@ -3,7 +3,7 @@ description: Just put and make a game.
 
 publish_to: "none"
 
-version: 0.6.0+14
+version: 0.6.1+15
 
 environment:
   sdk: ">=2.19.2 <3.0.0"
@@ -20,6 +20,7 @@ dependencies:
   file_picker: ^5.2.6
   google_mobile_ads: ^2.4.0
   flutter_slidable: ^3.0.0
+  package_info_plus: ^4.0.2
 
 flutter_native_splash:
   color: "#ffffff"

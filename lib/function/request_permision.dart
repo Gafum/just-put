@@ -4,11 +4,12 @@ Future<bool> requestPermission(Permission permission) async {
   if (await permission.isGranted) {
     return true;
   } else {
-    var result = await permission.request();
-    if (result.isGranted) {
+    var status = await permission.request();
+    if (status.isGranted) {
       return true;
+    } else if (status.isPermanentlyDenied) {
+      openAppSettings();
     }
-
     return false;
   }
 }

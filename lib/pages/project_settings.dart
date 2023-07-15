@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -188,12 +190,12 @@ class _ProjectSettingsState extends State<ProjectSettings> {
                 minimumSize: const Size.fromHeight(40),
                 backgroundColor: Colors.green),
             onPressed: () async {
-              await _interstitialAd?.show();
-              await saveFile(
+              saveFile(
                 fileName:
                     '${widget.nameOfProject}${DateTime.now().millisecondsSinceEpoch}.txt',
                 data: projectData,
-              ).then((value) {
+              ).then((value) async {
+                await _interstitialAd?.show();
                 setState(() {
                   createJustPutFileText = value == "saved";
                 });
@@ -224,13 +226,12 @@ class _ProjectSettingsState extends State<ProjectSettings> {
               backgroundColor: const Color.fromRGBO(245, 144, 115, 1),
             ),
             onPressed: () async {
-              await _interstitialAd?.show();
-
               await saveFile(
                 fileName:
                     '${widget.nameOfProject}${DateTime.now().millisecondsSinceEpoch}.html',
                 data: codeCreator(value: projectData, inApp: ''),
-              ).then((value) {
+              ).then((value) async {
+                await _interstitialAd?.show();
                 setState(() {
                   createHTMLFileText = value == "saved";
                 });

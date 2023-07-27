@@ -199,7 +199,8 @@ const russianLanguage = {
       },
       {
         "text": ["Нарисовать //Object"],
-        "textInWhere": "Нарисовать //Object, с границей: undefined",
+        "textInWhere":
+            "Нарисовать //Object, с границей: undefined, прозрачность: 'one'",
       },
       {
         "text": ["Сцена нажата", "Конец нажатия"],

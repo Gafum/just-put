@@ -199,7 +199,7 @@ const englishLanguage = {
       },
       {
         "text": ["Draw //Object"],
-        "textInWhere": "Draw //Object with stroke: undefined",
+        "textInWhere": "Draw //Object With stroke: undefined, opacity: 'one'",
       },
       {
         "text": ["Tap the canvas", "End of Tap"],

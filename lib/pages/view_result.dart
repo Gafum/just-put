@@ -58,6 +58,7 @@ class _ViewResultState extends State<ViewResult> {
       ..setJavaScriptMode(JavaScriptMode.unrestricted);
 
     _getData().then((value) {
+      /* log(codeCreator(value: widget.data, inApp: value)); */
       return controller
           .loadHtmlString(codeCreator(value: widget.data, inApp: value));
     });

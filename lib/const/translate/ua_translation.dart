@@ -195,7 +195,8 @@ const ukrainianLanguage = {
       },
       {
         "text": ["Намалювати //Object"],
-        "textInWhere": "Намалювати //Object, із краєм: undefined",
+        "textInWhere":
+            "Намалювати //Object, із краєм: undefined, прозорість: 'one'",
       },
       {
         "text": ["Сцена натиснута", "Кінець натиску"],

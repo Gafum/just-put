@@ -200,7 +200,8 @@ const germanLanguage = {
       },
       {
         "text": ["Zeichne //Object"],
-        "textInWhere": "Zeichne //Object, mit Rand: undefined",
+        "textInWhere":
+            "Zeichne //Object, mit Rand: undefined, Deckkraft: 'one'",
       },
       {
         "text": ["Szene berührt", "Ende Berührung"],

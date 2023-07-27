@@ -126,7 +126,7 @@ var ListOfElements = [
   {
     "id": 9,
     "code":
-        "myName = new rect({ x: myX, y: myY, radius: myR, startAngle:myS, endAngle: myE, counterclockwise: myCl, color: myColor, direction: myDir, shape: \"circle\", width: myR*2, height: myR*2 });",
+        "myName = new Circle({ x: myX, y: myY, radius: myR, startAngle:myS, endAngle: myE, counterclockwise: myCl, color: myColor, direction: myDir, shape: \"circle\", width: myR*2, height: myR*2 });",
     "text": "Create Circle myName",
     "color": 2,
     "listChengers": [
@@ -174,13 +174,14 @@ var ListOfElements = [
   },
   {
     "id": 11,
-    "code": "//Object.draw(undefined);",
-    "text": "Draw //Object With stroke: undefined",
+    "code": "//Object.draw(undefined, 'one');",
+    "text": "Draw //Object With stroke: undefined, opacity: 'one'",
     "color": 2,
-    "listChengers": ["//Object", "undefined"],
+    "listChengers": ["//Object", "undefined", "'one'"],
     "standartParameter": [
       ["//Object"],
-      ["undefined"]
+      ["undefined"],
+      ["1"]
     ]
   },
   {

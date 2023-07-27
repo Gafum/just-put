@@ -1279,4 +1279,16 @@ var ListOfElements = [
     ],
     "isfunction": true,
   },
+  {
+    "id": 93,
+    "code":
+        "if (//Object.shape == 'circle'){\n //Object.radius = (100)/2; \n} else {\n //Object.height = //Object.width = 100;\n}",
+    "text": "Set //Object Size to 100",
+    "color": 0,
+    "listChengers": ["//Object", "100"],
+    "standartParameter": [
+      [" //myName"],
+      ["1", "0", "0"]
+    ]
+  },
 ];

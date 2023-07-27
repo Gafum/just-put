@@ -9,7 +9,7 @@ let ListOfElements = [
     listChengers: ["name", "params"],
     standartParameter: [["name"], ["params"]],
     secondArgument: [{ code: "};", text: "End" }],
-    isfunction: true
+    isfunction: true,
   },
   {
     id: 1, // PROPERTIES
@@ -17,8 +17,8 @@ let ListOfElements = [
     text: "Coment",
     color: 0,
     listChengers: ["Coment"],
-    standartParameter: [["Coment"]]
-  }
+    standartParameter: [["Coment"]],
+  },
 ];
 
 const tapElements = ["12", "14", "25", "26", "86"];
@@ -32,16 +32,16 @@ const texturesElements = [
   "89",
   "90",
   "91",
-  "92"
+  "92",
 ];
 const sortOrder = [
   /* Properties */
-  1, 55, 15, 16, 17, 64, 18, 19, 20, 21, 22, 85, 83, 59, 60, 61, 62, 63, 84, 30,
-  65, 56, 57, 58, 23, 24, 88, 89, 90, 91, /* Control */ 3, 5, 6, 10, 12, 14, 86,
-  25, 26, 27, 28, 29, 0, 4, 52, 53, 54, 92, /* Objects */ 7, 8, 9, 11, 13, 74,
-  75, 78, 79, 80, 76, 81, 77, 82 /* Data */, 2, 31, 32, 33, 66, 67, 68, 87, 36,
-  37, 38, 39, 45, 44, 51, 48, 49, 50, 35, 40, 41, 42, 43, 46, 47, 69, 70, 71,
-  72, 73, 34
+  1, 55, 15, 16, 17, 64, 18, 19, 93, 20, 21, 22, 85, 83, 59, 60, 61, 62, 63, 84,
+  30, 65, 56, 57, 58, 23, 24, 88, 89, 90, 91, /* Control */ 3, 5, 6, 10, 12, 14,
+  86, 25, 26, 27, 28, 29, 0, 4, 52, 53, 54, 92, /* Objects */ 7, 8, 9, 11, 13,
+  74, 75, 78, 79, 80, 76, 81, 77, 82 /* Data */, 2, 31, 32, 33, 66, 67, 68, 87,
+  36, 37, 38, 39, 45, 44, 51, 48, 49, 50, 35, 40, 41, 42, 43, 46, 47, 69, 70,
+  71, 72, 73, 34,
 ];
 const formulasTranslation = [
   "+Create",
@@ -125,7 +125,7 @@ const formulasTranslation = [
   "()=>",
   "ternary",
   "ADD",
-  "CodeInHTML"
+  "CodeInHTML",
 ];
 
 let listOfCodePieces = [];
@@ -244,6 +244,6 @@ let sortable = Sortable.create(ListInEditor, {
     set: function (sortable) {
       /* Save Data */
       saveData();
-    }
-  }
+    },
+  },
 });

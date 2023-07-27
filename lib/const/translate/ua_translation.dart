@@ -504,7 +504,10 @@ const ukrainianLanguage = {
       },
       {
         "text": ["MyAudio зупинилось", "Кінець"]
-      }
+      },
+      {
+        "text": ["//Object.розмір = 100px"],
+      },
     ]
   }
 };

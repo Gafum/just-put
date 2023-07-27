@@ -500,7 +500,10 @@ const englishLanguage = {
         "text": ["Mute MyAudio true"]
       },
       {
-        "text": ["MyAudio stopped", "End"]
+        "text": ["When MyAudio stopped", "End"]
+      },
+      {
+        "text": ["Set //Object Size to 100px"],
       },
     ]
   }

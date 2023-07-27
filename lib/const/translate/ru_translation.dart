@@ -509,6 +509,9 @@ const russianLanguage = {
       {
         "text": ["MyAudio остановилось", "Конец"]
       },
+      {
+        "text": ["//Object.размер = 100px"],
+      },
     ]
   }
 };

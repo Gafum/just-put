@@ -509,7 +509,10 @@ const germanLanguage = {
       },
       {
         "text": ["MyAudio gestoppt", "Ende"]
-      }
+      },
+      {
+        "text": ["//Objekt.Größe = 100"],
+      },
     ]
   }
 };

@@ -4,6 +4,17 @@ function closeNav() {
   document.onclick = undefined;
 }
 
+function closeProject() {
+  const openBtn = document.querySelector(".open-nav");
+  if (openBtn.classList.contains("open")) {
+    closeNav();
+    closeFileCodes();
+    openBtn.classList.remove("open");
+  } else {
+    GoToAnotherHome.postMessage("goBack");
+  }
+}
+
 function openSettings(e) {
   e.stopPropagation();
   const openBtn = document.querySelector(".open-nav");

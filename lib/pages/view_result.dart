@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -24,10 +26,19 @@ class ViewResult extends StatefulWidget {
 class _ViewResultState extends State<ViewResult> {
   late final WebViewController controller;
   bool isLoading = true;
+  bool topPannel = true;
 
   Future<String> _getData() async {
     var prefs = await SharedPreferences.getInstance();
     final counterInfo = prefs.getString('${widget.idOfProject}storedData');
+    final localTopPanel = prefs.getString('topPannel');
+    if (localTopPanel == null) {
+      saveData(myName: 'topPannel', data: json.encode(true));
+    } else {
+      setState(() {
+        topPannel = json.decode(localTopPanel) as bool;
+      });
+    }
     if (counterInfo == null) {
       return '';
     }
@@ -37,6 +48,7 @@ class _ViewResultState extends State<ViewResult> {
   @override
   void initState() {
     super.initState();
+    _getData();
     controller = WebViewController()
       ..setBackgroundColor(Colors.white)
       ..addJavaScriptChannel(
@@ -58,7 +70,7 @@ class _ViewResultState extends State<ViewResult> {
       ..setJavaScriptMode(JavaScriptMode.unrestricted);
 
     _getData().then((value) {
-      /* log(codeCreator(value: widget.data, inApp: value)); */
+      // log(codeCreator(value: widget.data, inApp: value));
       return controller
           .loadHtmlString(codeCreator(value: widget.data, inApp: value));
     });
@@ -69,20 +81,23 @@ class _ViewResultState extends State<ViewResult> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          title: Text(
-            translation[widget.appLanguage]!["home"]!["view"],
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-          ),
-          leading: GestureDetector(
-            child: const Icon(
-              Icons.arrow_back_ios_rounded,
-            ),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-        ),
+        appBar: !topPannel
+            ? null
+            : AppBar(
+                title: Text(
+                  translation[widget.appLanguage]!["home"]!["view"],
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.w700),
+                ),
+                leading: GestureDetector(
+                  child: const Icon(
+                    Icons.arrow_back_ios_rounded,
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
         body: SafeArea(
           child: Stack(
             children: <Widget>[

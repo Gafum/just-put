@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:just_put/function/save_data.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../const/translate/translate.dart';
 
@@ -23,12 +27,26 @@ class _SettingsPageState extends State<SettingsPage> {
       .toList();
 
   String appVersion = "0.0";
+  bool topPannel = true;
+
+  void _getData() async {
+    var prefs = await SharedPreferences.getInstance();
+    final localTopPanel = prefs.getString('topPannel');
+    if (localTopPanel == null) {
+      saveData(myName: 'topPannel', data: json.encode(true));
+    } else {
+      setState(() {
+        topPannel = json.decode(localTopPanel) as bool;
+      });
+    }
+  }
 
   late String dropdownValue;
   @override
   void initState() {
     dropdownValue = widget.appLanguage;
     super.initState();
+    _getData();
     PackageInfo.fromPlatform().then(
       (value) => setState(
         () {
@@ -67,6 +85,9 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
             DropdownButtonFormField(
+              padding: const EdgeInsets.symmetric(
+                vertical: 10.0,
+              ),
               decoration: InputDecoration(
                 labelText: translation[dropdownValue]!["home"]!["main-settings"]
                     ["language"],
@@ -91,6 +112,31 @@ class _SettingsPageState extends State<SettingsPage> {
               },
               items: list,
             ),
+            Row(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(left: 12.0),
+                ),
+                const Text(
+                  "Top Pannel in the Result",
+                  style: TextStyle(
+                    fontFamily: "Cuprum",
+                    fontSize: 16,
+                  ),
+                ),
+                Switch(
+                  value: topPannel,
+                  onChanged: (value) {
+                    setState(
+                      () {
+                        topPannel = value;
+                        saveData(myName: "topPannel", data: json.encode(value));
+                      },
+                    );
+                  },
+                ),
+              ],
+            )
           ],
         ),
       ),

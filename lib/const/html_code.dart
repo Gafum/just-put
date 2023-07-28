@@ -245,13 +245,13 @@ const htmlCode = '''
           texture = undefined,
           direction = 0,
         }) {
+          this.shape = "cub";
           this.color = color;
           this.x = x;
           this.y = y;
           this.width = width;
           this.height = height;
           this.radius = radius;
-          this.shape = shape;
           this.texture = texture;
           this.direction = direction;
         }
@@ -276,11 +276,11 @@ const htmlCode = '''
 
         draw(myStrokeWidth = false, opacity = 1) {
           ctx.globalAlpha = opacity;
-          ctx.save();
           ctx.lineWidth = myStrokeWidth ? myStrokeWidth : 0;
           ctx.fillStyle = this.color;
           ctx.strokeStyle = this.color;
           ctx.beginPath();
+          ctx.save();
           ctx.translate(this.x, this.y);
           ctx.rotate(this.direction);
 
@@ -314,6 +314,7 @@ const htmlCode = '''
       class Circle extends rect {
         constructor(data) {
           super(data);
+          this.shape = 'circle';
           this.startAngle = data.startAngle;
           this.endAngle = data.endAngle;
           this.counterclockwise = data.counterclockwise;
@@ -349,39 +350,39 @@ const htmlCode = '''
         }
       }
 
-      function getCoordinatOfObjects(first, second) {
-        if (first.shape == "cub" && second.shape == "circle") {
-          return {
-            whatcolision: "cubCir",
-            cx: second.x,
-            cy: second.y,
-            radius: second.radius,
-            rx: first.x - first.width / 2,
-            ry: first.y - first.height / 2,
-            rw: first.width,
-            rh: first.height,
-          };
-        }
-        if (first.shape == "circle" && second.shape == "cub") {
-          return {
-            whatcolision: "cubCir",
-            cx: first.x,
-            cy: first.y,
-            radius: first.radius,
-            rx: second.x - second.width / 2,
-            ry: second.y - second.height / 2,
-            rw: second.width,
-            rh: second.height,
-          };
-        }
-        return undefined;
-      }
-
       function oppositeColision(first, second) {
         return colisionBetween(first, second, true);
       }
 
       function colisionBetween(first, second, opposite = false) {
+        function getCoordinatOfObjects() {
+          if (first.shape == "cub" && second.shape == "circle") {
+            return {
+              whatcolision: "cubCir",
+              cx: second.x,
+              cy: second.y,
+              radius: second.radius,
+              rx: Math.floor(Number(first.x)) - first.width / 2,
+              ry: Math.floor(Number(first.y)) - first.height / 2,
+              rw: first.width,
+              rh: first.height,
+            };
+          }
+          if (first.shape == "circle" && second.shape == "cub") {
+            return {
+              whatcolision: "cubCir",
+              cx: first.x,
+              cy: first.y,
+              radius: first.radius,
+              rx: Math.floor(Number(second.x)) - second.width / 2,
+              ry: Math.floor(Number(second.y)) - second.height / 2,
+              rw: second.width,
+              rh: second.height,
+            };
+          }
+          return undefined;
+        }
+
         if (first.shape == second.shape) {
           if (first.shape == "cub") {
             firstX = first.x - first.width / 2;
@@ -420,11 +421,11 @@ const htmlCode = '''
           }
         } else {
           let { whatcolision, cx, cy, rx, ry, rw, rh, radius } =
-            getCoordinatOfObjects(first, second);
+            getCoordinatOfObjects();
+
           if (whatcolision == "cubCir") {
             let testX = cx,
               testY = cy;
-
             if (cx < rx) testX = rx; // left edge
             else if (cx > rx + rw) testX = rx + rw; // right edge
             if (cy < ry) testY = ry; // top edge
@@ -443,9 +444,8 @@ const htmlCode = '''
               }
             } else {
               return (
-                Math.floor(
-                  Math.sqrt(Math.pow(cx - testX, 2) + Math.pow(cy - testY, 2))
-                ) <= radius
+                distanceBetween({ x: cx, y: cy }, { x: testX, y: testY }) <=
+                radius
               );
             }
           }
@@ -494,7 +494,7 @@ const htmlCode = '''
       }
 
       function moveObject(object, endX, endY, duration) {
-        function SmoothMove(startTime, currentTime, distanceX, distanceY) {
+        function SmoothMove({ startTime, currentTime, distanceX, distanceY }) {
           let elapsedTime = (currentTime - startTime) % duration;
           let progress = elapsedTime / duration;
           if (duration <= currentTime - startTime) {
@@ -505,31 +505,18 @@ const htmlCode = '''
           object.x = endX - distanceX + distanceX * progress;
           object.y = endY - distanceY + distanceY * progress;
           requestAnimationFrame((currentTime) => {
-            SmoothMove(
-              object,
-              startTime,
-              currentTime,
-              distanceX,
-              distanceY,
-              endX,
-              endY,
-              duration
-            );
+            SmoothMove({ startTime, currentTime, distanceX, distanceY });
           });
         }
         let distanceX = endX - object.x;
         let distanceY = endY - object.y;
         requestAnimationFrame((currentTime) => {
-          SmoothMove(
-            object,
-            currentTime,
+          SmoothMove({
+            startTime: currentTime,
             currentTime,
             distanceX,
             distanceY,
-            endX,
-            endY,
-            duration
-          );
+          });
         });
       }
 

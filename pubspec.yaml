@@ -3,7 +3,7 @@ description: Just put and make a game.
 
 publish_to: "none"
 
-version: 0.6.2+16
+version: 0.6.3+17
 
 environment:
   sdk: ">=2.19.2 <3.0.0"

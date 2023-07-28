@@ -10,7 +10,11 @@ const englishLanguage = {
       }
     },
     "view": "View Result",
-    "main-settings": {"name": "Settings", "language": "language"},
+    "main-settings": {
+      "name": "Settings",
+      "language": "language",
+      "topPanel": "Top panel in the preview",
+    },
     "project-settings": {
       "change": "Change name",
       "saved": "Saved in Folder",
@@ -209,7 +213,7 @@ const englishLanguage = {
       {
         "text": ["Draw Text: myText"],
         "textInWhere":
-            "myText: x: myX, y: myY, color: myColor, fontStyle: myStyle, text-align: myAligned"
+            "myText: x: myX, y: myY, color: myColor, fontStyle: myStyle, text-align: myAligned, opacity: myOpacity"
       },
       {
         "text": ["//Object.onClick", "End of Click"],

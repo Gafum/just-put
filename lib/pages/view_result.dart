@@ -26,17 +26,17 @@ class ViewResult extends StatefulWidget {
 class _ViewResultState extends State<ViewResult> {
   late final WebViewController controller;
   bool isLoading = true;
-  bool topPannel = true;
+  bool topPanel = true;
 
   Future<String> _getData() async {
     var prefs = await SharedPreferences.getInstance();
     final counterInfo = prefs.getString('${widget.idOfProject}storedData');
-    final localTopPanel = prefs.getString('topPannel');
+    final localTopPanel = prefs.getString('topPanel');
     if (localTopPanel == null) {
-      saveData(myName: 'topPannel', data: json.encode(true));
+      saveData(myName: 'topPanel', data: json.encode(true));
     } else {
       setState(() {
-        topPannel = json.decode(localTopPanel) as bool;
+        topPanel = json.decode(localTopPanel) as bool;
       });
     }
     if (counterInfo == null) {
@@ -81,7 +81,7 @@ class _ViewResultState extends State<ViewResult> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: !topPannel
+        appBar: !topPanel
             ? null
             : AppBar(
                 title: Text(

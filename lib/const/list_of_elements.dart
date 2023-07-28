@@ -203,17 +203,26 @@ var ListOfElements = [
   {
     "id": 13,
     "code":
-        "ctx.fillStyle = myColor;\nctx.font = myStyle;\nctx.textAlign = myAligned;\nctx.fillText(myText, myX, myY);",
+        "ctx.globalAlpha = myOpacity;\nctx.fillStyle = myColor;\nctx.font = myStyle;\nctx.textAlign = myAligned;\nctx.fillText(myText, myX, myY);",
     "text": "Draw Text: myText",
     "color": 2,
-    "listChengers": ["myText", "myX", "myY", "myColor", "myStyle", "myAligned"],
+    "listChengers": [
+      "myText",
+      "myX",
+      "myY",
+      "myColor",
+      "myStyle",
+      "myAligned",
+      "myOpacity"
+    ],
     "standartParameter": [
       ["\"Hi Gafum\""],
       ["2", "0", "0"],
       ["8", "0"],
       ["\"#ff0000\""],
       ["\"48px serif\""],
-      ["\"center\""]
+      ["\"center\""],
+      ["1"]
     ],
   },
   {

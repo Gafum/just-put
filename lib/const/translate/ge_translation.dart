@@ -11,7 +11,11 @@ const germanLanguage = {
       }
     },
     "view": "Ergebnis",
-    "main-settings": {"name": "Einstellungen", "language": "Sprache"},
+    "main-settings": {
+      "name": "Einstellungen",
+      "language": "Sprache",
+      "topPanel": "Das obere Panel in der Vorschau",
+    },
     "project-settings": {
       "change": "Namen ändern",
       "saved": "Gespeichert in Ordner",
@@ -211,7 +215,7 @@ const germanLanguage = {
       {
         "text": ["Zeichne Text: myText"],
         "textInWhere":
-            "myText: x: myX, y: myY, Farbe: myColor, Textstil: myStyle, Ausrichtung: myAligned"
+            "myText: x: myX, y: myY, Farbe: myColor, Textstil: myStyle, Ausrichtung: myAligned, Deckkraft: myOpacity"
       },
       {
         "text": ["Berührung von //Object", "Ende Berührung"],

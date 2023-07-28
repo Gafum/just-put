@@ -10,7 +10,11 @@ const russianLanguage = {
       }
     },
     "view": "Результат",
-    "main-settings": {"name": "Настройки", "language": "язык"},
+    "main-settings": {
+      "name": "Настройки",
+      "language": "язык",
+      "topPanel": "Верхняя панель в превью",
+    },
     "project-settings": {
       "change": "Изменить название",
       "saved": "Сохранено в папке",
@@ -210,7 +214,7 @@ const russianLanguage = {
       {
         "text": ["Нарисовать Текст: myText"],
         "textInWhere":
-            "myText: x: myX, y: myY, цвет: myColor, стильТекста: myStyle, выравнивание: myAligned"
+            "myText: x: myX, y: myY, цвет: myColor, стильТекста: myStyle, выравнивание: myAligned, прозрачность: myOpacity"
       },
       {
         "text": ["Нажатие по //Object", "Конец нажатия"],

@@ -10,7 +10,11 @@ const ukrainianLanguage = {
       }
     },
     "view": "Результат",
-    "main-settings": {"name": "Налаштування", "language": "мова"},
+    "main-settings": {
+      "name": "Налаштування",
+      "language": "мова",
+      "topPanel": "Верхня панель у результаті",
+    },
     "project-settings": {
       "change": "Змінити назву",
       "saved": "Збережено у папці",
@@ -206,7 +210,7 @@ const ukrainianLanguage = {
       {
         "text": ["Намалювати Текст: myText"],
         "textInWhere":
-            "myText: x: myX, y: myY, колір: myColor, стильТексту: myStyle, вирівнювання: myAligned"
+            "myText: x: myX, y: myY, колір: myColor, стильТексту: myStyle, вирівнювання: myAligned, прозорість: myOpacity"
       },
       {
         "text": ["Натиск по //Object", "Кінець натиску"],

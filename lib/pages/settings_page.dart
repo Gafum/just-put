@@ -27,16 +27,16 @@ class _SettingsPageState extends State<SettingsPage> {
       .toList();
 
   String appVersion = "0.0";
-  bool topPannel = true;
+  bool topPanel = true;
 
   void _getData() async {
     var prefs = await SharedPreferences.getInstance();
-    final localTopPanel = prefs.getString('topPannel');
+    final localTopPanel = prefs.getString('topPanel');
     if (localTopPanel == null) {
-      saveData(myName: 'topPannel', data: json.encode(true));
+      saveData(myName: 'topPanel', data: json.encode(true));
     } else {
       setState(() {
-        topPannel = json.decode(localTopPanel) as bool;
+        topPanel = json.decode(localTopPanel) as bool;
       });
     }
   }
@@ -62,7 +62,8 @@ class _SettingsPageState extends State<SettingsPage> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-              translation[dropdownValue]!["home"]!["main-settings"]["name"]),
+            translation[dropdownValue]!["home"]!["main-settings"]["name"],
+          ),
           leading: GestureDetector(
             child: const Icon(
               Icons.arrow_back_ios_rounded,
@@ -117,20 +118,21 @@ class _SettingsPageState extends State<SettingsPage> {
                 const Padding(
                   padding: EdgeInsets.only(left: 12.0),
                 ),
-                const Text(
-                  "Top Pannel in the Result",
-                  style: TextStyle(
+                Text(
+                  translation[dropdownValue]!["home"]!["main-settings"]
+                      ["topPanel"],
+                  style: const TextStyle(
                     fontFamily: "Cuprum",
                     fontSize: 16,
                   ),
                 ),
                 Switch(
-                  value: topPannel,
+                  value: topPanel,
                   onChanged: (value) {
                     setState(
                       () {
-                        topPannel = value;
-                        saveData(myName: "topPannel", data: json.encode(value));
+                        topPanel = value;
+                        saveData(myName: "topPanel", data: json.encode(value));
                       },
                     );
                   },

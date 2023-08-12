@@ -1,9 +1,10 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import '../const/html_code.dart';
 import '../const/list_of_elements.dart';
 
-String stringB(Map<String, dynamic> element, changer) {
+String codeOfTheOneItem(Map<String, dynamic> element, changer) {
   String result = element['code'].toString();
   if (element['standartParameter'] == null || element['listChengers'] == null) {
     return result;
@@ -19,10 +20,79 @@ String stringB(Map<String, dynamic> element, changer) {
   return result;
 }
 
+String findTaps(List list) {
+  if (list.isEmpty) return "";
+  // ignore: unused_local_variable
+  String returnedCode = "";
+
+  List listOfTaps = [];
+  List listOfMoveTaps = [];
+  List listOfEndOfTaps = [];
+  List listOfStartOfTaps = [];
+
+  /* Check for the functions in every piece */
+  for (var element in list) {
+    if (element['id'] == '12' || element['id'] == '14') {
+      // Click =>
+      listOfTaps.add(element);
+    } else if (element['id'] == '25') {
+      // MouseMove =>
+      listOfMoveTaps.add(element);
+    } else if (element['id'] == '26') {
+      // EndOfTheTouching (Mouse up) =>
+      listOfEndOfTaps.add(element);
+    } else if (element['id'] == '86') {
+      // StartOfTheTouching (Mouse down) =>
+      listOfStartOfTaps.add(element);
+    }
+  }
+
+  if (listOfTaps.isNotEmpty) {
+    returnedCode += '''\ncanva.onclick = (event)=> {
+  ${listOfTaps.fold('', (a, b) => '$a\n${b['parameter'][1][0]}(event)')}
+};''';
+  }
+  if (listOfStartOfTaps.isNotEmpty) {
+    returnedCode += '''\n
+document.addEventListener("mousedown", StartOfTaps);
+document.addEventListener("touchstart", StartOfTaps);
+function StartOfTaps (event) {
+  ${listOfStartOfTaps.fold('', (a, b) => '$a\n${b['parameter'][1][0]}(event)')}
+};''';
+  }
+  if (listOfMoveTaps.isNotEmpty) {
+    returnedCode += '''\n
+document.addEventListener("mousemove", MouseNowIsMove);
+document.addEventListener("touchmove", MouseNowIsMove);
+function MouseNowIsMove (event) {
+  ${listOfMoveTaps.fold('', (a, b) => '$a\n${b['parameter'][1][0]}(event)')}
+};''';
+  }
+  if (listOfEndOfTaps.isNotEmpty) {
+    returnedCode += '''\n
+let interactionEndedInTheEndPosition = false;
+
+document.addEventListener('mouseup', EndOfTheTouching);
+document.addEventListener('touchend', EndOfTheTouching);
+function EndOfTheTouching() {
+  if (!interactionEndedInTheEndPosition) {
+    interactionEndedInTheEndPosition = true;
+    ${listOfEndOfTaps.fold('', (a, b) => '$a\n${b['parameter'][1][0]}(event)')}
+    setTimeout(() => {
+      interactionEndedInTheEndPosition = false;
+    }, 100);
+  };
+};''';
+  }
+
+  return returnedCode;
+}
+
 String codeCreator({required String value, String inApp = ''}) {
   List fillData = json.decode(value);
   List data = fillData[0];
   List listOfFiles = fillData[1];
+  List piecesName = data[0]['piecesName'];
 
   /* Work with data */
   var fisrtStrCodeValues = 'document.title = "${data[0]['name']}";';
@@ -46,7 +116,7 @@ let StoredData = {}
 
   /* Create Textures */
   if (listOfFiles.isNotEmpty) {
-    fisrtStrCodeValues += listOfFiles.fold('', (a, b) {
+    fisrtStrCodeValues += listOfFiles.fold("", (a, b) {
       if (b["data"] == "0") {
         return '''$a
       // Audio: ${b['name']}
@@ -74,101 +144,68 @@ let StoredData = {}
     });
   }
 
+  /* Create canvas list */
+  fisrtStrCodeValues += piecesName.fold("", (prev, item) {
+    return """$prev 
+let canva$item = document.createElement('canvas');
+canva$item.style.display = "block";
+piecesElement.append(canva$item);
+""";
+  });
+
   data = data[1];
 
   /* Create main Code */
 
-  var createdCode = 'element.innerHTML=`<h1>Made by Gafum</h1>`';
+  String createdCode = "";
 
   if (data.isEmpty) {
     return 'Made by Gafum';
   }
 
-  /* Work with function(clicks) */
-  String fisrtStrCode = '';
+  int index = 0;
 
-  List listOfTaps = [];
-  List listOfMoveTaps = [];
-  List listOfEndOfTaps = [];
-  List listOfStartOfTaps = [];
+  /* Create one piece */
+  for (List items in data) {
+    /* Create my function */
 
-  /* Check for the functions in every piece */
-  for (var items in data) {
-    for (var element in items) {
-      if (element['id'] == '12' || element['id'] == '14') {
-        // Click =>
-        listOfTaps.add(element);
-      } else if (element['id'] == '25') {
-        // MouseMove =>
-        listOfMoveTaps.add(element);
-      } else if (element['id'] == '26') {
-        // EndOfTheTouching (Mouse up) =>
-        listOfEndOfTaps.add(element);
-      } else if (element['id'] == '86') {
-        // StartOfTheTouching (Mouse down) =>
-        listOfStartOfTaps.add(element);
-      }
-    }
-  }
+    String fisrtStrCode = """
+function ${piecesName[index]}(animation){
+  let canva = canva${piecesName[index]};
+  const ctx = canva.getContext('2d'); 
+  canva.width = window.innerWidth * 2;
+  canva.height = window.innerHeight * 2;
+  const DisplayWidth = canva.width;
+  const DisplayHeight = canva.height;
+  updateSliderPosition($index);
+""";
 
-  if (listOfTaps.isNotEmpty) {
-    fisrtStrCode += '''\ncanva.onclick = (event)=> {
-  ${listOfTaps.fold('', (a, b) => '$a\n${b['parameter'][1][0]}(event)')}
-};''';
-  }
-  if (listOfStartOfTaps.isNotEmpty) {
-    fisrtStrCode += '''\n
-document.addEventListener("mousedown", StartOfTaps);
-document.addEventListener("touchstart", StartOfTaps);
-function StartOfTaps (event) {
-  ${listOfStartOfTaps.fold('', (a, b) => '$a\n${b['parameter'][1][0]}(event)')}
-};''';
-  }
-  if (listOfMoveTaps.isNotEmpty) {
-    fisrtStrCode += '''\n
-document.addEventListener("mousemove", MouseNowIsMove);
-document.addEventListener("touchmove", MouseNowIsMove);
-function MouseNowIsMove (event) {
-  ${listOfMoveTaps.fold('', (a, b) => '$a\n${b['parameter'][1][0]}(event)')}
-};''';
-  }
-  if (listOfEndOfTaps.isNotEmpty) {
-    fisrtStrCode += '''\n
-let interactionEndedInTheEndPosition = false;
+    /* find function which works with taps and touch */
+    fisrtStrCode += findTaps(items);
 
-document.addEventListener('mouseup', EndOfTheTouching);
-document.addEventListener('touchend', EndOfTheTouching);
-function EndOfTheTouching() {
-  if (!interactionEndedInTheEndPosition) {
-    interactionEndedInTheEndPosition = true;
-    ${listOfEndOfTaps.fold('', (a, b) => '$a\n${b['parameter'][1][0]}(event)')}
-    setTimeout(() => {
-      interactionEndedInTheEndPosition = false;
-    }, 100);
-  };
-};''';
-  }
-
-  /* Add other elements */
-  createdCode = data.fold(fisrtStrCode, (String a, b) {
-    String onePiece = b.fold('', (prev, c) {
+    /* Add other elements */
+    createdCode += items.fold(fisrtStrCode, (prev, item) {
       String thisStrb;
-      if (c['id'].startsWith('AMain') || c['id'].startsWith('CONTI')) {
-        dynamic element =
-            ListOfElements[int.parse(c['id'].substring(6))]['secondArgument'];
+      if (item['id'].startsWith('AMain') || item['id'].startsWith('CONTI')) {
+        dynamic element = ListOfElements[int.parse(item['id'].substring(6))]
+            ['secondArgument'];
         if (element == null) return '';
-        thisStrb = element[int.parse(c['id'][5])]['code'];
+        thisStrb = element[int.parse(item['id'][5])]['code'];
       } else {
-        thisStrb = stringB(ListOfElements[int.parse(c['id'])], c['parameter']);
+        thisStrb = codeOfTheOneItem(
+            ListOfElements[int.parse(item['id'])], item['parameter']);
       }
-      return '$prev\n$thisStrb';
+      return "$prev\n$thisStrb";
     });
-    return '$a\n$onePiece';
-  });
 
-/*  log(htmlCode
+    /* End of the function */
+    createdCode += "}";
+    index = index + 1;
+  }
+
+  log(htmlCode
       .replaceFirst('HereMustBeCodeWithVariables====>', fisrtStrCodeValues)
-      .replaceFirst('HereMustBeMainCode====>', createdCode));*/
+      .replaceFirst('HereMustBeMainCode====>', createdCode));
   return htmlCode
       .replaceFirst('HereMustBeCodeWithVariables====>', fisrtStrCodeValues)
       .replaceFirst('HereMustBeMainCode====>', createdCode);

@@ -208,15 +208,26 @@ const htmlCode = '''
           top: 50%;
         }
       }
+
+      
+      #pieces {
+        overflow: hidden;
+        max-width: 100vw;
+        width: 100%;
+        height: 100%;
+        display: flex;
+      }
+
+      #pieces > canvas {
+        width: 100vw;
+        height: 100%;
+      }
     </style>
   </head>
   <body>
     <!-- MADE BY GAFUM -->
     <div id="main" style="position: relative"></div>
-
-    <canvas style="display: block" width="640" height="1440"
-      >Error. Your browser does not support canvas. 0(</canvas
-    >
+    <div id="pieces"></div>
 
     <dialog id="modal-window">
       <div id="inner-modal-window">Is it me?</div>
@@ -227,11 +238,7 @@ const htmlCode = '''
 
     <script>
       const mainElementInHTML = document.querySelector("#main");
-
-      const canva = document.querySelector("canvas");
-      const ctx = canva.getContext("2d");
-      canva.width = window.innerWidth * 2;
-      canva.height = window.innerHeight * 2;
+      const piecesElement = document.querySelector("#pieces");
 
       class rect {
         constructor({
@@ -264,7 +271,7 @@ const htmlCode = '''
           this.y -= Math.cos(this.direction) * steps;
         }
 
-        myDraw() {
+        myDraw(ctx) {
           ctx.roundRect(
             -this.width / 2,
             -this.height / 2,
@@ -274,7 +281,8 @@ const htmlCode = '''
           );
         }
 
-        draw(myStrokeWidth = false, opacity = 1) {
+        draw(ctx, myStrokeWidth = false, opacity = 1) {
+          if(!ctx) return alert("code error");
           ctx.globalAlpha = opacity;
           ctx.lineWidth = myStrokeWidth ? myStrokeWidth : 0;
           ctx.fillStyle = this.color;
@@ -300,7 +308,7 @@ const htmlCode = '''
             return;
           }
 
-          this.myDraw();
+          this.myDraw(ctx);
           ctx.restore();
 
           if (myStrokeWidth) {
@@ -320,7 +328,7 @@ const htmlCode = '''
           this.counterclockwise = data.counterclockwise;
         }
 
-        myDraw() {
+        myDraw(ctx) {
           ctx.arc(
             0,0,
             this.radius,
@@ -567,16 +575,20 @@ const htmlCode = '''
         dialog.classList.add("show-modal");
       }
 
+      function updateSliderPosition(currentIndex) {
+        let sreenWidth = window.innerWidth;
+        Array.from(piecesElement.children).forEach((element, index) => {
+          element.style.marginLeft = `-\${currentIndex * sreenWidth - index * sreenWidth}px`;
+        });
+      }
+
       /* Different variables and function */
       HereMustBeCodeWithVariables====>
 
       /* Main Script */
       setTimeout(() => {
-        canva.width = window.innerWidth * 2;
-        canva.height = window.innerHeight * 2;
-        const DisplayWidth = canva.width;
-        const DisplayHeight = canva.height;
         try {
+          Main();
           HereMustBeMainCode====>
         } catch (e) {
           alert(e);

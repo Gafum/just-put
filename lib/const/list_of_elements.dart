@@ -174,7 +174,7 @@ var ListOfElements = [
   },
   {
     "id": 11,
-    "code": "//Object.draw(undefined, 'one');",
+    "code": "//Object.draw(ctx, undefined, 'one');",
     "text": "Draw //Object With stroke: undefined, opacity: 'one'",
     "color": 2,
     "listChengers": ["//Object", "undefined", "'one'"],

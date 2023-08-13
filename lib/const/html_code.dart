@@ -226,6 +226,11 @@ const htmlCode = '''
       }
 
       #pieces > canvas {
+        display: none;
+      }
+
+      #pieces > canvas.active {
+        display: block;
         width: 100vw;
         height: 100%;
       }
@@ -244,8 +249,7 @@ const htmlCode = '''
     </dialog>
 
     <script>
-      const mainElementInHTML = document.querySelector("#main");
-      const piecesElement = document.querySelector("#pieces");
+      /* Classes of the objects ===================== */
 
       class rect {
         constructor({
@@ -344,6 +348,27 @@ const htmlCode = '''
             this.counterclockwise
           );
         }
+      }
+
+      /* Global constants ===================== */
+      const mainElementInHTML = document.querySelector("#main");
+      const piecesElement = document.querySelector("#pieces");
+
+
+      /* Block's functions ===================== */
+      
+      function updateSliderPosition(currentIndex) {
+        let sreenWidth = window.innerWidth;
+        document.querySelector("canvas.active")?.classList?.remove("active");
+        Array.from(piecesElement.children)[currentIndex].classList.add("active");
+        Array.from(mainElementInHTML.children).forEach((element, index) => {
+          element.style.left = `\${index * sreenWidth - currentIndex * sreenWidth}px`;
+          if (index !== currentIndex) {
+            element.style.display = "none";
+          } else {
+            element.style.display = "";
+          }
+        });
       }
 
       function colisionWithTouch({ object, MousePosition }) {
@@ -543,12 +568,13 @@ const htmlCode = '''
           newElement.style.pointerEvents = "all";
           elementsInHTML.append(newElement);
         }else{
-          return alert(`Element with id "\${myid}" already exists!`);
+          console.log(`Element with id "\${myid}" already exists!`);
         }
         newElement.innerHTML = code;
       }
 
-      /* Blocks in EditParams ===================== */
+
+      /* Functions in the formula editor ===================== */
 
       function joinStrings(a, b) {
         return String(a) + String(b);
@@ -585,22 +611,6 @@ const htmlCode = '''
         dialog.classList.add("show-modal");
       }
 
-      function updateSliderPosition(currentIndex) {
-        let sreenWidth = window.innerWidth;
-        Array.from(piecesElement.children)[0].style.marginLeft = `-\${
-          currentIndex * sreenWidth
-        }px`;
-        Array.from(mainElementInHTML.children).forEach((element, index) => {
-          element.style.left = `\${
-            index * sreenWidth - currentIndex * sreenWidth
-          }px`;
-          if (index !== currentIndex) {
-            element.style.display = "none";
-          } else {
-            element.style.display = "";
-          }
-        });
-      }
 
       /* Different variables and function */
       HereMustBeCodeWithVariables====>

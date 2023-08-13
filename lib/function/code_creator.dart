@@ -149,7 +149,6 @@ let StoredData = {}
       piecesName.fold(" /* Create canvas for all pieces */ \n ", (prev, item) {
     return """$prev 
 let canva$item = document.createElement('canvas');
-canva$item.style.display = "block";
 piecesElement.append(canva$item);
 mainElementInHTML.innerHTML += "<div style='position: relative'></div>";
 """;
@@ -174,14 +173,15 @@ mainElementInHTML.innerHTML += "<div style='position: relative'></div>";
     String fisrtStrCode = """ \n
 /* Code for the  ${piecesName[index]} piece*/
 function ${piecesName[index]}(animation){
-  const canva = canva${piecesName[index]};
-  const ctx = canva.getContext('2d'); 
-  canva.width = window.innerWidth * 2;
-  canva.height = window.innerHeight * 2;
-  const DisplayWidth = canva.width;
-  const DisplayHeight = canva.height;
-  const elementsInHTML = Array.from(mainElementInHTML.children)[$index];
-  updateSliderPosition($index);
+  try{
+    const canva = canva${piecesName[index]};
+    const ctx = canva.getContext('2d'); 
+    canva.width = window.innerWidth * 2;
+    canva.height = window.innerHeight * 2;
+    const DisplayWidth = canva.width;
+    const DisplayHeight = canva.height;
+    const elementsInHTML = Array.from(mainElementInHTML.children)[$index];
+    updateSliderPosition($index);
 """;
 
     /* find function which works with taps and touch */
@@ -203,7 +203,8 @@ function ${piecesName[index]}(animation){
     });
 
     /* End of the function */
-    createdCode += "}";
+    createdCode +=
+        """} catch (err) { alert("In piece  ${piecesName[index]} error:"+err); }}""";
     index = index + 1;
   }
 

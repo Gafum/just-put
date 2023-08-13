@@ -1121,7 +1121,7 @@ var ListOfElements = [
       ["\"option 1\""],
       ["\"Option 1\""],
       ["myName"],
-      ["\"width: 100px;\""],
+      ["\"width: 200px;\""],
       ["2", "5", "0"],
       ["1", "0", "0"]
     ],

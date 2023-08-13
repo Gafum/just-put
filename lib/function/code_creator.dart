@@ -145,11 +145,13 @@ let StoredData = {}
   }
 
   /* Create canvas list */
-  fisrtStrCodeValues += piecesName.fold("", (prev, item) {
+  fisrtStrCodeValues +=
+      piecesName.fold(" /* Create canvas for all pieces */ \n ", (prev, item) {
     return """$prev 
 let canva$item = document.createElement('canvas');
 canva$item.style.display = "block";
 piecesElement.append(canva$item);
+mainElementInHTML.innerHTML += "<div style='position: relative'></div>";
 """;
   });
 
@@ -169,14 +171,16 @@ piecesElement.append(canva$item);
   for (List items in data) {
     /* Create my function */
 
-    String fisrtStrCode = """
+    String fisrtStrCode = """ \n
+/* Code for the  ${piecesName[index]} piece*/
 function ${piecesName[index]}(animation){
-  let canva = canva${piecesName[index]};
+  const canva = canva${piecesName[index]};
   const ctx = canva.getContext('2d'); 
   canva.width = window.innerWidth * 2;
   canva.height = window.innerHeight * 2;
   const DisplayWidth = canva.width;
   const DisplayHeight = canva.height;
+  const elementsInHTML = Array.from(mainElementInHTML.children)[$index];
   updateSliderPosition($index);
 """;
 

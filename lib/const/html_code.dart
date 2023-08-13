@@ -210,12 +210,19 @@ const htmlCode = '''
       }
 
       
-      #pieces {
+      #pieces, #main {
         overflow: hidden;
         max-width: 100vw;
         width: 100%;
         height: 100%;
         display: flex;
+      }
+
+      #main{
+        position: absolute;
+        left: 0;
+        top: 0;
+        pointer-events: none;
       }
 
       #pieces > canvas {
@@ -226,7 +233,7 @@ const htmlCode = '''
   </head>
   <body>
     <!-- MADE BY GAFUM -->
-    <div id="main" style="position: relative"></div>
+    <div id="main"></div>
     <div id="pieces"></div>
 
     <dialog id="modal-window">
@@ -528,12 +535,15 @@ const htmlCode = '''
         });
       }
 
-      function addElementByHtml(code, myid) {
+      function addElementByHtml(elementsInHTML, code, myid) {
         let newElement = document.querySelector("#" + myid + "conteiner");
         if (!newElement) {
           newElement = document.createElement("div");
           newElement.id = myid + "conteiner";
-          mainElementInHTML.append(newElement);
+          newElement.style.pointerEvents = "all";
+          elementsInHTML.append(newElement);
+        }else{
+          return alert(`Element with id "\${myid}" already exists!`);
         }
         newElement.innerHTML = code;
       }
@@ -577,8 +587,18 @@ const htmlCode = '''
 
       function updateSliderPosition(currentIndex) {
         let sreenWidth = window.innerWidth;
-        Array.from(piecesElement.children).forEach((element, index) => {
-          element.style.marginLeft = `-\${currentIndex * sreenWidth - index * sreenWidth}px`;
+        Array.from(piecesElement.children)[0].style.marginLeft = `-\${
+          currentIndex * sreenWidth
+        }px`;
+        Array.from(mainElementInHTML.children).forEach((element, index) => {
+          element.style.left = `\${
+            index * sreenWidth - currentIndex * sreenWidth
+          }px`;
+          if (index !== currentIndex) {
+            element.style.display = "none";
+          } else {
+            element.style.display = "";
+          }
         });
       }
 

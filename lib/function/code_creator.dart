@@ -114,9 +114,9 @@ let StoredData = {}
         '\nlet ${data[0]['data'].reduce((a, b) => a + ', ' + b)};';
   }
 
-  /* Create Textures */
+  /* Create Files */
   if (listOfFiles.isNotEmpty) {
-    fisrtStrCodeValues += listOfFiles.fold("", (a, b) {
+    fisrtStrCodeValues += listOfFiles.fold("\n /* Create Files */", (a, b) {
       if (b["data"] == "0") {
         return '''$a
       // Audio: ${b['name']}
@@ -145,8 +145,9 @@ let StoredData = {}
   }
 
   /* Create canvas list */
-  fisrtStrCodeValues +=
-      piecesName.fold(" /* Create canvas for all pieces */ \n ", (prev, item) {
+  fisrtStrCodeValues += piecesName.fold(
+      "\n  /* Create canvas for all pieces */ \n const PieceList = ${json.encode(piecesName)};",
+      (prev, item) {
     return """$prev 
 let canva$item = document.createElement('canvas');
 piecesElement.append(canva$item);
@@ -181,7 +182,7 @@ function ${piecesName[index]}(animation){
     const DisplayWidth = canva.width;
     const DisplayHeight = canva.height;
     const elementsInHTML = Array.from(mainElementInHTML.children)[$index];
-    updateSliderPosition($index);
+    goToPieceUsingIndex($index);
 """;
 
     /* find function which works with taps and touch */

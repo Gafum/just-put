@@ -509,6 +509,9 @@ const englishLanguage = {
       {
         "text": ["Set //Object Size to 100px"],
       },
+      {
+        "text": ["Continue piece Main"],
+      },
     ]
   }
 };

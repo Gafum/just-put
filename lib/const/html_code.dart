@@ -209,8 +209,7 @@ const htmlCode = '''
         }
       }
 
-      
-      #pieces, #main {
+      #pieces {
         overflow: hidden;
         max-width: 100vw;
         width: 100%;
@@ -218,17 +217,15 @@ const htmlCode = '''
         display: flex;
       }
 
-      #main{
-        position: absolute;
-        left: 0;
-        top: 0;
-        pointer-events: none;
-      }
-
-      #pieces > canvas {
+      #pieces > canvas,
+      #main > div {
         display: none;
       }
 
+      #main > div.active {
+        display: block;
+      }
+      
       #pieces > canvas.active {
         display: block;
         width: 100vw;
@@ -357,18 +354,20 @@ const htmlCode = '''
 
       /* Block's functions ===================== */
       
-      function updateSliderPosition(currentIndex) {
+      function goToPieceUsingIndex(currentIndex) {
         let sreenWidth = window.innerWidth;
-        document.querySelector("canvas.active")?.classList?.remove("active");
-        Array.from(piecesElement.children)[currentIndex].classList.add("active");
-        Array.from(mainElementInHTML.children).forEach((element, index) => {
-          element.style.left = `\${index * sreenWidth - currentIndex * sreenWidth}px`;
-          if (index !== currentIndex) {
-            element.style.display = "none";
-          } else {
-            element.style.display = "";
-          }
-        });
+        piecesElement
+          .querySelector("canvas.active")
+          ?.classList?.remove("active");
+        Array.from(piecesElement.children)[currentIndex].classList.add(
+          "active"
+        );
+        mainElementInHTML
+          .querySelector("div.active")
+          ?.classList?.remove("active");
+        Array.from(mainElementInHTML.children)[currentIndex].classList.add(
+          "active"
+        );
       }
 
       function colisionWithTouch({ object, MousePosition }) {

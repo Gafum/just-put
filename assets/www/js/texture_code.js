@@ -12,18 +12,27 @@ function changeTextureList() {
 						<svg viewBox="0 0 6.2 7.3">
 							<path d="M5.6,2.7l-4-2.4c-0.7-0.5-1.5,0-1.5,0.9v4.9c0,0.8,0.8,1.3,1.5,0.9l4-2.4C6.3,4.1,6.3,3.1,5.6,2.7"/>
 						</svg>
-							<svg class="music-play" width='40' height='40'>
-								<use xlink:href='#icon-sound'></use>
-							</svg>
+            <svg class="music-play" width='40' height='40'>
+              <use xlink:href='#icon-sound'></use>
+            </svg>
 						</div>`
             : ""
         }
 			</div>
 			<div class="text-in-file">
 				<h3>${b.name}</h3>
-				<button onclick="deleteTexture(${index}, '${b.name}')">${
-          appLanguage["message"]["delete"]
-        }</button>
+        <div class="textures-btns">
+          <button onclick="deleteTexture(${index}, '${b.name}')">
+            ${appLanguage["message"]["delete"]}
+          </button>
+          ${
+            b.data != "0"
+              ? `<button onclick="editTexture(${index}, '${b.name}')">
+            ${appLanguage["message"]["edit"]}
+          </button>`
+              : ""
+          }
+        </div>
 			</div>
 		</li>`
       );
@@ -54,7 +63,7 @@ function createTextureFile() {
 			<br/><span style="color: #888; text-align: center; font-size: 12px;">
 				${appLanguage["message"]["notRecomended"][2]}.
 			</span>`,
-    defaultValue: "empty"
+    defaultValue: "empty",
   });
   modalInput.querySelector("#ok-btn").onclick = () => {
     setTimeout(() => {
@@ -75,7 +84,7 @@ function createTextureFile() {
       modalInput.querySelector("input").maxLength = 20;
       showMessege({
         text: appLanguage["message"]["writeName"],
-        defaultValue: ""
+        defaultValue: "",
       });
     }, 400);
   };
@@ -85,7 +94,7 @@ function createTextureURL() {
   showMessege({
     text: appLanguage["message"]["writeName"],
     defaultValue: "",
-    checkbox: appLanguage["message"]["isAudio"]
+    checkbox: appLanguage["message"]["isAudio"],
   });
   modalInput.querySelector("input").maxLength = 20;
   modalInput.querySelector("#ok-btn").onclick = () => {
@@ -103,7 +112,7 @@ function createTextureURL() {
       modalInput.querySelector("input").maxLength = 1000;
       showMessege({
         text: appLanguage["message"]["writeURL"],
-        defaultValue: ""
+        defaultValue: "",
       });
       modalInput.querySelector("#ok-btn").onclick = () => {
         let userAnswerURL = modalInput.querySelector("input").value;
@@ -136,10 +145,23 @@ function createTextureDraw() {
   showMessege({ text: appLanguage["message"]["writeName"], defaultValue: "" });
 }
 
+function editTexture(index) {
+  EditImg.postMessage(
+    JSON.stringify({ id: index.toString(), data: listOfFiles[index].data })
+  );
+}
+
+function updateImage({ data = "", id = undefined }) {
+  if (!data.length || !id) return;
+  listOfFiles[id].data = data;
+  SaveTextures.postMessage(JSON.stringify(listOfFiles));
+  return changeTextureList();
+}
+
 function deleteTexture(id, name) {
   showMessege({
     text: `${appLanguage["message"]["delete"]} ${name}?`,
-    defaultValue: "empty"
+    defaultValue: "empty",
   });
   modalInput.querySelector("#ok-btn").onclick = () => {
     listOfFiles.splice(id, 1);
@@ -157,7 +179,7 @@ function createMusic() {
 			<br/><span style="color: #888; text-align: center; font-size: 12px;">
 				${appLanguage["message"]["notRecomended"][2]}.
 			</span>`,
-    defaultValue: "empty"
+    defaultValue: "empty",
   });
   modalInput.querySelector("#ok-btn").onclick = () => {
     setTimeout(() => {
@@ -178,7 +200,7 @@ function createMusic() {
       modalInput.querySelector("input").maxLength = 20;
       showMessege({
         text: appLanguage["message"]["writeName"],
-        defaultValue: ""
+        defaultValue: "",
       });
     }, 400);
   };

@@ -150,6 +150,7 @@ const germanLanguage = {
       "createData": "Variable erstellen",
       "createPiece": "Fragment erstellen",
       "delete": "Löschen",
+      "edit": "Bearbeiten",
       "isAudio": "Ist das ein Audio?",
       "btns": ["ZURÜCK", "OK"],
       "notRecomended": [

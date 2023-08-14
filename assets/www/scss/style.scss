@@ -852,7 +852,7 @@ body > .fab-btn {
       justify-content: center;
       align-items: flex-start;
       overflow: hidden;
-      gap: 5px;
+      gap: 15px;
       > h3 {
         color: black;
         font-size: 25px;
@@ -862,8 +862,16 @@ body > .fab-btn {
         font-size: 22px;
         width: 100%;
       }
-      button {
-        @include buttonSample();
+      > .textures-btns {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        gap: 5px;
+        button {
+          @include buttonSample();
+        }
       }
     }
   }

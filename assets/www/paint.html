@@ -847,27 +847,57 @@
 			return `#${hexR}${hexG}${hexB}`;
 		}
 
-		const translatePage = (translation) => {
+		const translatePage = (translation, data="") => {
 			document.querySelectorAll(".tools-board .row").forEach((element, index) => {
 				element.querySelector("label").innerText = translation["option-list"][index];
 			})
 			document.querySelector("h1").innerText = translation["name"];
+			
+			if(data.length){
+				setFirstData(data, translation["leaving-dialog"])
+			}else{
+				myDialog.innerHTML = `
+				<h2>${translation["start-dialog"]["title"]}</h2>
+				<form method="dialog" onsubmit='submitForm(${JSON.stringify(translation["leaving-dialog"])});'>
+					<div class="input-text-container">
+						<input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); this.value? this.classList.add('valid'):this.classList.remove('valid');" min="10" max="20000" maxLength="5" type="number" id="width" required autocomplete="off" autocapitalize="off" value="500">
+						<label for="width">${translation["start-dialog"]["inputs"][0]}</label>
+					</div>
+					<div class="input-text-container">
+						<input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);  this.value? this.classList.add('valid'):this.classList.remove('valid');" min="10" max="20000" maxLength="5" type="number" id="height" required autocomplete="off" autocapitalize="off" value="500">
+						<label for="height">${translation["start-dialog"]["inputs"][1]}</label>
+					</div>
+					<button id="applyBtn" type="submit">${translation["start-dialog"]["btn"]}</button>
+				</form>`
+				document.querySelector("#width").value = canvas.width;
+				document.querySelector("#height").value = canvas.height;
+				myDialog.showModal();
+			}
+		}
+
+		const setFirstData = (data, translation) => {
+			let img = new Image();
+			img.src = data;
+			img.onload = function () {
+				canvas.width = this.width;
+				canvas.height = this.height;
+				setCanvasSize();
+				ctx.drawImage(img, 0, 0);
+				debugger
+				undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+			};
 			myDialog.innerHTML = `
-			<h2>${translation["start-dialog"]["title"]}</h2>
-		<form method="dialog" onsubmit='submitForm(${JSON.stringify(translation["leaving-dialog"])});'>
-			<div class="input-text-container">
-				<input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); this.value? this.classList.add('valid'):this.classList.remove('valid');" min="10" max="20000" maxLength="5" type="number" id="width" required autocomplete="off" autocapitalize="off" value="500">
-				<label for="width">${translation["start-dialog"]["inputs"][0]}</label>
-			</div>
-			<div class="input-text-container">
-				<input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);  this.value? this.classList.add('valid'):this.classList.remove('valid');" min="10" max="20000" maxLength="5" type="number" id="height" required autocomplete="off" autocapitalize="off" value="500">
-				<label for="height">${translation["start-dialog"]["inputs"][1]}</label>
-			</div>
-			<button id="applyBtn" type="submit">${translation["start-dialog"]["btn"]}</button>
-		</form>`
-			document.querySelector("#width").value = canvas.width;
-			document.querySelector("#height").value = canvas.height;
-			myDialog.showModal();
+				<form method="dialog">
+					<h2 style="margin-bottom: 4px; font-size: 25px;">${translation["title"]}</h2>
+					<div id="inner-modal-window">
+						<button onclick="GoToAnotherHome.postMessage('goBack');">
+							${translation["btns"][1]}
+						</button>
+						<button type="button" onclick="myDialog.close()">
+							${translation["btns"][0]}
+						</button>
+					</div>
+				</form>`;
 		}
 
 		canvas.addEventListener("mousedown", (event) => {

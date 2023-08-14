@@ -138,6 +138,25 @@ addNewImage({data: "$value", name: "${message.message}"});
         },
       )
       ..addJavaScriptChannel(
+        'EditImg',
+        onMessageReceived: (JavaScriptMessage message) {
+          Navigator.push(
+            context,
+            CustomPageRoute(
+              child: PaintPage(
+                imgData: json.decode(message.message)["data"],
+                appLanguage: widget.appLanguage,
+                addImage: (value) => {
+                  controller.runJavaScript('''
+updateImage({data: "$value", id: "${json.decode(message.message)["id"]}"});
+''')
+                },
+              ),
+            ),
+          );
+        },
+      )
+      ..addJavaScriptChannel(
         'GoToAnotherHome',
         onMessageReceived: (JavaScriptMessage message) {
           if (message.message == 'goBack') {

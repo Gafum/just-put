@@ -149,6 +149,7 @@ const russianLanguage = {
       "createData": "Создать переменную",
       "createPiece": "Создать кусочок",
       "delete": "Удалить",
+      "edit": "Изменить",
       "isAudio": "Это аудио?",
       "btns": ["ОТМЕНА", "ОК"],
       "notRecomended": [

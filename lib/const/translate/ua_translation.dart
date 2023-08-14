@@ -149,6 +149,7 @@ const ukrainianLanguage = {
       "createData": "Створити змінну",
       "createPiece": "Створити фрагмент",
       "delete": "Видалити",
+      "edit": "Змінити",
       "isAudio": "Чи це аудіо?",
       "btns": ["НАЗАД", "ОК"],
       "notRecomended": [

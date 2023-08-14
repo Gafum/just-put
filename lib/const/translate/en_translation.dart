@@ -149,6 +149,7 @@ const englishLanguage = {
       "createData": "Create Data",
       "createPiece": "Create new piece",
       "delete": "Delete",
+      "edit": "Edit",
       "isAudio": "Is Audio?",
       "btns": ["CANCEL", "OK"],
       "notRecomended": [

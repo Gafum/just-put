@@ -6,12 +6,14 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class PaintPage extends StatefulWidget {
   final String appLanguage;
+  final String imgData;
   final Function addImage;
 
   const PaintPage({
     Key? key,
     required this.appLanguage,
     required this.addImage,
+    this.imgData = '',
   }) : super(key: key);
 
   @override
@@ -42,7 +44,7 @@ class _PaintPageState extends State<PaintPage> {
         'PageIsReady',
         onMessageReceived: (JavaScriptMessage message) {
           controller.runJavaScript(
-              'translatePage(${json.encode(translation[widget.appLanguage]["home"]["paint"])});');
+              'translatePage(${json.encode(translation[widget.appLanguage]["home"]["paint"])}, "${widget.imgData}");');
         },
       )
       ..addJavaScriptChannel(

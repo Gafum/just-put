@@ -567,7 +567,8 @@ const htmlCode = '''
           newElement.style.pointerEvents = "all";
           elementsInHTML.append(newElement);
         }else{
-          console.log(`Element with id "\${myid}" already exists!`);
+          alert(`Element with id "\${myid}" already exists! Event was rewritten!`);
+          return;
         }
         newElement.innerHTML = code;
       }

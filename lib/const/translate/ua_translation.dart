@@ -512,6 +512,12 @@ const ukrainianLanguage = {
       {
         "text": ["//Object.розмір = 100px"],
       },
+      {
+        "text": ["Продовжити кусочок Main"],
+      },
+      {
+        "text": ["myId.значення = newValue"],
+      }
     ]
   }
 };

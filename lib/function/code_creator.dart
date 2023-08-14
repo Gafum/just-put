@@ -182,6 +182,7 @@ function ${piecesName[index]}(animation){
     const DisplayWidth = canva.width;
     const DisplayHeight = canva.height;
     const elementsInHTML = Array.from(mainElementInHTML.children)[$index];
+    elementsInHTML.innerHTML = "";
     goToPieceUsingIndex($index);
 """;
 

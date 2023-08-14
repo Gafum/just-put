@@ -1302,12 +1302,24 @@ var ListOfElements = [
   },
   {
     "id": 94,
-    "code": "goToPieceUsingIndex(PieceList.indexOf('Main'))",
+    "code": "goToPieceUsingIndex(PieceList.indexOf('Main'));",
     "text": "Continue piece Main",
     "color": 1,
     "listChengers": ["Main"],
     "standartParameter": [
       ["Main"]
+    ]
+  },
+  {
+    "id": 95,
+    "code":
+        "elementsInHTML.querySelector('#' + myid + 'conteiner').querySelector('input').value = newValue;",
+    "text": "Set myid value to newValue",
+    "color": 2,
+    "listChengers": ["myid", "newValue"],
+    "standartParameter": [
+      ["\"InputId\""],
+      ["\"Hello\""],
     ]
   },
 ];
@@ -1375,6 +1387,7 @@ const sortOrder = [
   79,
   80,
   76,
+  95,
   81,
   77,
   82 /* Data */,

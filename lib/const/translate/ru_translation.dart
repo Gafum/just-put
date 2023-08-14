@@ -516,6 +516,12 @@ const russianLanguage = {
       {
         "text": ["//Object.размер = 100px"],
       },
+      {
+        "text": ["Продолжить кусочек Main"],
+      },
+      {
+        "text": ["myId.значение = newValue"],
+      }
     ]
   }
 };

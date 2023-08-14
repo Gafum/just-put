@@ -517,6 +517,12 @@ const germanLanguage = {
       {
         "text": ["//Objekt.Größe = 100"],
       },
+      {
+        "text": ["Die Arbeit weiterstricken Main"],
+      },
+      {
+        "text": ["myId.Wert = newValue"],
+      }
     ]
   }
 };

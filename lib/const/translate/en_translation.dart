@@ -512,6 +512,9 @@ const englishLanguage = {
       {
         "text": ["Continue piece Main"],
       },
+      {
+        "text": ["Set myid value to newValue"],
+      },
     ]
   }
 };

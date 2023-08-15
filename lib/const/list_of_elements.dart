@@ -1302,7 +1302,7 @@ var ListOfElements = [
   },
   {
     "id": 94,
-    "code": "goToPieceUsingIndex(PieceList.indexOf('Main'));",
+    "code": "goToPieceUsingIndex('Main', Main);",
     "text": "Continue piece Main",
     "color": 1,
     "listChengers": ["Main"],

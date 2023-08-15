@@ -95,7 +95,8 @@ String codeCreator({required String value, String inApp = ''}) {
   List piecesName = data[0]['piecesName'];
 
   /* Work with data */
-  var fisrtStrCodeValues = 'document.title = "${data[0]['name']}";';
+  var fisrtStrCodeValues =
+      'document.title = "${data[0]['name']}"; \n const PieceList = ${json.encode(piecesName)};';
   if (inApp.isNotEmpty) {
     fisrtStrCodeValues += '''
 \n
@@ -144,22 +145,10 @@ let StoredData = {}
     });
   }
 
-  /* Create canvas list */
-  fisrtStrCodeValues += piecesName.fold(
-      "\n  /* Create canvas for all pieces */ \n const PieceList = ${json.encode(piecesName)};",
-      (prev, item) {
-    return """$prev 
-let canva$item = document.createElement('canvas');
-piecesElement.append(canva$item);
-mainElementInHTML.innerHTML += "<div style='position: relative'></div>";
-""";
-  });
-
   data = data[1];
 
   /* Create main Code */
-
-  String createdCode = "";
+  String createdCode = "${piecesName[0]}();"; /* Call main function */
 
   if (data.isEmpty) {
     return 'Made by Gafum';
@@ -175,15 +164,7 @@ mainElementInHTML.innerHTML += "<div style='position: relative'></div>";
 /* Code for the  ${piecesName[index]} piece*/
 function ${piecesName[index]}(animation){
   try{
-    const canva = canva${piecesName[index]};
-    const ctx = canva.getContext('2d'); 
-    canva.width = window.innerWidth * 2;
-    canva.height = window.innerHeight * 2;
-    const DisplayWidth = canva.width;
-    const DisplayHeight = canva.height;
-    const elementsInHTML = Array.from(mainElementInHTML.children)[$index];
-    elementsInHTML.innerHTML = "";
-    goToPieceUsingIndex($index);
+    const { canva, ctx, DisplayWidth, DisplayHeight, elementsInHTML } = startPiece("${piecesName[index]}", ${piecesName[index]});
 """;
 
     /* find function which works with taps and touch */

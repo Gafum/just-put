@@ -354,20 +354,44 @@ const htmlCode = '''
 
       /* Block's functions ===================== */
       
-      function goToPieceUsingIndex(currentIndex) {
+      function startPiece(idOfThePiece, callback) {
+        let canva = document.querySelector(`#canvas\${idOfThePiece}`);
+        if (!canva) {
+          canva = document.createElement("canvas");
+          canva.id = `canvas\${idOfThePiece}`;
+          piecesElement.append(canva);
+          mainElementInHTML.innerHTML += `
+          <div style='position: relative;' id='elements\${idOfThePiece}'></div>`;
+        }
+        const ctx = canva.getContext("2d");
+        canva.width = window.innerWidth * 2;
+        canva.height = window.innerHeight * 2;
+        const DisplayWidth = canva.width;
+        const DisplayHeight = canva.height;
+        const elementsInHTML = document.querySelector(
+          `#elements\${idOfThePiece}`
+        );
+        elementsInHTML.innerHTML = "";
+        goToPieceUsingIndex(idOfThePiece, callback);
+        return { canva, ctx, DisplayWidth, DisplayHeight, elementsInHTML };
+      }
+
+      function goToPieceUsingIndex(idOfThePiece, callback) {
+        const localPiece = document.querySelector(`#canvas\${idOfThePiece}`);
+        if (!localPiece) return callback();
+
         let sreenWidth = window.innerWidth;
         piecesElement
           .querySelector("canvas.active")
           ?.classList?.remove("active");
-        Array.from(piecesElement.children)[currentIndex].classList.add(
-          "active"
-        );
+        localPiece.classList.add("active");
+
         mainElementInHTML
           .querySelector("div.active")
           ?.classList?.remove("active");
-        Array.from(mainElementInHTML.children)[currentIndex].classList.add(
-          "active"
-        );
+        document
+          .querySelector("#elements" + idOfThePiece)
+          .classList.add("active");
       }
 
       function colisionWithTouch({ object, MousePosition }) {
@@ -618,7 +642,6 @@ const htmlCode = '''
       /* Main Script */
       setTimeout(() => {
         try {
-          Main();
           HereMustBeMainCode====>
         } catch (e) {
           alert(e);

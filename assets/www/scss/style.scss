@@ -43,7 +43,7 @@ $red-color: #eb4464;
   user-select: none;
   transition: filter 0.2s;
 
-  &:hover {
+  &:active {
     filter: brightness(1.5);
   }
 }
@@ -789,6 +789,11 @@ body > .fab-btn {
     max-height: 120px;
     width: 100%;
 
+    &.active {
+      background-color: rgb(210, 210, 210);
+      border: 1px solid black;
+    }
+
     .img-in-file {
       aspect-ratio: 1 / 1;
       border-radius: 10px;
@@ -852,7 +857,7 @@ body > .fab-btn {
       justify-content: center;
       align-items: flex-start;
       overflow: hidden;
-      gap: 15px;
+      gap: 10px;
       > h3 {
         color: black;
         font-size: 25px;
@@ -871,6 +876,24 @@ body > .fab-btn {
         gap: 5px;
         button {
           @include buttonSample();
+        }
+      }
+    }
+
+    .piece-btns {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      align-content: center;
+      flex-direction: column;
+      gap: 10px;
+      button {
+        @include buttonSample();
+        background-color: white;
+        border: 1px solid black;
+        transition: filter 0.3s;
+        &:active {
+          filter: brightness(0.8);
         }
       }
     }

@@ -161,7 +161,7 @@ let StoredData = {}
     /* Create my function */
 
     String fisrtStrCode = """ \n
-/* Code for the  ${piecesName[index]} piece*/
+/* Code for the ${piecesName[index]} piece*/
 function ${piecesName[index]}(animation){
   try{
     const { canva, ctx, DisplayWidth, DisplayHeight, elementsInHTML } = startPiece("${piecesName[index]}", ${piecesName[index]});
@@ -187,7 +187,7 @@ function ${piecesName[index]}(animation){
 
     /* End of the function */
     createdCode +=
-        """} catch (err) { alert("In piece  ${piecesName[index]} error:"+err); }}""";
+        """\n} catch (err) { alert("In piece  ${piecesName[index]} error:"+err); }}""";
     index = index + 1;
   }
 

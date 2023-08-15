@@ -1,21 +1,21 @@
 function saveData(createCode = false) {
-  let a = [];
+  let saverList = [];
   MainList[0] = {
     data: [...listOfData],
     functions: [...listOfFunct],
     name: projectName,
     codePiece: codePiece,
-    piecesName: listOfCodePieces
+    piecesName: listOfCodePieces,
   };
   let attachment = 0;
-  Array.from(ListInEditor.children).forEach((i, index) => {
+  Array.from(ListInEditor.children).forEach((i) => {
     if (i.classList.contains("finish")) {
       attachment--;
     }
 
-    a.push({
+    saverList.push({
       id: i.dataset.id,
-      parameter: JSON.parse(i.dataset.parameter)
+      parameter: JSON.parse(i.dataset.parameter),
     });
 
     i.querySelector(".innerOfElement").style.paddingLeft =
@@ -31,14 +31,10 @@ function saveData(createCode = false) {
     ListInEditor.children[0].style.marginTop = "0px";
   }
   try {
-    MainList[1][codePiece] = a;
+    MainList[1][codePiece] = saverList;
     if (createCode) {
       StartView.postMessage(
-        "[" +
-          JSON.stringify(MainList) +
-          "," +
-          JSON.stringify(listOfFiles) +
-          "]"
+        "[" + JSON.stringify(MainList) + "," + JSON.stringify(listOfFiles) + "]"
       );
     } else {
       SaveDataInFlutter.postMessage(JSON.stringify(MainList));

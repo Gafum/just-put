@@ -17,7 +17,7 @@ var ListOfElements = [
   },
   {
     "id": 1,
-    "code": "//Coment",
+    "code": "//Coment \n",
     "text": "Coment",
     "color": 0,
     "listChengers": ["Coment"],

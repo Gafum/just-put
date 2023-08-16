@@ -356,29 +356,33 @@ const htmlCode = '''
       
       function startPiece(idOfThePiece, callback) {
         let canva = document.querySelector(`#canvas\${idOfThePiece}`);
-        if (!canva) {
+        let elementsInHTML = document.querySelector(`#elements\${idOfThePiece}`);
+
+        if (!canva || !elementsInHTML) {
+          /* Create CANVAS */
           canva = document.createElement("canvas");
           canva.id = `canvas\${idOfThePiece}`;
           piecesElement.append(canva);
-          mainElementInHTML.innerHTML += `
-          <div style='position: relative;' id='elements\${idOfThePiece}'></div>`;
+
+          /* Create Elements */
+          elementsInHTML = document.createElement("div");
+          elementsInHTML.id = `elements\${idOfThePiece}`;
+          mainElementInHTML.append(elementsInHTML);
         }
         const ctx = canva.getContext("2d");
         canva.width = window.innerWidth * 2;
         canva.height = window.innerHeight * 2;
         const DisplayWidth = canva.width;
         const DisplayHeight = canva.height;
-        const elementsInHTML = document.querySelector(
-          `#elements\${idOfThePiece}`
-        );
         elementsInHTML.innerHTML = "";
-        goToPieceUsingIndex(idOfThePiece, callback);
+        goToPieceUsingIndex(idOfThePiece.replace(/\\s/g,''), callback);
         return { canva, ctx, DisplayWidth, DisplayHeight, elementsInHTML };
       }
 
       function goToPieceUsingIndex(idOfThePiece, callback) {
         const localPiece = document.querySelector(`#canvas\${idOfThePiece}`);
-        if (!localPiece) return callback();
+        const localElementsInHTML = document.querySelector("#elements" + idOfThePiece);
+        if (!localPiece || !localElementsInHTML) return callback();
 
         let sreenWidth = window.innerWidth;
         piecesElement
@@ -389,9 +393,7 @@ const htmlCode = '''
         mainElementInHTML
           .querySelector("div.active")
           ?.classList?.remove("active");
-        document
-          .querySelector("#elements" + idOfThePiece)
-          .classList.add("active");
+          localElementsInHTML.classList.add("active");
       }
 
       function colisionWithTouch({ object, MousePosition }) {

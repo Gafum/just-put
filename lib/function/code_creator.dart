@@ -148,7 +148,8 @@ let StoredData = {}
   data = data[1];
 
   /* Create main Code */
-  String createdCode = "${piecesName[0]}();"; /* Call main function */
+  String createdCode =
+      "${piecesName[0].toString().replaceAll(RegExp(r"\s+"), "")}();";
 
   if (data.isEmpty) {
     return 'Made by Gafum';
@@ -160,11 +161,14 @@ let StoredData = {}
   for (List items in data) {
     /* Create my function */
 
+    String localPieceName =
+        piecesName[index].toString().replaceAll(RegExp(r"\s+"), "");
+
     String fisrtStrCode = """ \n
-/* Code for the ${piecesName[index]} piece*/
-function ${piecesName[index]}(animation){
+/* Code for the $localPieceName piece*/
+function $localPieceName(animation){
   try{
-    const { canva, ctx, DisplayWidth, DisplayHeight, elementsInHTML } = startPiece("${piecesName[index]}", ${piecesName[index]});
+    const { canva, ctx, DisplayWidth, DisplayHeight, elementsInHTML } = startPiece("$localPieceName", $localPieceName);
 """;
 
     /* find function which works with taps and touch */
@@ -187,7 +191,7 @@ function ${piecesName[index]}(animation){
 
     /* End of the function */
     createdCode +=
-        """\n} catch (err) { alert("In piece  ${piecesName[index]} error:"+err); }}""";
+        """\n} catch (err) { alert("In piece  $localPieceName error:"+err); }}""";
     index = index + 1;
   }
 

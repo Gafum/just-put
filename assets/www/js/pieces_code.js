@@ -8,7 +8,7 @@ function changeCodePiecesList() {
       prev +
       `
 		<li class="one-file ${
-      codePiece == index ? "active" : "'"
+      codePiece == index && listOfCodePieces.length > 1 ? "active" : "'"
     }" onclick='otherPiece(${index})'>
 			<div class="img-in-file img-in-piece">
 				<span>
@@ -54,7 +54,10 @@ function CreateNewPiece() {
     defaultValue: "",
   });
   modalInput.querySelector("#ok-btn").onclick = () => {
-    let userAnswer = modalInput.querySelector("input").value.slice(0, 20);
+    let userAnswer = modalInput
+      .querySelector("input")
+      .value.replace(/\\s/g, "")
+      .slice(0, 20);
     if (!userAnswer) return false;
     MainList[1].push([]);
     listOfCodePieces.push(userAnswer);

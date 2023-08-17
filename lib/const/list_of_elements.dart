@@ -117,7 +117,7 @@ var ListOfElements = [
       ["5", "0", "0"],
       ["2", "0", "0"],
       ["7", "0"],
-      ["degToRadian(", "9", "0", ")"],
+      ["degToRadian(", "0", ")"],
       ["\"#000\""],
       ["0"],
       ["undefined"]
@@ -1033,7 +1033,7 @@ var ListOfElements = [
   {
     "id": 76,
     "code":
-        "addElementByHtml(elementsInHTML, `<input type=\"range\" min=\"\${myMIN}\" max=\"\${myMAX}\" value=\"\${standartValue}\" step=\"\${oneStep}\" oninput=\"myName=this.value\" style=\"transform: translate(-50%, -50%); position: absolute; left: \${(myX)/2}px; top: \${(myY)/2}px; \${myStyle}\" />`, myId);",
+        "addElementByHtml(elementsInHTML, `<input type=\"range\" min=\"\${myMIN}\" max=\"\${myMAX}\" value=\"\${standartValue}\" step=\"\${oneStep}\" style=\"transform: translate(-50%, -50%); position: absolute; left: \${(myX)/2}px; top: \${(myY)/2}px; \${myStyle}\" id=\"\${myId}ch\"/>`, myId);\ndocument.getElementById(\"\${myId}ch\").oninput = (event)=>{\n\tmyName = event.target.value\n};",
     "text": "Slider(myId)",
     "color": 2,
     "listChengers": [
@@ -1062,7 +1062,7 @@ var ListOfElements = [
   {
     "id": 77,
     "code":
-        "addElementByHtml(elementsInHTML, `<input type=\"color\" value=\"\${standartValue}\" onchange=\"myName = this.value\" style=\"transform: translate(-50%, -50%); position: absolute; left: \${(myX)/2}px; top: \${(myY)/2}px;\">`, myId);",
+        "addElementByHtml(elementsInHTML, `<input type=\"color\" value=\"\${standartValue}\" style=\"transform: translate(-50%, -50%); position: absolute; left: \${(myX)/2}px; top: \${(myY)/2}px;\" id=\"\${myId}ch\">`, myId);\ndocument.getElementById(\"\${myId}ch\").onchange = (event)=>{\n\tmyName = event.target.value\n};",
     "text": "Color picker(myId)",
     "color": 2,
     "listChengers": ["myId", "standartValue", "myName", "myX", "myY"],
@@ -1077,7 +1077,7 @@ var ListOfElements = [
   {
     "id": 78,
     "code":
-        "addElementByHtml(elementsInHTML, `<div class=\"input-checkbox-conteiner\" style=\"\${myStyle} transform: translate(-50%, -50%); position: absolute; left: \${(myX)/2}px; top: \${(myY)/2}px;\">\n\t\t<input type=\"checkbox\" class=\"input-checkbox\" id=\"\${myId}ch\" onchange='myName=this.checked;'\n\t\t\t\${standartValue&&\"checked\"}>\n\t\t<label for=\"\${myId}ch\">\n\t\t\t<span class=\"checkbox-bipolar\">\n\t\t\t</span>\n\t\t</label>\n\t\t<label for=\"\${myId}ch\">\${myHint}</label>\n\t</div>`, myId);",
+        "addElementByHtml(elementsInHTML, `<div class=\"input-checkbox-conteiner\" style=\"\${myStyle} transform: translate(-50%, -50%); position: absolute; left: \${(myX)/2}px; top: \${(myY)/2}px;\">\n\t\t<input type=\"checkbox\" class=\"input-checkbox\" id=\"\${myId}ch\" \n\t\t\t\${standartValue&&\"checked\"}>\n\t\t<label for=\"\${myId}ch\">\n\t\t\t<span class=\"checkbox-bipolar\">\n\t\t\t</span>\n\t\t</label>\n\t\t<label for=\"\${myId}ch\">\${myHint}</label>\n\t</div>`, myId);\ndocument.getElementById(\"\${myId}ch\").onchange = (event)=>{\n\tmyName = event.target.checked\n};",
     "text": "Checkbox(myId)",
     "color": 2,
     "listChengers": [
@@ -1102,7 +1102,7 @@ var ListOfElements = [
   {
     "id": 79,
     "code":
-        "addElementByHtml(elementsInHTML, `<div class=\"input-radio-container\" style=\"\${myStyle} transform: translate(-50%, -50%); position: absolute; left: \${(myX)/2}px; top: \${(myY)/2}px;\">\n\t\t<input type=\"radio\" id=\"\${myId}in\" name=\"\${groupName}\" onchange='myName=standartValue;' value=\"\${standartValue}\">\n\t\t<label for=\"\${myId}in\">\${myHint}</label>\t\t\n\t</div>`, myId);",
+        "addElementByHtml(elementsInHTML, `<div class=\"input-radio-container\" style=\"\${myStyle} transform: translate(-50%, -50%); position: absolute; left: \${(myX)/2}px; top: \${(myY)/2}px;\">\n\t\t<input type=\"radio\" id=\"\${myId}in\" name=\"\${groupName}\" value=\"\${standartValue}\">\n\t\t<label for=\"\${myId}in\">\${myHint}</label>\t\t\n\t</div>`, myId);\ndocument.getElementById(\"\${myId}in\").onchange = (event)=>{\n\tmyName = standartValue\n};",
     "text": "Radio input(myId)",
     "color": 2,
     "listChengers": [
@@ -1129,7 +1129,7 @@ var ListOfElements = [
   {
     "id": 80,
     "code":
-        "addElementByHtml(elementsInHTML, `<button style=\"position: absolute; transform: translate(-50%, -50%); left: \${(myX)/2}px; top: \${(myY)/2}px; \${myStyle}\" type=\"button\">\${myText}</button>`, myId); \ndocument.getElementById(myId+\"conteiner\").onclick = (event) =>{\n  myCode\n};",
+        "addElementByHtml(elementsInHTML, `<button style=\"position: absolute; transform: translate(-50%, -50%); left: \${(myX)/2}px; top: \${(myY)/2}px; \${myStyle}\" type=\"button\">\${myText}</button>`, myId);\ndocument.getElementById(myId+\"conteiner\").onclick = (event) =>{\n  myCode\n};",
     "text": "Button(myId)",
     "color": 2,
     "listChengers": ["myId", "myText", "myCode", "myX", "myY", "myStyle"],

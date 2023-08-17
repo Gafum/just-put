@@ -39,7 +39,7 @@ const ukrainianLanguage = {
   },
   "html": {
     "name-add-block": "Додати блок",
-    "nav": ["Налаштування", "Файли", "Фрагменти"],
+    "nav": ["Налаштування", "Файли", "Шматочки"],
     "main-fab-btn": ["Властивості", "Керування", "Об'єкти", "Дані", "Старт"],
     "files-fab": ["Музика", "Малювати", "Файли", "URL"],
     "btns-edit-params": ["Код", "Текст", "ОК", "+"],
@@ -147,7 +147,7 @@ const ukrainianLanguage = {
       "writeURL": "Напишіть URL",
       "createFunction": "Створити функцію",
       "createData": "Створити змінну",
-      "createPiece": "Створити фрагмент",
+      "createPiece": "Створити шматочок",
       "delete": "Видалити",
       "edit": "Змінити",
       "isAudio": "Чи це аудіо?",
@@ -514,7 +514,7 @@ const ukrainianLanguage = {
         "text": ["//Object.розмір = 100px"],
       },
       {
-        "text": ["Продовжити кусочок Main"],
+        "text": ["Продовжити шматочок Main"],
       },
       {
         "text": ["myId.значення = newValue"],

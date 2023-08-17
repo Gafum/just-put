@@ -1033,7 +1033,7 @@ var ListOfElements = [
   {
     "id": 76,
     "code":
-        "addElementByHtml(elementsInHTML, `<input type=\"range\" min=\"\${myMIN}\" max=\"\${myMAX}\" value=\"\${standartValue}\" step=\"\${oneStep}\" style=\"transform: translate(-50%, -50%); position: absolute; left: \${(myX)/2}px; top: \${(myY)/2}px; \${myStyle}\" id=\"\${myId}ch\"/>`, myId);\ndocument.getElementById(\"\${myId}ch\").oninput = (event)=>{\n\tmyName = event.target.value\n};",
+        "addElementByHtml(elementsInHTML, `<input type=\"range\" min=\"\${myMIN}\" max=\"\${myMAX}\" value=\"\${standartValue}\" step=\"\${oneStep}\" style=\"transform: translate(-50%, -50%); position: absolute; left: \${(myX)/2}px; top: \${(myY)/2}px; \${myStyle}\" id=\"\${myId}ch\"/>`, myId);\ndocument.getElementById(`\${myId}ch`).oninput = (event)=>{\n\tmyName = event.target.value\n};",
     "text": "Slider(myId)",
     "color": 2,
     "listChengers": [
@@ -1062,7 +1062,7 @@ var ListOfElements = [
   {
     "id": 77,
     "code":
-        "addElementByHtml(elementsInHTML, `<input type=\"color\" value=\"\${standartValue}\" style=\"transform: translate(-50%, -50%); position: absolute; left: \${(myX)/2}px; top: \${(myY)/2}px;\" id=\"\${myId}ch\">`, myId);\ndocument.getElementById(\"\${myId}ch\").onchange = (event)=>{\n\tmyName = event.target.value\n};",
+        "addElementByHtml(elementsInHTML, `<input type=\"color\" value=\"\${standartValue}\" style=\"transform: translate(-50%, -50%); position: absolute; left: \${(myX)/2}px; top: \${(myY)/2}px;\" id=\"\${myId}ch\">`, myId);\ndocument.getElementById(`\${myId}ch`).onchange = (event)=>{\n\tmyName = event.target.value\n};",
     "text": "Color picker(myId)",
     "color": 2,
     "listChengers": ["myId", "standartValue", "myName", "myX", "myY"],
@@ -1077,7 +1077,7 @@ var ListOfElements = [
   {
     "id": 78,
     "code":
-        "addElementByHtml(elementsInHTML, `<div class=\"input-checkbox-conteiner\" style=\"\${myStyle} transform: translate(-50%, -50%); position: absolute; left: \${(myX)/2}px; top: \${(myY)/2}px;\">\n\t\t<input type=\"checkbox\" class=\"input-checkbox\" id=\"\${myId}ch\" \n\t\t\t\${standartValue&&\"checked\"}>\n\t\t<label for=\"\${myId}ch\">\n\t\t\t<span class=\"checkbox-bipolar\">\n\t\t\t</span>\n\t\t</label>\n\t\t<label for=\"\${myId}ch\">\${myHint}</label>\n\t</div>`, myId);\ndocument.getElementById(\"\${myId}ch\").onchange = (event)=>{\n\tmyName = event.target.checked\n};",
+        "addElementByHtml(elementsInHTML, `<div class=\"input-checkbox-conteiner\" style=\"\${myStyle} transform: translate(-50%, -50%); position: absolute; left: \${(myX)/2}px; top: \${(myY)/2}px;\">\n\t\t<input type=\"checkbox\" class=\"input-checkbox\" id=\"\${myId}ch\" \n\t\t\t\${standartValue&&\"checked\"}>\n\t\t<label for=\"\${myId}ch\">\n\t\t\t<span class=\"checkbox-bipolar\">\n\t\t\t</span>\n\t\t</label>\n\t\t<label for=\"\${myId}ch\">\${myHint}</label>\n\t</div>`, myId);\ndocument.getElementById(`\${myId}ch`).onchange = (event)=>{\n\tmyName = event.target.checked\n};",
     "text": "Checkbox(myId)",
     "color": 2,
     "listChengers": [
@@ -1102,7 +1102,7 @@ var ListOfElements = [
   {
     "id": 79,
     "code":
-        "addElementByHtml(elementsInHTML, `<div class=\"input-radio-container\" style=\"\${myStyle} transform: translate(-50%, -50%); position: absolute; left: \${(myX)/2}px; top: \${(myY)/2}px;\">\n\t\t<input type=\"radio\" id=\"\${myId}in\" name=\"\${groupName}\" value=\"\${standartValue}\">\n\t\t<label for=\"\${myId}in\">\${myHint}</label>\t\t\n\t</div>`, myId);\ndocument.getElementById(\"\${myId}in\").onchange = (event)=>{\n\tmyName = standartValue\n};",
+        "addElementByHtml(elementsInHTML, `<div class=\"input-radio-container\" style=\"\${myStyle} transform: translate(-50%, -50%); position: absolute; left: \${(myX)/2}px; top: \${(myY)/2}px;\">\n\t\t<input type=\"radio\" id=\"\${myId}in\" name=\"\${groupName}\" value=\"\${standartValue}\">\n\t\t<label for=\"\${myId}in\">\${myHint}</label>\t\t\n\t</div>`, myId);\ndocument.getElementById(`\${myId}in`).onchange = (event)=>{\n\tmyName = standartValue\n};",
     "text": "Radio input(myId)",
     "color": 2,
     "listChengers": [

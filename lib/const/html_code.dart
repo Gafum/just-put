@@ -331,14 +331,14 @@ const htmlCode = '''
         constructor(data) {
           super(data);
           this.shape = 'circle';
-          this.startAngle = data.startAngle;
-          this.endAngle = data.endAngle;
-          this.counterclockwise = data.counterclockwise;
+          this.startAngle = data.startAngle || 0;
+          this.endAngle = data.endAngle || 0;
+          this.counterclockwise = data.counterclockwise || false;
         }
 
         myDraw(ctx) {
           ctx.arc(
-            0,0,
+            0, 0,
             this.radius,
             this.startAngle,
             this.endAngle,
@@ -346,6 +346,28 @@ const htmlCode = '''
           );
         }
       }
+
+      class Polygon extends rect {
+        constructor(data) {
+          super(data);
+          this.shape = 'polygon';
+          this.vertices = data.vertices || [];
+        }
+
+        myDraw(ctx) {
+          if (this.vertices.length < 3) {
+            return;
+          }
+
+          ctx.beginPath();
+          ctx.moveTo(this.vertices[0].x, this.vertices[0].y);
+          for (let i = 1; i < this.vertices.length; i++) {
+            ctx.lineTo(this.vertices[i].x, this.vertices[i].y);
+          }
+          ctx.closePath();
+        }
+      }
+
 
       /* Global constants ===================== */
       const mainElementInHTML = document.querySelector("#main");
@@ -397,13 +419,13 @@ const htmlCode = '''
       }
 
       function colisionWithTouch({ object, MousePosition }) {
-        if (object.shape == "circle") {
+        if (object.shape === "circle") {
           if (distanceBetween(MousePosition, object) <= object.radius) {
             return true;
           }
-        } else if (object.shape == "cub") {
-          myX = object.x - object.width / 2;
-          myY = object.y - object.height / 2;
+        } else if (object.shape === "cub") {
+          const myX = object.x - object.width / 2;
+          const myY = object.y - object.height / 2;
           if (
             MousePosition.x >= myX &&
             MousePosition.x <= myX + object.width &&
@@ -412,107 +434,142 @@ const htmlCode = '''
           ) {
             return true;
           }
+        } else if (object.shape === "polygon") {
+          const vertices = object.vertices;
+          const length = vertices.length;
+          let collision = false;
+
+          for (let i = 0, j = length - 1; i < length; j = i++) {
+            const vi = vertices[i];
+            const vj = vertices[j];
+            if (
+              ((vi.y > MousePosition.y) !== (vj.y > MousePosition.y)) &&
+              (MousePosition.x < (vj.x - vi.x) * (MousePosition.y - vi.y) / (vj.y - vi.y) + vi.x)
+            ) {
+              collision = !collision;
+            }
+          }
+          return collision;
         }
+        return false;
       }
 
       function oppositeColision(first, second) {
         return colisionBetween(first, second, true);
       }
 
-      function colisionBetween(first, second, opposite = false) {
-        function getCoordinatOfObjects() {
-          if (first.shape == "cub" && second.shape == "circle") {
-            return {
-              whatcolision: "cubCir",
-              cx: second.x,
-              cy: second.y,
-              radius: second.radius,
-              rx: Math.floor(Number(first.x)) - first.width / 2,
-              ry: Math.floor(Number(first.y)) - first.height / 2,
-              rw: first.width,
-              rh: first.height,
-            };
-          }
-          if (first.shape == "circle" && second.shape == "cub") {
-            return {
-              whatcolision: "cubCir",
-              cx: first.x,
-              cy: first.y,
-              radius: first.radius,
-              rx: Math.floor(Number(second.x)) - second.width / 2,
-              ry: Math.floor(Number(second.y)) - second.height / 2,
-              rw: second.width,
-              rh: second.height,
-            };
+      class CollisionCoordinates {
+        static getCoordinatesOfObjects(first, second) {
+          if (first.shape === "cub" && second.shape === "circle") {
+            return this.getCubCirCoordinates(first, second);
+          } else if (first.shape === "circle" && second.shape === "cub") {
+            return this.getCubCirCoordinates(second, first);
+          }else if (first.shape === "polygon" && second.shape === "circle") {
+            return this.getPolygonCirCoordinates(first, second);
+          } else if (first.shape === "circle" && second.shape === "polygon") {
+            return this.getPolygonCirCoordinates(second, first);
           }
           return undefined;
         }
 
-        if (first.shape == second.shape) {
-          if (first.shape == "cub") {
-            firstX = first.x - first.width / 2;
-            firstY = first.y - first.height / 2;
-            secondX = second.x - second.width / 2;
-            secondY = second.y - second.height / 2;
+        static getCubCirCoordinates(cub, circle) {
+          return {
+            whatCollision: "cubCir",
+            cx: circle.x,
+            cy: circle.y,
+            radius: circle.radius,
+            rx: Math.floor(Number(cub.x)) - cub.width / 2,
+            ry: Math.floor(Number(cub.y)) - cub.height / 2,
+            rw: cub.width,
+            rh: cub.height,
+          };
+        }
 
-            return opposite
-              ? /* Opposite */
-                first.width * first.height >= second.width * second.height
-                ? /* First object is bigger than second  */
-                  firstX <= secondX &&
-                  firstY <= secondY &&
-                  firstX + first.width >= secondX + second.width &&
-                  firstY + first.height >= secondY + second.height
-                : secondX <= firstX &&
-                  secondY <= firstY &&
-                  secondX + second.width >= firstX + first.width &&
-                  secondY + second.height >= firstY + first.height
-              : /* Usual */
-                firstX + first.width >= secondX &&
-                  secondX + second.width >= firstX &&
-                  firstY + first.height >= secondY &&
-                  secondY + second.height >= firstY;
-          } else if (first.shape == "circle") {
-            if (opposite) {
-              return (
-                distanceBetween(first, second) <=
-                Math.abs(first.radius - second.radius)
-              );
-            } else {
-              return (
-                distanceBetween(first, second) <= first.radius + second.radius
-              );
+        static getPolygonCirCoordinates(polygon, circle) {
+          return {
+            whatCollision: "polygonCir",
+            vertices: polygon.vertices, // An array of vertex coordinates of the polygon
+            cx: circle.x,
+            cy: circle.y,
+            radius: circle.radius,
+          };
+        }
+      }
+
+      class CollisionHandler {
+        static cubCubCollision(first, second, opposite) {
+          const firstX = first.x - first.width / 2;
+          const firstY = first.y - first.height / 2;
+          const secondX = second.x - second.width / 2;
+          const secondY = second.y - second.height / 2;
+
+          return opposite
+            ? /* Opposite */
+            first.width * first.height >= second.width * second.height
+              ? /* First object is bigger than second */
+              firstX <= secondX &&
+              firstY <= secondY &&
+              firstX + first.width >= secondX + second.width &&
+              firstY + first.height >= secondY + second.height
+              : secondX <= firstX &&
+              secondY <= firstY &&
+              secondX + second.width >= firstX + first.width &&
+              secondY + second.height >= firstY + first.height
+            : /* Usual */
+            firstX + first.width >= secondX &&
+            secondX + second.width >= firstX &&
+            firstY + first.height >= secondY &&
+            secondY + second.height >= firstY;
+        }
+
+        static circleCollision(first, second, opposite) {
+          if (opposite) {
+            return (
+              distanceBetween(first, second) <=
+              Math.abs(first.radius - second.radius)
+            );
+          } else {
+            return (
+              distanceBetween(first, second) <= first.radius + second.radius
+            );
+          }
+        }
+
+        static cubCirCollision({ whatCollision, cx, cy, rx, ry, rw, rh, radius }, opposite) {
+          const testX = Math.max(rx, Math.min(cx, rx + rw));
+          const testY = Math.max(ry, Math.min(cy, ry + rh));
+
+          if (opposite) {
+            if (
+              testX === cx &&
+              testY === cy &&
+              rx <= cx - radius &&
+              ry <= cy - radius &&
+              rx + rw >= cx + radius &&
+              ry + rh >= cy + radius
+            ) {
+              return true;
             }
+          } else {
+            return (
+              distanceBetween({ x: cx, y: cy }, { x: testX, y: testY }) <= radius
+            );
+          }
+          return false;
+        }
+      }
+
+      function colisionBetween(first, second, opposite = false) {
+        if (first.shape === second.shape) {
+          if (first.shape === "cub") {
+            return CollisionHandler.cubCubCollision(first, second, opposite);
+          } else if (first.shape === "circle") {
+            return CollisionHandler.circleCollision(first, second, opposite);
           }
         } else {
-          let { whatcolision, cx, cy, rx, ry, rw, rh, radius } =
-            getCoordinatOfObjects();
-
-          if (whatcolision == "cubCir") {
-            let testX = cx,
-              testY = cy;
-            if (cx < rx) testX = rx; // left edge
-            else if (cx > rx + rw) testX = rx + rw; // right edge
-            if (cy < ry) testY = ry; // top edge
-            else if (cy > ry + rh) testY = ry + rh; // bottom edge
-
-            if (opposite) {
-              if (
-                testX == cx &&
-                testY == cy &&
-                rx <= cx - radius &&
-                ry <= cy - radius &&
-                rx + rw >= cx + radius &&
-                ry + rh >= cy + radius
-              ) {
-                return true;
-              }
-            } else {
-              return (
-                distanceBetween({ x: cx, y: cy }, { x: testX, y: testY }) <=
-                radius
-              );
-            }
+          const coordinates = CollisionCoordinates.getCoordinatesOfObjects(first, second);
+          if (coordinates && coordinates.whatCollision === "cubCir") {
+            return CollisionHandler.cubCirCollision(coordinates, opposite);
           }
         }
         return false;

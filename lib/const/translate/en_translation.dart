@@ -516,6 +516,10 @@ const englishLanguage = {
       {
         "text": ["Set myid value to newValue"],
       },
+      {
+        "text": ["Create Polygon myName"],
+        "textInWhere": "myName: x: myX, y: myY, vertices: myVertices, color: myColor, direction: myDir"
+      },
     ]
   }
 };

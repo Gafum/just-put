@@ -518,7 +518,11 @@ const ukrainianLanguage = {
       },
       {
         "text": ["myId.значення = newValue"],
-      }
+      },
+      {
+        "text": ["Створити Многокутник myName"],
+        "textInWhere": "myName: x: myX, y: myY, вершини: myVertices, колір: myColor, напрям: myDir"
+      },
     ]
   }
 };

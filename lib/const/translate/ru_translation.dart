@@ -522,6 +522,11 @@ const russianLanguage = {
       },
       {
         "text": ["myId.значение = newValue"],
+      },
+      {
+        "text": ["Создать Многоугольник myName"],
+        "textInWhere":
+            "myName: x: myX, y: myY, вершины: myVertices, цвет: myColor, направление: myDir",
       }
     ]
   }

@@ -97,7 +97,7 @@ var ListOfElements = [
   {
     "id": 8,
     "code":
-        "myName = new rect({ x: myX, y: myY, width: myW, height: myH, direction: myDir, color: myColor, radius: myR, texture: myIMG, shape: \"cub\" });",
+        "myName = new rect({ x: myX, y: myY, width: myW, height: myH, direction: myDir, color: myColor, radius: myR, texture: myIMG });",
     "text": "Create Rectangle myName",
     "color": 2,
     "listChengers": [
@@ -126,7 +126,7 @@ var ListOfElements = [
   {
     "id": 9,
     "code":
-        "myName = new Circle({ x: myX, y: myY, radius: myR, startAngle:myS, endAngle: myE, counterclockwise: myCl, color: myColor, direction: myDir, shape: \"circle\", width: myR*2, height: myR*2 });",
+        "myName = new Circle({ x: myX, y: myY, radius: myR, startAngle:myS, endAngle: myE, counterclockwise: myCl, color: myColor, direction: myDir });",
     "text": "Create Circle myName",
     "color": 2,
     "listChengers": [
@@ -1322,6 +1322,24 @@ var ListOfElements = [
       ["\"Hello\""],
     ]
   },
+  {
+    "id": 96,
+    "code":
+        "myName = new Polygon({ x: myX, y: myY, vertices: myVertices, color: myColor, direction: myDir });",
+    "text": "Create Polygon myName",
+    "color": 2,
+    "listChengers": ["myName", "myX", "myY", "myVertices", "myColor", "myDir"],
+    "standartParameter": [
+      ["myName"],
+      ["1", "7", "5"],
+      ["2", "0", "0"],
+      [
+        " [{ x: 100, y: 100 },{ x: 150, y: 50 },{ x: 200, y: 100 },{ x: 150, y: 150 }]"
+      ],
+      ["\"#000\""],
+      ["degToRadian(", "0", ")"]
+    ],
+  },
 ];
 
 const sortOrder = [
@@ -1379,6 +1397,7 @@ const sortOrder = [
   /* Objects */ 7,
   8,
   9,
+  96,
   11,
   13,
   74,

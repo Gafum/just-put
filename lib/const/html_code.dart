@@ -678,7 +678,29 @@ const htmlCode = '''
           return false;
         }
 
+        static polyCollision(polygon1, polygon2) {
+          let vertices = polygon1.findRightCoordinates();
+          for (let i = 0; i < vertices.length; i++) {
+            if (colisionWithTouch({
+              object: polygon2,
+              MousePosition: { x: vertices[i].x, y: vertices[i].y }
+            })) {
+              return true;
+            }
+          }
 
+          vertices = polygon2.findRightCoordinates();
+          for (let i = 0; i < vertices.length; i++) {
+            if (colisionWithTouch({
+              object: polygon1,
+              MousePosition: { x: vertices[i].x, y: vertices[i].y }
+            })) {
+              return true;
+            }
+          }
+
+          return false;
+        }
       }
 
       function colisionBetween(first, second, opposite = false) {
@@ -687,6 +709,8 @@ const htmlCode = '''
             return CollisionHandler.cubCubCollision(first, second, opposite);
           } else if (first.shape === "circle") {
             return CollisionHandler.circleCollision(first, second, opposite);
+          } else if (first.shape === "polygon") {
+            return CollisionHandler.polyCollision(first, second, opposite);
           }
         } else {
           const coordinates = CollisionCoordinates.getCoordinatesOfObjects(first, second);

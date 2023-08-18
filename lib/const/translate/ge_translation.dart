@@ -523,6 +523,10 @@ const germanLanguage = {
       },
       {
         "text": ["myId.Wert = newValue"],
+      },
+      {
+        "text": ["Erstelle Polygon myName"],
+        "textInWhere": "myName: x: myX, y: myY, Ecken: myVertices, Farbe: myColor, Richtung: myDir"
       }
     ]
   }

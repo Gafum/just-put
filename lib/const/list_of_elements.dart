@@ -155,7 +155,7 @@ var ListOfElements = [
   {
     "id": 10,
     "code":
-        "let toClean = true;\ndraw();\nfunction draw(veryOldTimeIsHere, oldTimeIsHere) {\nif (toClean){ctx.clearRect(0, 0, canva.width, canva.height)};\nlet FPS = Math.floor(1000 / (oldTimeIsHere - veryOldTimeIsHere));",
+        "\nlet toClean = true;\ndraw();\nfunction draw(veryOldTimeIsHere, oldTimeIsHere) {\nif (toClean){ctx.clearRect(0, 0, canva.width, canva.height)};\nlet FPS = Math.floor(1000 / (oldTimeIsHere - veryOldTimeIsHere));",
     "text": "Drawing cycle",
     "color": 1,
     "listChengers": ["true", "FPS"],
@@ -228,7 +228,7 @@ var ListOfElements = [
   {
     "id": 14,
     "code":
-        "function myFunctionName(event) {\nlet MousePosition = getpositionOfMouse(event);\n(Array.isArray(//Object) ? //Object : [//Object]).forEach((iser) => {\n\tif (colisionWithTouch({ object: iser, MousePosition })) {\n\t\tlet tappedElement = iser;",
+        "function myFunctionName(event) {\nlet MousePosition = getpositionOfMouse(event);\nif (colisionWithTouch({ object: //Object, MousePosition })) {\n\t\tlet tappedElement = //Object;",
     "text": "//Object.onClick",
     "color": 1,
     "listChengers": ["//Object", "myFunctionName"],
@@ -237,7 +237,7 @@ var ListOfElements = [
       []
     ],
     "secondArgument": [
-      {"code": "}})};", "text": "End of Click"}
+      {"code": "}};", "text": "End of Click"}
     ],
     "isfunction": true
   },

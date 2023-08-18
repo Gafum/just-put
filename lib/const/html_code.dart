@@ -332,8 +332,10 @@ const htmlCode = '''
           super(data);
           this.shape = 'circle';
           this.startAngle = data.startAngle || 0;
-          this.endAngle = data.endAngle || 0;
+          this.endAngle = data.endAngle || 2 * Math.PI;
           this.counterclockwise = data.counterclockwise || false;
+          this.height = this.radius * 2;
+          this.width = this.radius * 2;
         }
 
         myDraw(ctx) {
@@ -359,12 +361,42 @@ const htmlCode = '''
             return;
           }
 
+          const vertices = this.vertices;
+          const myCenter = this.findPolygonCenter();
+
           ctx.beginPath();
-          ctx.moveTo(this.vertices[0].x, this.vertices[0].y);
-          for (let i = 1; i < this.vertices.length; i++) {
-            ctx.lineTo(this.vertices[i].x, this.vertices[i].y);
+          ctx.moveTo(vertices[0].x - myCenter.x, vertices[0].y - myCenter.y);
+          for (let i = 1; i < vertices.length; i++) {
+            ctx.lineTo(
+              Math.round(vertices[i].x - myCenter.x),
+              Math.round(vertices[i].y - myCenter.y)
+            );
           }
           ctx.closePath();
+        }
+
+        findPolygonCenter() {
+          const vertices = this.vertices;
+          let centerX = 0;
+          let centerY = 0;
+          for (let i = 0; i < vertices.length; i++) {
+            centerX += vertices[i].x;
+            centerY += vertices[i].y;
+          }
+          centerX /= vertices.length;
+          centerY /= vertices.length;
+          return { x: centerX, y: centerY };
+        }
+
+        findRightCoordinates() {
+          const myCenter = this.findPolygonCenter();
+
+          return this.vertices.map((point) => {
+            return {
+              x: Math.round(point.x - myCenter.x + this.x),
+              y: Math.round(point.y - myCenter.y + this.y)
+            };
+          });
         }
       }
 
@@ -435,21 +467,18 @@ const htmlCode = '''
             return true;
           }
         } else if (object.shape === "polygon") {
-          const vertices = object.vertices;
-          const length = vertices.length;
-          let collision = false;
+          const vertices = object.findRightCoordinates();
 
-          for (let i = 0, j = length - 1; i < length; j = i++) {
-            const vi = vertices[i];
-            const vj = vertices[j];
-            if (
-              ((vi.y > MousePosition.y) !== (vj.y > MousePosition.y)) &&
-              (MousePosition.x < (vj.x - vi.x) * (MousePosition.y - vi.y) / (vj.y - vi.y) + vi.x)
-            ) {
-              collision = !collision;
-            }
+          let inside = false;
+          for (let i = 0, j = vertices.length - 1; i < vertices.length; j = i++) {
+            let xi = vertices[i].x, yi = vertices[i].y;
+            let xj = vertices[j].x, yj = vertices[j].y;
+
+            let intersect = ((yi > MousePosition.y) != (yj > MousePosition.y))
+              && (MousePosition.x < (xj - xi) * (MousePosition.y - yi) / (yj - yi) + xi);
+            if (intersect) inside = !inside;
           }
-          return collision;
+          return inside;
         }
         return false;
       }
@@ -468,6 +497,10 @@ const htmlCode = '''
             return this.getPolygonCirCoordinates(first, second);
           } else if (first.shape === "circle" && second.shape === "polygon") {
             return this.getPolygonCirCoordinates(second, first);
+          } else if (first.shape === "polygon" && second.shape === "cub") {
+            return this.getPolygonCubCoordinates(first, second);
+          } else if (first.shape === "cub" && second.shape === "polygon") {
+            return this.getPolygonCubCoordinates(second, first);
           }
           return undefined;
         }
@@ -487,11 +520,22 @@ const htmlCode = '''
 
         static getPolygonCirCoordinates(polygon, circle) {
           return {
-            whatCollision: "polygonCir",
-            vertices: polygon.vertices, // An array of vertex coordinates of the polygon
+            whatCollision: "polyCir",
+            polygon,
             cx: circle.x,
             cy: circle.y,
             radius: circle.radius,
+          };
+        }
+
+        static getPolygonCubCoordinates(polygon, cub) {
+          return {
+            whatCollision: "polyCub",
+            polygon,
+            rx: Math.floor(Number(cub.x)) - cub.width / 2,
+            ry: Math.floor(Number(cub.y)) - cub.height / 2,
+            rw: cub.width,
+            rh: cub.height,
           };
         }
       }
@@ -535,7 +579,7 @@ const htmlCode = '''
           }
         }
 
-        static cubCirCollision({ whatCollision, cx, cy, rx, ry, rw, rh, radius }, opposite) {
+        static cubCirCollision({ cx, cy, rx, ry, rw, rh, radius }, opposite) {
           const testX = Math.max(rx, Math.min(cx, rx + rw));
           const testY = Math.max(ry, Math.min(cy, ry + rh));
 
@@ -557,6 +601,84 @@ const htmlCode = '''
           }
           return false;
         }
+
+        static polyCubCollision({ polygon, rx, ry, rw, rh }) {
+          const vertices = polygon.findRightCoordinates();
+
+          // check if any of the polygon's vertices are inside the rectangle
+          for (let i = 0; i < vertices.length; i++) {
+            let vertex = vertices[i];
+            if (vertex.x >= rx && vertex.x <= rx + rw &&
+              vertex.y >= ry && vertex.y <= ry + rh) {
+              return true;
+            }
+          }
+
+          // check if any of the rectangle's vertices are inside the polygon
+          let rectangleVertices = [
+            { x: rx, y: ry },
+            { x: rx + rw, y: ry },
+            { x: rx + rw, y: ry + rh },
+            { x: rx, y: ry + rh }
+          ];
+          for (let i = 0; i < rectangleVertices.length; i++) {
+            if (colisionWithTouch({ object: polygon, MousePosition: rectangleVertices[i] })) {
+              return true;
+            }
+          }
+
+          return false;
+        }
+
+        static polyCircleCollision({ polygon, cx, cy, radius }) {
+          const vertices = polygon.findRightCoordinates();
+
+          function distanceBetweenEdgeAndPoint(edge, point) {
+            // calculate the distance between the point and the line defined by the edge
+            let A = point.x - edge.a.x;
+            let B = point.y - edge.a.y;
+            let C = edge.b.x - edge.a.x;
+            let D = edge.b.y - edge.a.y;
+
+            let dot = A * C + B * D;
+            let len_sq = C * C + D * D;
+            let param = -1;
+            if (len_sq != 0) param = dot / len_sq;
+
+            let xx, yy;
+
+            if (param < 0) {
+              xx = edge.a.x;
+              yy = edge.a.y;
+            } else if (param > 1) {
+              xx = edge.b.x;
+              yy = edge.b.y;
+            } else {
+              xx = edge.a.x + param * C;
+              yy = edge.a.y + param * D;
+            }
+
+            let dx = point.x - xx;
+            let dy = point.y - yy;
+            return Math.sqrt(dx * dx + dy * dy);
+          }
+
+          // check if the circle's center is inside the polygon
+          if (colisionWithTouch({ object: polygon, MousePosition: { x: cx, y: cy } })) {
+            return true;
+          }
+
+          // check if any of the polygon's edges are close to the circle
+          for (let i = 0; i < vertices.length; i++) {
+            let j = (i + 1) % vertices.length;
+            let edge = { a: vertices[i], b: vertices[j] };
+            if (distanceBetweenEdgeAndPoint(edge, { x: cx, y: cy }) <= radius) return true;
+          }
+
+          return false;
+        }
+
+
       }
 
       function colisionBetween(first, second, opposite = false) {
@@ -570,6 +692,10 @@ const htmlCode = '''
           const coordinates = CollisionCoordinates.getCoordinatesOfObjects(first, second);
           if (coordinates && coordinates.whatCollision === "cubCir") {
             return CollisionHandler.cubCirCollision(coordinates, opposite);
+          } else if (coordinates && coordinates.whatCollision === "polyCub") {
+            return CollisionHandler.polyCubCollision(coordinates, opposite);
+          }else if (coordinates && coordinates.whatCollision === "polyCir") {
+            return CollisionHandler.polyCircleCollision(coordinates, opposite);
           }
         }
         return false;

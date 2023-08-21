@@ -149,7 +149,7 @@ var ListOfElements = [
       ["degToRadian(", "3", "6", "0", ")"],
       ["false"],
       ["\"#000\""],
-      ["degToRadian(", "9", "0", ")"]
+      ["degToRadian(", "0", ")"]
     ],
   },
   {

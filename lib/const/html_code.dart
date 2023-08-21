@@ -511,7 +511,7 @@ const htmlCode = '''
             cx: circle.x,
             cy: circle.y,
             radius: circle.radius,
-            rx: Math.floor(Number(cub.x)) - cub.width / 2,
+            rx: Math.floor(Number(cub.x)) - cub.width / 2, /* Bice right coordinates */
             ry: Math.floor(Number(cub.y)) - cub.height / 2,
             rw: cub.width,
             rh: cub.height,
@@ -703,7 +703,65 @@ const htmlCode = '''
         }
       }
 
+      function convertCubToPolygon(cub) {
+        let halfWidth = cub.width / 2, halfHeight = cub.height / 2;
+        let vertices = [
+          { x: -halfWidth, y: -halfHeight },
+          { x: halfWidth, y: -halfHeight },
+          { x: halfWidth, y: halfHeight },
+          { x: -halfWidth, y: halfHeight },
+        ];
+        let polygon = new Polygon({
+          x: cub.x,
+          y: cub.y,
+          vertices,
+          direction: cub.direction,
+          height: cub.height,
+          width: cub.width
+        });
+        return polygon;
+      }
+
+      function rotatePolygon(myPolygon) {
+        let { x: centerX, y: centerY } = myPolygon.findPolygonCenter();
+        let vertices = myPolygon.findRightCoordinates().map((point) => ({
+          x:
+            Math.cos(myPolygon.direction) * (point.x - centerX) -
+            Math.sin(myPolygon.direction) * (point.y - centerY) +
+            centerX,
+          y:
+            Math.sin(myPolygon.direction) * (point.x - centerX) +
+            Math.cos(myPolygon.direction) * (point.y - centerY) +
+            centerY,
+        }));
+        let rotatedPolygon = new Polygon({
+          x: myPolygon.x,
+          y: myPolygon.y,
+          vertices,
+          direction: myPolygon.direction
+        });
+        return rotatedPolygon;
+      }
+
       function colisionBetween(first, second, opposite = false) {
+        if (first.direction && first.direction % 360 !== 0) {
+          if (first.shape === "cub") {
+            first = convertCubToPolygon(first);
+          }
+          if (first.shape === "polygon") {
+            first = rotatePolygon(convertCubToPolygon(first));
+          }
+        }
+
+        if (second.direction && second.direction % 360 !== 0) {
+          if (second.shape === "cub") {
+            second = convertCubToPolygon(second);
+          }
+          if (second.shape === "polygon") {
+            second = rotatePolygon(second);
+          }
+        }
+
         if (first.shape === second.shape) {
           if (first.shape === "cub") {
             return CollisionHandler.cubCubCollision(first, second, opposite);

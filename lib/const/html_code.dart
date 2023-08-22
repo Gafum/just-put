@@ -451,6 +451,10 @@ const htmlCode = '''
       }
 
       function colisionWithTouch({ object, MousePosition }) {
+        if (object.direction && object.shape !== "circle") {
+          object = checkForRotation(object);
+        }
+
         if (object.shape === "circle") {
           if (distanceBetween(MousePosition, object) <= object.radius) {
             return true;
@@ -703,63 +707,80 @@ const htmlCode = '''
         }
       }
 
-      function convertCubToPolygon(cub) {
-        let halfWidth = cub.width / 2, halfHeight = cub.height / 2;
-        let vertices = [
-          { x: -halfWidth, y: -halfHeight },
-          { x: halfWidth, y: -halfHeight },
-          { x: halfWidth, y: halfHeight },
-          { x: -halfWidth, y: halfHeight },
-        ];
-        let polygon = new Polygon({
-          x: cub.x,
-          y: cub.y,
-          vertices,
-          direction: cub.direction,
-          height: cub.height,
-          width: cub.width
-        });
-        return polygon;
-      }
+      function checkForRotation(obj){
+        function convertCubToPolygon(cub) {
+          let halfWidth = cub.width / 2, halfHeight = cub.height / 2;
+          let vertices = [
+            { x: -halfWidth, y: -halfHeight },
+            { x: halfWidth, y: -halfHeight },
+            { x: halfWidth, y: halfHeight },
+            { x: -halfWidth, y: halfHeight },
+          ];
+          let polygon = new Polygon({
+            x: cub.x,
+            y: cub.y,
+            vertices,
+            direction: cub.direction,
+            height: cub.height,
+            width: cub.width
+          });
+          return polygon;
+        }
 
-      function rotatePolygon(myPolygon) {
-        let { x: centerX, y: centerY } = myPolygon.findPolygonCenter();
-        let vertices = myPolygon.findRightCoordinates().map((point) => ({
-          x:
-            Math.cos(myPolygon.direction) * (point.x - centerX) -
-            Math.sin(myPolygon.direction) * (point.y - centerY) +
-            centerX,
-          y:
-            Math.sin(myPolygon.direction) * (point.x - centerX) +
-            Math.cos(myPolygon.direction) * (point.y - centerY) +
-            centerY,
-        }));
-        let rotatedPolygon = new Polygon({
-          x: myPolygon.x,
-          y: myPolygon.y,
-          vertices,
-          direction: myPolygon.direction
-        });
-        return rotatedPolygon;
+        function rotatePolygon(myPolygon) {
+          let { x: centerX, y: centerY } = myPolygon.findPolygonCenter();
+          let vertices = myPolygon.findRightCoordinates().map((point) => ({
+            x:
+              Math.cos(myPolygon.direction) * (point.x - centerX) -
+              Math.sin(myPolygon.direction) * (point.y - centerY) +
+              centerX,
+            y:
+              Math.sin(myPolygon.direction) * (point.x - centerX) +
+              Math.cos(myPolygon.direction) * (point.y - centerY) +
+              centerY,
+          }));
+          let rotatedPolygon = new Polygon({
+            x: myPolygon.x,
+            y: myPolygon.y,
+            vertices,
+            direction: 0,
+          });
+          return rotatedPolygon;
+        }
+        
+        if (obj.direction && obj.direction % (2 * Math.PI) !== 0) {
+          if (obj.shape === "cub") {
+            if (obj.direction % (Math.PI / 2) == 0) {
+              if (
+                obj.direction % (2 * Math.PI) == Math.PI / 2 ||
+                obj.direction % (2 * Math.PI) == (Math.PI / 2) * 3
+              ) {
+                obj = new rect({
+                  x: obj.x,
+                  y: obj.y,
+                  width: obj.height,
+                  height: obj.width,
+                  direction: 0,
+                });
+              }
+            } else {
+              obj = convertCubToPolygon(obj);
+            }
+          }
+          if (obj.shape === "polygon") {
+            obj = rotatePolygon(obj);
+          }
+        }
+        return obj;
       }
 
       function colisionBetween(first, second, opposite = false) {
-        if (first.direction && first.direction % 360 !== 0) {
-          if (first.shape === "cub") {
-            first = convertCubToPolygon(first);
-          }
-          if (first.shape === "polygon") {
-            first = rotatePolygon(convertCubToPolygon(first));
-          }
+        if (first.direction && first.shape !== "circle") {
+          first = checkForRotation(first);
         }
 
-        if (second.direction && second.direction % 360 !== 0) {
-          if (second.shape === "cub") {
-            second = convertCubToPolygon(second);
-          }
-          if (second.shape === "polygon") {
-            second = rotatePolygon(second);
-          }
+        if (second.direction && second.shape !== "circle") {
+          second = checkForRotation(second);
         }
 
         if (first.shape === second.shape) {

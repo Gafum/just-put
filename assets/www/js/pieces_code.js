@@ -18,7 +18,7 @@ function changeCodePiecesList() {
 				<h3>${item}</h3>
         ${listOfCodePieces.length > 1 ? `
         <div class="textures-btns">
-          <button onclick="deletePiece(${index}, '${item}')">
+          <button onclick="deletePiece(event, ${index}, '${item}')">
             ${appLanguage["message"]["delete"]}
           </button>
         </div>` : ""}
@@ -106,7 +106,8 @@ function changePositionPiece(event, pos, index) {
   saveData();
 }
 
-function deletePiece(index, name) {
+function deletePiece(event, index, name) {
+  event.stopPropagation();
   if (listOfCodePieces.length <= 1 || index < 0 || index >= listOfCodePieces.length) {
     return;
   }
@@ -118,6 +119,7 @@ function deletePiece(index, name) {
   modalInput.querySelector("#ok-btn").onclick = () => {
     listOfCodePieces.splice(index, 1);
     MainList[1].splice(index, 1);
+    changeCodePiecesList();
     otherPiece(0);
   };
 }

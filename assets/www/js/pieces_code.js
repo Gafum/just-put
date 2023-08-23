@@ -7,9 +7,8 @@ function changeCodePiecesList() {
     return (
       prev +
       `
-		<li class="one-file ${
-      codePiece == index && listOfCodePieces.length > 1 ? "active" : "'"
-    }" onclick='otherPiece(${index})'>
+		<li class="one-file ${codePiece == index && listOfCodePieces.length > 1 ? "active" : "'"
+      }" onclick='otherPiece(${index})'>
 			<div class="img-in-file img-in-piece">
 				<span>
 					${a.join("")}
@@ -17,10 +16,15 @@ function changeCodePiecesList() {
 			</div>
 			<div class="text-in-file">
 				<h3>${item}</h3>
+        ${listOfCodePieces.length > 1 ? `
+        <div class="textures-btns">
+          <button onclick="deletePiece(${index}, '${item}')">
+            ${appLanguage["message"]["delete"]}
+          </button>
+        </div>` : ""}
 			</div>
-      ${
-        listOfCodePieces.length > 1
-          ? `<div class="piece-btns">
+      ${listOfCodePieces.length > 1
+        ? `<div class="piece-btns">
             <button style="padding: 4px 7px 0;" onclick="changePositionPiece(event, -1, ${index})">
               <svg viewBox="0 0 24 24" width="24" height="24">
                 <path d="M17.71,11.29l-5-5a1,1,0,0,0-.33-.21,1,1,0,0,0-.76,0,1,1,0,0,0-.33.21l-5,5a1,1,0,0,0,1.42,1.42L11,9.41V17a1,1,0,0,0,2,0V9.41l3.29,3.3a1,1,0,0,0,1.42,0A1,1,0,0,0,17.71,11.29Z" />
@@ -32,9 +36,9 @@ function changeCodePiecesList() {
               </svg>
             </button>
           </div>`
-          : ""
+        : ""
       }
-		</li>`
+		</li > `
     );
   }, "");
 }
@@ -61,19 +65,14 @@ function CreateNewPiece() {
     if (!userAnswer) return false;
     MainList[1].push([]);
     listOfCodePieces.push(userAnswer);
-    codePiece = listOfCodePieces.length - 1;
-    changeCodePiecesList();
-    renderList([]);
-    saveData();
-    closeFileCodes();
-    document.querySelector(".open-nav").classList.remove("open");
+    otherPiece(listOfCodePieces.length - 1);
   };
   modalInput.querySelector("input").maxLength = 20;
 }
 
 function changePositionPiece(event, pos, index) {
   event.stopPropagation();
-  if (listOfCodePieces <= 1 || index < 0 || index >= listOfCodePieces.length) {
+  if (listOfCodePieces.length <= 1 || index < 0 || index >= listOfCodePieces.length) {
     return;
   }
 
@@ -105,4 +104,20 @@ function changePositionPiece(event, pos, index) {
 
   changeCodePiecesList();
   saveData();
+}
+
+function deletePiece(index, name) {
+  if (listOfCodePieces.length <= 1 || index < 0 || index >= listOfCodePieces.length) {
+    return;
+  }
+
+  showMessege({
+    text: `${appLanguage["message"]["delete"]} ${name}?`,
+    defaultValue: "empty",
+  });
+  modalInput.querySelector("#ok-btn").onclick = () => {
+    listOfCodePieces.splice(index, 1);
+    MainList[1].splice(index, 1);
+    otherPiece(0);
+  };
 }

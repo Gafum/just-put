@@ -402,7 +402,7 @@ const portugueseLanguage = {
         "text": ["Adicionar a //Object Direção 20"],
       },
       {
-        "text": ["moverSuavemente myName para endX, endY"],
+        "text": ["moverSuave myName para endX, endY"],
         "textInWhere":
             "myName Mover suavemente para x: endX, y: endY por duration milissegundos<span style='font-size:10px;'>(1s/1000)</span>"
       },

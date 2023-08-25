@@ -396,7 +396,7 @@ const ukrainianLanguage = {
         "text": ["Додати до //Object Напрямку 20"],
       },
       {
-        "text": ["плавноПеремістити myName до endX, endY"],
+        "text": ["плавнийПерехід myName до endX, endY"],
         "textInWhere":
             "myName Плавно перемістити до x: endX, y: endY за duration мілесекунд<span style='font-size:10px;'>(1s/1000)</span>"
       },

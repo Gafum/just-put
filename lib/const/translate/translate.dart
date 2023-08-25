@@ -9,5 +9,5 @@ const Map<String, dynamic> translation = {
   "Ukrainian": ukrainianLanguage,
   "Russian": russianLanguage,
   "German": germanLanguage,
-  "Português": portugueseLanguage,
+  "Portuguese (by BOT)": portugueseLanguage,
 };

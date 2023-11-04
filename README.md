@@ -28,9 +28,17 @@ This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+-  [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+-  [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## Connect devices
+
+1. Enable Developer option (mod) in Android.
+2. Then enable usb debbugging to use usb cabel.
+3. Select rigth device in the devices' list.
+4. Write in console: flutter run
+5. Allow apk instalation.

@@ -1,14 +1,14 @@
 {
-	"editor.codeActionsOnSave": {
-		"source.fixAll": true
-	},
-	"liveSassCompile.settings.formats": [
-		{
-		  "format": "compressed",
-		  "extensionName": ".css",
-		  "savePath": "~/../css"
-		}
-	 ],
-	 "liveSassCompile.settings.generateMap": false,
-	 "liveSassCompile.settings.showOutputWindowOn": "None"
+   "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit"
+   },
+   "liveSassCompile.settings.formats": [
+      {
+         "format": "compressed",
+         "extensionName": ".css",
+         "savePath": "~/../css"
+      }
+   ],
+   "liveSassCompile.settings.generateMap": false,
+   "liveSassCompile.settings.showOutputWindowOn": "None"
 }

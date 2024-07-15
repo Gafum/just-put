@@ -20,10 +20,10 @@ class AlertDialogInput extends StatefulWidget {
   final String appLanguage;
 
   const AlertDialogInput({
-    Key? key,
+    super.key,
     required this.changeListOfProjects,
     required this.appLanguage,
-  }) : super(key: key);
+  });
   @override
   State<AlertDialogInput> createState() => _AlertDialogInputState();
 }

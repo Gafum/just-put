@@ -23,11 +23,11 @@ class ProjectSettings extends StatefulWidget {
   final String appLanguage;
 
   const ProjectSettings({
-    Key? key,
+    super.key,
     required this.idOfProject,
     required this.nameOfProject,
     required this.appLanguage,
-  }) : super(key: key);
+  });
 
   @override
   State<ProjectSettings> createState() => _ProjectSettingsState();

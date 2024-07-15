@@ -9,10 +9,10 @@ class SlidableListElement extends StatelessWidget {
   final Map item;
   final String appLanguage;
   const SlidableListElement({
-    Key? key,
+    super.key,
     required this.item,
     required this.appLanguage,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

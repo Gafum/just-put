@@ -13,11 +13,11 @@ class ViewResult extends StatefulWidget {
   final String appLanguage;
 
   const ViewResult({
-    Key? key,
+    super.key,
     required this.idOfProject,
     required this.data,
     required this.appLanguage,
-  }) : super(key: key);
+  });
 
   @override
   State<ViewResult> createState() => _ViewResultState();

@@ -9,10 +9,10 @@ class CardInHomePage extends StatelessWidget {
   final String appLanguage;
 
   const CardInHomePage({
-    Key? key,
+    super.key,
     required this.item,
     required this.appLanguage,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

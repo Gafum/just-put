@@ -24,11 +24,11 @@ class EditorPage extends StatefulWidget {
   final String appLanguage;
 
   const EditorPage({
-    Key? key,
+    super.key,
     required this.idOfProject,
     required this.nameOfProject,
     required this.appLanguage,
-  }) : super(key: key);
+  });
 
   @override
   State<EditorPage> createState() => _EditorPageState();

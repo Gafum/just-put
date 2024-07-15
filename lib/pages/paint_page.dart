@@ -10,11 +10,11 @@ class PaintPage extends StatefulWidget {
   final Function addImage;
 
   const PaintPage({
-    Key? key,
+    super.key,
     required this.appLanguage,
     required this.addImage,
     this.imgData = '',
-  }) : super(key: key);
+  });
 
   @override
   State<PaintPage> createState() => _PaintPageState();

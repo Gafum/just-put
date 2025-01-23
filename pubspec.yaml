@@ -1,7 +1,7 @@
 name: just_put
 description: Just put and make a game.
 
-publish_to: "none"
+publish_to: "https://play.google.com/store/apps/details?id=com.gafum.just_put&hl=uk"
 
 version: 0.7.54+27
 

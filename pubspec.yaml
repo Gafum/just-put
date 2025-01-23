@@ -3,67 +3,66 @@ description: Just put and make a game.
 
 publish_to: "none"
 
-version: 0.7.52+25
+version: 0.7.54+27
 
 environment:
-  sdk: ">=2.19.2 <3.0.0"
+   sdk: ^3.6.1
 
 dependencies:
-  flutter:
-    sdk: flutter
+   flutter:
+      sdk: flutter
 
-  shared_preferences: ^2.0.18
-  webview_flutter: ^4.0.6
-  path_provider: ^2.0.13
-  permission_handler: ^11.3.1
-  flutter_native_splash: ^2.2.19
-  file_picker: ^8.0.6
-  google_mobile_ads: ^5.1.0
-  flutter_slidable: ^3.1.1
-  package_info_plus: ^8.0.0
-  flutter_svg: ^2.0.10+1
-
-flutter_native_splash:
-  color: "#ffffff"
-
-  image: assets/splash/splash.png
-
-  android_12:
-    image: assets/splash/splash.png
-    color: "#ffffff"
-    icon_background_color: "#ffffff"
+   cupertino_icons: ^1.0.8
+   path_provider: ^2.1.5
+   permission_handler: ^11.3.1
+   shared_preferences: ^2.0.18
+   webview_flutter: ^4.0.6
+   file_picker: ^8.0.6
+   flutter_slidable: ^3.1.1
+   package_info_plus: ^8.0.0
+   google_mobile_ads: ^5.1.0
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+   flutter_test:
+      sdk: flutter
 
-  flutter_lints: ^4.0.0
+   flutter_lints: ^5.0.0
+
+flutter_native_splash:
+   color: "#ffffff"
+
+   image: assets/splash/splash.png
+
+   android_12:
+      image: assets/splash/splash.png
+      color: "#ffffff"
+      icon_background_color: "#ffffff"
 
 flutter:
-  uses-material-design: true
+   uses-material-design: true
 
-  assets:
-    - assets/www/html_editor.html
-    - assets/www/css/style.css
-    - assets/www/js/sortable.js
-    - assets/www/js/render_list.js
-    - assets/www/js/btn_element.js
-    - assets/www/js/start_scene.js
-    - assets/www/js/save_data.js
-    - assets/www/js/file_pieces_scene.js
-    - assets/www/js/texture_code.js
-    - assets/www/js/pieces_code.js
-    - assets/www/js/edit_params.js
-    - assets/www/js/data_creator.js
-    - assets/www/js/html_spawner.js
-    - assets/www/paint.html
+   assets:
+      - assets/www/html_editor.html
+      - assets/www/css/style.css
+      - assets/www/js/sortable.js
+      - assets/www/js/render_list.js
+      - assets/www/js/btn_element.js
+      - assets/www/js/start_scene.js
+      - assets/www/js/save_data.js
+      - assets/www/js/file_pieces_scene.js
+      - assets/www/js/texture_code.js
+      - assets/www/js/pieces_code.js
+      - assets/www/js/edit_params.js
+      - assets/www/js/data_creator.js
+      - assets/www/js/html_spawner.js
+      - assets/www/paint.html
 
-  fonts:
-    - family: Cuprum
-      fonts:
-        - asset: assets/www/fonts/Cuprum-Bold.woff2
-          weight: 700
-        - asset: assets/www/fonts/Cuprum-Bold-Cirillic.woff2
-          weight: 700
-        - asset: assets/www/fonts/Cuprum-Regular.ttf
-          style: normal
+   fonts:
+      - family: Cuprum
+        fonts:
+           - asset: assets/www/fonts/Cuprum-Bold.woff2
+             weight: 700
+           - asset: assets/www/fonts/Cuprum-Bold-Cirillic.woff2
+             weight: 700
+           - asset: assets/www/fonts/Cuprum-Regular.ttf
+             style: normal

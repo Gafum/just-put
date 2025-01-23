@@ -49,3 +49,5 @@ app.*.map.json
 
 # My file (ads const, ...)
 /lib/const/hiden_const.dart
+
+HowToApploadIT.txt

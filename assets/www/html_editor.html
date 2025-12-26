@@ -7,6 +7,8 @@
 	<meta name="viewport" content="width=device-width, user-scalable=no" />
 	<title>Just Put</title>
 	<link rel="stylesheet" href="./css/style.css">
+	<script src="./js/iro.min.js"></script>
+	<script src="./js/color_picker_helper.js"></script>
 </head>
 
 <body>
@@ -591,7 +593,10 @@
 								style="padding: 4px 7px; font-size: 16px; border-radius: 7px;border: none; background-color: #191919; color: #fff; text-align: center; outline: none;">
 								Add
 							</button>
-							<input type="color" id="color-picker" value="#30c731">
+							<div id="custom-color-trigger" onclick="openColorModal()"
+								style="width: 25px; height: 25px; border-radius: 50%; background-color: #30c731; border: 2px solid #fff; cursor: pointer; box-shadow: 0 0 5px rgba(0,0,0,0.3);">
+							</div>
+							<input type="hidden" id="color-picker" value="#30c731">
 						</li>
 						<li onclick="tapOfFunctionBtn(1,'\${','}');">CodeInHTML</li>
 					</ul>

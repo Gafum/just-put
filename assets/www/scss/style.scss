@@ -49,19 +49,25 @@ $red-color: #eb4464;
 }
 
 @mixin display($size) {
-  @if $size == phone {
+  @if $size ==phone {
     @media (max-width: 500px) or (max-height: 470px) {
       @content;
     }
-  } @else if $size == smallPhone {
+  }
+
+  @else if $size ==smallPhone {
     @media (max-width: 400px) {
       @content;
     }
-  } @else if $size == smallHeight {
+  }
+
+  @else if $size ==smallHeight {
     @media (max-height: 360px) {
       @content;
     }
-  } @else if $size == bigDisplay {
+  }
+
+  @else if $size ==bigDisplay {
     @media (min-width: 850px) {
       @content;
     }
@@ -95,14 +101,14 @@ header {
     position: fixed;
   }
 
-  > span {
+  >span {
     font-size: 20px;
     user-select: none;
   }
 }
 
-#where > button,
-.header-class > button {
+#where>button,
+.header-class>button {
   display: flex;
   position: absolute;
   right: 0;
@@ -136,7 +142,7 @@ header {
 
   &::after,
   &::before,
-  & > div {
+  &>div {
     transition: all 0.2s ease;
     content: "";
     position: absolute;
@@ -145,7 +151,7 @@ header {
     background-color: white;
   }
 
-  > div {
+  >div {
     width: 100%;
   }
 
@@ -153,6 +159,7 @@ header {
     top: 10px;
     width: 120%;
   }
+
   &::before {
     bottom: 10px;
     width: 60%;
@@ -162,11 +169,13 @@ header {
     div {
       transform: scale(0);
     }
+
     &::before {
       top: 50%;
       width: 110%;
       transform: rotate(45deg);
     }
+
     &::after {
       top: 50%;
       width: 110%;
@@ -190,6 +199,7 @@ nav {
   z-index: 2;
   height: fit-content;
   top: 98%;
+
   &.open {
     transform: scaleY(1);
   }
@@ -200,7 +210,7 @@ nav {
     gap: 20px;
   }
 
-  > li {
+  >li {
     width: 1fr;
     min-width: 100px;
     font-size: 25px;
@@ -208,9 +218,11 @@ nav {
     color: white;
     text-align: center;
     transition: all 0.2s ease;
+
     &:active {
       color: #bbb;
     }
+
     @include display(smallPhone) {
       width: 100%;
       font-size: 23px;
@@ -223,6 +235,7 @@ nav {
   margin-top: 5px;
   max-width: 100%;
   padding-bottom: 70px;
+
   .ElementsInEditor {
     display: flex;
     justify-content: space-between;
@@ -235,11 +248,11 @@ nav {
     transition-duration: 5s;
     transition-property: background-color, color;
 
-    > span {
+    >span {
       cursor: pointer;
     }
 
-    > .innerOfElement {
+    >.innerOfElement {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -248,7 +261,8 @@ nav {
       color: inherit;
       border-end-end-radius: 20px;
       border-start-end-radius: 20px;
-      > .my-handle {
+
+      >.my-handle {
         width: 30px;
         min-width: 30px;
         max-width: 32px;
@@ -258,7 +272,7 @@ nav {
         align-items: center;
         position: relative;
 
-        > span {
+        >span {
           margin: auto;
           position: relative;
           height: 8px;
@@ -267,8 +281,9 @@ nav {
           background-color: black;
           display: inline-block;
         }
-        > span::before,
-        > span::after {
+
+        >span::before,
+        >span::after {
           content: "";
           position: absolute;
           height: 100%;
@@ -277,14 +292,16 @@ nav {
           display: inline-block;
           background-color: black;
         }
-        > span::before {
+
+        >span::before {
           top: -10px;
         }
-        > span::after {
+
+        >span::after {
           bottom: -10px;
         }
 
-        > .my-handle-inner {
+        >.my-handle-inner {
           position: absolute;
           width: 80px;
           height: 35px;
@@ -292,13 +309,14 @@ nav {
           top: 0;
           z-index: 1;
           background-color: transparent;
+
           &.active {
             width: 30px;
           }
         }
       }
 
-      > .btn-in-element {
+      >.btn-in-element {
         transform-origin: left;
         transform: scaleX(0);
         transition: all 0.2s;
@@ -310,12 +328,14 @@ nav {
           transform: scaleX(1);
           width: max-content;
           margin-left: 8px;
-          & ~ .elementText {
+
+          &~.elementText {
             left: 0;
           }
         }
       }
-      > .elementText {
+
+      >.elementText {
         color: inherit;
         position: relative;
         left: -25px;
@@ -332,7 +352,8 @@ nav {
       display: flex;
       justify-content: center;
       align-items: center;
-      > svg {
+
+      >svg {
         max-width: 20px;
       }
     }
@@ -373,14 +394,14 @@ nav {
     z-index: 3;
   }
 
-  > span {
+  >span {
     font-size: 28px;
     color: white;
     z-index: 3;
     transition: transform 0.2s;
   }
 
-  > .list {
+  >.list {
     opacity: 0;
     position: absolute;
     bottom: 30px;
@@ -392,12 +413,14 @@ nav {
     right: 10px;
     gap: 6px;
     pointer-events: none;
+
     li {
       display: flex;
       gap: 5px;
       justify-content: center;
       align-items: center;
-      > span {
+
+      >span {
         background-color: #e1e1e1;
         border-radius: 6px;
         padding: 2px 4px;
@@ -410,6 +433,7 @@ nav {
         height: 36px;
         box-shadow: 1px 1px 3px #888;
         border-radius: 100%;
+
         span {
           display: flex;
           align-items: center;
@@ -419,14 +443,16 @@ nav {
           font-size: 24px;
           transition: all 0.4s;
         }
+
         &:active {
           filter: brightness(1.1);
         }
       }
     }
+
     &.options {
       li {
-        > span {
+        >span {
           background-color: #ffffff;
         }
       }
@@ -435,16 +461,18 @@ nav {
 
   .icon-fab {
     padding: 8px;
-    > svg {
+
+    >svg {
       height: 100%;
     }
   }
 
   &.active {
-    > span {
+    >span {
       transform: rotate(45deg);
     }
-    > .list {
+
+    >.list {
       opacity: 1;
       bottom: 65px;
       pointer-events: all;
@@ -452,7 +480,7 @@ nav {
   }
 }
 
-body > .fab-btn {
+body>.fab-btn {
   position: fixed;
 }
 
@@ -478,6 +506,7 @@ body > .fab-btn {
     overflow-y: scroll;
     overflow-x: hidden;
   }
+
   &.active,
   &.active#files-scene,
   &.active#pieces-scene {
@@ -490,12 +519,14 @@ body > .fab-btn {
 #listAddBlock {
   padding: 10px 15px;
 
-  > li {
+  >li {
     height: 40px;
+
     span {
       font-size: 20px;
       white-space: nowrap;
       overflow: hidden;
+
       @include display(phone) {
         font-size: 16px;
       }
@@ -510,6 +541,7 @@ body > .fab-btn {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   #inner-where {
     height: fit-content;
     padding: 15px;
@@ -559,6 +591,7 @@ body > .fab-btn {
   justify-content: flex-start;
   align-items: flex-start;
   align-content: flex-start;
+
   b {
     color: inherit;
     font-size: inherit;
@@ -568,6 +601,7 @@ body > .fab-btn {
     animation: cursor 1.2s infinite;
     animation-delay: 0.4s;
   }
+
   span {
     color: inherit;
     font-size: inherit;
@@ -595,9 +629,11 @@ body > .fab-btn {
   z-index: 10;
   background-color: #191919bf;
   border-bottom-left-radius: 4px;
+
   div {
     height: 24px;
     width: 24px;
+
     svg {
       max-height: 100%;
     }
@@ -614,6 +650,7 @@ body > .fab-btn {
   @include display(smallHeight) {
     overflow-y: scroll;
   }
+
   @include display(phone) {
     height: 64vh;
   }
@@ -631,11 +668,12 @@ body > .fab-btn {
       height: fit-content;
       gap: 2px;
     }
+
     @include display(bigDisplay) {
       width: 70%;
     }
 
-    > button {
+    >button {
       min-width: 48px;
       height: 100%;
       max-width: 100%;
@@ -649,6 +687,7 @@ body > .fab-btn {
       overflow: hidden;
       aspect-ratio: 1 / 1;
       transition: background-color 0.3s;
+
       &:active {
         background-color: #888;
       }
@@ -657,6 +696,7 @@ body > .fab-btn {
         height: auto;
         min-width: 40px;
         border-radius: 13px;
+
         &.big-text {
           font-size: 13px;
           padding: 2px;
@@ -690,7 +730,8 @@ body > .fab-btn {
       border: none;
       background-color: #191919;
       padding: 7px 0 3px;
-      > span {
+
+      >span {
         width: 100%;
         color: white;
         height: 100%;
@@ -698,17 +739,21 @@ body > .fab-btn {
         text-align: center;
         font-size: 16px;
       }
+
       .btn-delete {
         display: hidden;
       }
+
       &.LiAfterTap {
         height: fit-content;
-        > ul {
+
+        >ul {
           pointer-events: auto;
           padding: 6px;
           opacity: 1;
           height: 100%;
-          > li {
+
+          >li {
             min-height: 17px;
             margin-bottom: 4px;
             width: 100%;
@@ -719,8 +764,8 @@ body > .fab-btn {
           }
         }
 
-        & > #dataList > li,
-        & > #functList > li {
+        &>#dataList>li,
+        &>#functList>li {
           overflow-y: scroll;
           display: flex;
           justify-content: space-between;
@@ -733,7 +778,7 @@ body > .fab-btn {
         }
       }
 
-      > ul {
+      >ul {
         pointer-events: none;
         background-color: #e0e5ec;
         border-bottom-left-radius: 17px;
@@ -743,13 +788,14 @@ body > .fab-btn {
         width: 100%;
         opacity: 0;
         height: 0;
-        > li {
+
+        >li {
           font-size: 0px;
         }
       }
 
-      > #dataList > li,
-      > #functList > li {
+      >#dataList>li,
+      >#functList>li {
         display: block;
 
         .nameOfvarieble {
@@ -809,24 +855,27 @@ body > .fab-btn {
       justify-content: center;
       align-items: center;
       align-content: center;
-      background-image: radial-gradient(
-        circle,
-        rgba(121, 194, 155, 0.8547794117647058) 40%,
-        rgba(91, 203, 96, 1) 100%
-      );
+      background-image: radial-gradient(circle,
+          rgba(121, 194, 155, 0.8547794117647058) 40%,
+          rgba(91, 203, 96, 1) 100%);
+
       .music-switcher {
         width: 100%;
         height: 100%;
         padding: 4px;
+
         svg {
           width: 100%;
           height: 100%;
+
           &.music-play {
             display: none;
           }
         }
+
         &.active svg {
           display: none;
+
           &.music-play {
             display: block;
           }
@@ -838,12 +887,13 @@ body > .fab-btn {
       overflow: hidden;
       word-break: break-all;
       text-align: justify;
-      > span {
+
+      >span {
         word-break: break-all;
         color: #2e2e2e;
         text-align: justify;
         font-size: 10px;
-        transform: translate(-5%, -10%);
+        transform: scale(1.2);
         width: 120%;
         display: block;
       }
@@ -858,7 +908,8 @@ body > .fab-btn {
       align-items: flex-start;
       overflow: hidden;
       gap: 10px;
-      > h3 {
+
+      >h3 {
         color: black;
         font-size: 25px;
         overflow-x: scroll;
@@ -867,13 +918,15 @@ body > .fab-btn {
         font-size: 22px;
         width: 100%;
       }
-      > .textures-btns {
+
+      >.textures-btns {
         width: 100%;
         display: flex;
         justify-content: flex-start;
         align-items: center;
         align-content: center;
         gap: 5px;
+
         button {
           @include buttonSample();
         }
@@ -887,11 +940,13 @@ body > .fab-btn {
       align-content: center;
       flex-direction: column;
       gap: 10px;
+
       button {
         @include buttonSample();
         background-color: white;
         border: 1px solid black;
         transition: filter 0.3s;
+
         &:active {
           filter: brightness(0.8);
         }
@@ -942,16 +997,19 @@ body > .fab-btn {
     padding: 8px 0 5px 4px;
     font-size: 19px;
     color: black;
+
     &:invalid {
       border-bottom: 2px solid #eb4464;
     }
+
     &:focus {
       border: none;
       outline: none;
       border-bottom: 2px solid black;
     }
-    &:focus ~ label,
-    &:valid ~ label {
+
+    &:focus~label,
+    &:valid~label {
       top: -50%;
       font-size: 14px;
     }
@@ -978,7 +1036,8 @@ body > .fab-btn {
 
   .input-checkbox {
     display: none;
-    &:checked ~ label .checkbox-bipolar:after {
+
+    &:checked~label .checkbox-bipolar:after {
       left: 18px;
       right: 2px;
     }
@@ -991,6 +1050,7 @@ body > .fab-btn {
     border: 1px solid #000;
     display: inline-block;
     position: relative;
+
     &:after {
       content: "";
       display: block;
@@ -1024,13 +1084,14 @@ dialog {
   &::backdrop {
     background: rgba(0, 0, 0, 0.2);
   }
+
   &.show-modal {
     animation-name: show-dialog;
     animation-duration: 500ms;
     animation-iteration-count: 1;
   }
 
-  > form {
+  >form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -1065,6 +1126,7 @@ dialog {
     opacity: 0;
     top: 36vh;
   }
+
   to {
     opacity: 1;
     top: 30vh;
@@ -1075,9 +1137,11 @@ dialog {
   0% {
     opacity: 1;
   }
+
   50% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }

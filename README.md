@@ -14,7 +14,7 @@ Just Put is also designed to be highly versatile, with a range of different bloc
 
 Overall, Just Put is the ultimate tool for anyone who wants to create their own games without needing to learn complex programming languages. With its intuitive interface, powerful features Just Put is the perfect app for both hobbyists and aspiring game designers alike. So why wait? Just put the block and start creating your own game today!
 
-### [Privacy Policies](https://gafum.github.io/PrivacyPolicyJustPut/)
+### [Privacy Policies](https://gafum.github.io/just-put/policy.html)
 
 ## Usage
 
@@ -34,6 +34,16 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+### To start this project write into console
+
+```bash
+flutter clean
+flutter pub get
+flutter doctor
+flutter devices
+flutter run
+```
 
 ## Connect devices
 

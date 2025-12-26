@@ -55,6 +55,8 @@ flutter:
       - assets/www/js/edit_params.js
       - assets/www/js/data_creator.js
       - assets/www/js/html_spawner.js
+      - assets/www/js/iro.min.js
+      - assets/www/js/color_picker_helper.js
       - assets/www/paint.html
 
    fonts:

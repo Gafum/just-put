@@ -6,6 +6,20 @@
 	<title>Drawing App JavaScript</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<style>
+		/* Custom Color Picker Styles */
+		#custom-color-trigger {
+			width: 30px;
+			height: 30px;
+			border-radius: 50%;
+			background-color: #000000;
+			border: 2px solid #ddd;
+			cursor: pointer;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+		}
+	</style>
+	<script src="./js/iro.min.js"></script>
+	<script src="./js/color_picker_helper.js"></script>
+	<style>
 		@font-face {
 			font-family: "Cuprum";
 			font-style: normal;
@@ -115,8 +129,6 @@
 			overflow-y: scroll;
 			overflow-x: scroll;
 			display: flex;
-			justify-content: center;
-			align-items: center;
 		}
 
 		.drawwing-board::-webkit-scrollbar {
@@ -442,7 +454,9 @@
 					<label class="title">Color</label>
 					<ul class="options optionTwo">
 						<li>
-							<input type="color" id="color-picker">
+							<!-- Custom Color Trigger -->
+							<div id="custom-color-trigger" onclick="openColorModal()"></div>
+							<input type="hidden" id="color-picker" value="#000000">
 						</li>
 						<li class="option tool" id="pipette">
 							<svg viewBox="0 0 64 64" width="20" height="20">
@@ -633,9 +647,29 @@
 		});
 
 		const setCanvasSize = () => {
+			const scrollContainer = document.querySelector(".drawwing-board");
+			const scrollX = scrollContainer.scrollLeft;
+			const scrollY = scrollContainer.scrollTop;
+			const centerX = scrollX + scrollContainer.clientWidth / 2;
+			const centerY = scrollY + scrollContainer.clientHeight / 2;
+
+			// Get old canvas size before zoom
+			const oldWidth = parseFloat(canvas.style.width) || canvas.width;
+			const oldHeight = parseFloat(canvas.style.height) || canvas.height;
+			const relativeX = centerX / oldWidth;
+			const relativeY = centerY / oldHeight;
+
+			// Apply new zoom
 			canvas.style.width = canvas.width * zoomLevel + "px";
 			canvas.style.height = canvas.height * zoomLevel + "px";
+
+			// Calculate new scroll position to keep the same relative center
+			const newWidth = canvas.width * zoomLevel;
+			const newHeight = canvas.height * zoomLevel;
+			scrollContainer.scrollLeft = relativeX * newWidth - scrollContainer.clientWidth / 2;
+			scrollContainer.scrollTop = relativeY * newHeight - scrollContainer.clientHeight / 2;
 		};
+
 
 		const submitForm = (translation) => {
 			event.preventDefault()
@@ -798,6 +832,11 @@
 				const b = pixelData[2];
 				selectedColor = rgbToHex(r, g, b);
 				colorPicker.value = selectedColor;
+				// Update the visual color trigger
+				const colorTrigger = document.getElementById('custom-color-trigger');
+				if (colorTrigger) {
+					colorTrigger.style.backgroundColor = selectedColor;
+				}
 				return;
 			}
 
@@ -833,13 +872,27 @@
 
 		const hexToRgb = (hex) => {
 			hex = hex.replace("#", "");
-
-			var bigint = parseInt(hex, 16);
-			var r = (bigint >> 16) & 255;
-			var g = (bigint >> 8) & 255;
-			var b = bigint & 255;
-
-			return [r, g, b];
+			if (hex.length === 8) {
+				// RRGGBBAA
+				var r = parseInt(hex.substring(0, 2), 16);
+				var g = parseInt(hex.substring(2, 4), 16);
+				var b = parseInt(hex.substring(4, 6), 16);
+				var a = parseInt(hex.substring(6, 8), 16);
+				return [r, g, b, a];
+			} else if (hex.length === 6) {
+				// RRGGBB
+				var r = parseInt(hex.substring(0, 2), 16);
+				var g = parseInt(hex.substring(2, 4), 16);
+				var b = parseInt(hex.substring(4, 6), 16);
+				return [r, g, b, 255];
+			} else if (hex.length === 3) {
+				// RGB
+				var r = parseInt(hex[0] + hex[0], 16);
+				var g = parseInt(hex[1] + hex[1], 16);
+				var b = parseInt(hex[2] + hex[2], 16);
+				return [r, g, b, 255];
+			}
+			return [0, 0, 0, 255];
 		}
 
 		const rgbToHex = (r, g, b) => {

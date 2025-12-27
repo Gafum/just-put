@@ -2,7 +2,12 @@
     <application
         android:label="Just Put"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:enableOnBackInvokedCallback="true"
+        android:extractNativeLibs="false">
+        <property
+            android:name="android.app.16kb_page_size"
+            android:value="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

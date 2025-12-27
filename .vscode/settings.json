@@ -10,5 +10,7 @@
       }
    ],
    "liveSassCompile.settings.generateMap": false,
-   "liveSassCompile.settings.showOutputWindowOn": "None"
+   "liveSassCompile.settings.showOutputWindowOn": "None",
+   "java.configuration.updateBuildConfiguration": "automatic",
+   "java.compile.nullAnalysis.mode": "automatic"
 }

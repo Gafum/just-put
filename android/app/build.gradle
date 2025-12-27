@@ -21,7 +21,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "com.gafum.just_put"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 35
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -36,7 +36,7 @@ android {
     defaultConfig {
         applicationId = "com.gafum.just_put"
         minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        targetSdk = 35
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
@@ -53,6 +53,16 @@ android {
     buildTypes {
         release {
 			signingConfig signingConfigs.release
+			// Include native debug symbols for better crash analysis
+			ndk.debugSymbolLevel = 'SYMBOL_TABLE'
+			minifyEnabled false
+			shrinkResources false
+        }
+    }
+
+    packaging {
+        jniLibs {
+            useLegacyPackaging = false
         }
     }
 }

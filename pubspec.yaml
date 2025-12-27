@@ -3,7 +3,7 @@ description: Just put and make a game.
 
 publish_to: "https://play.google.com/store/apps/details?id=com.gafum.just_put&hl=uk"
 
-version: 0.7.54+27
+version: 0.7.59+32
 
 environment:
    sdk: ^3.6.1
@@ -15,12 +15,12 @@ dependencies:
    cupertino_icons: ^1.0.8
    path_provider: ^2.1.5
    permission_handler: ^11.3.1
-   shared_preferences: ^2.0.18
-   webview_flutter: ^4.0.6
+   shared_preferences: ^2.3.5
+   webview_flutter: ^4.13.0
    file_picker: ^8.0.6
    flutter_slidable: ^3.1.1
    package_info_plus: ^8.0.0
-   google_mobile_ads: ^5.1.0
+   google_mobile_ads: ^5.2.0
 
 dev_dependencies:
    flutter_test:

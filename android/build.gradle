@@ -11,6 +11,11 @@ subprojects {
 }
 subprojects {
     project.evaluationDependsOn(":app")
+    project.pluginManager.withPlugin('com.android.library') {
+        project.android {
+            compileSdk 36
+        }
+    }
 }
 
 tasks.register("clean", Delete) {
